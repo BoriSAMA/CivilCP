@@ -1,0 +1,23 @@
+{
+  "name": "construprojects",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "BAMA, JAAP",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "bower": "^1.8.12",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5",
+    "nodemon": "^2.0.7",
+    "path": "^0.12.7",
+    "sequelize": "^6.4.0"
+  }
+}
