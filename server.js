@@ -1,15 +1,13 @@
 const express = require('express');
+const { Sequelize } = require('sequelize');
 const path = require('path');
 require('dotenv/config');
-const { Sequelize } = require('sequelize');
 var app = express();
-
 
 app.set('view engine','ejs');
 app.set('views', path.join(__dirname, 'views/ejs'));
 
-//Middleware
-/*
+//Middleware-open
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'views/css')));
@@ -18,30 +16,25 @@ app.use(express.static(path.join(__dirname, 'views/js')));
 app.use(express.static(path.join(__dirname, 'views/ejs')));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-*/
-//Import routes
-/*
-const postRoute = require('./routes/posts');
-app.use('/post', postRoute);
+//Middleware-close
 
-const userRoute = require('./routes/users');
+//routes-open
+const userRoute = require('./controller/users');
 app.use('/user', userRoute);
-
+/*
 const assetRoute = require('./routes/assets');
 app.use('/asset', assetRoute);
 
 const peopleRoute = require('./routes/people');
 app.use('/people', peopleRoute);
 */
-/*const assetRoute = require('./routes/users');
-app.use('/asset', assetRoute);
-*/
-//Routes
-/*
+//routes-close
+
 app.get('/', function(req, res){
 	res.render('index');
 });
 
+/*
 app.get('/assetFinancial', function(req, res){
 	res.render('assetViews/assetFinancial' , {
 		selected: "asset",
