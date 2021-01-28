@@ -9,6 +9,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     CODE: {
       type: DataTypes.STRING(10),
+      unique: true,
       allowNull: false
     },
     NAME: {
@@ -25,6 +26,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     MAIL: {
       type: DataTypes.STRING(50),
+      unique: true,
       allowNull: false
     }
   }, {

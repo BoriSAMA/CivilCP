@@ -1,54 +1,65 @@
 const express = require('express');
 const router = express.Router();
-//var initModels = require("../models/init-models");
-var User = require('../models/user')(sequelize, DataTypes);
 
+var sequelize = require('../connection');
+var DataTypes = require("sequelize").DataTypes;
+const { Op } = require("sequelize");
 
-// todos los modelos
-// var models = initModels(sequelize);
+var User = require('../model/user')(sequelize, DataTypes);
 
-//login
-router.post('/login', async(req, res) => {
+//register
+router.post('/register', async(req, res) => {
 	try{
-		await User.findOne({ user_email: req.body.email },
-			function (err, user) {
-				if (err) {
-					res.status(500).json({
-						ok: false,
-						err: {
-							message: "Usuario o contraseña incorrectos"
-						},
-						user: user
-					})
-				}
-				// Verifica que exista un usuario con el mail escrita por el usuario.
-				if (user == null) {
-					res.status(400).json({
-						ok: false,
-						err: {
-							message: "Usuario o contraseña incorrectos"
-						}
-					});
-				}
-				// Valida que la contraseña escrita por el usuario, sea la almacenada en la db
-				else if (req.body.password != user.user_password){
-					res.status(400).json({
-						ok: false,
-						err: {
-							message: "Usuario o contraseña incorrectos"
-						}
-					});
-				}
-				else{
-					res.status(200).json({
-						ok: true,
-						usuario: user
-					})
-				}
-			}	
-		);
+		const result = await sequelize.transaction(async (t) => {
+			const user = await User.create({
+							CODE: req.body.code,
+							NAME: req.body.name,
+							SUPERUSER: false,
+							PASWORD: req.body.pass,
+							MAIL: req.body.mail
+						}, { transaction: t });
 
+			return user;
+		});
+		sequelize.close();
+		console.log("user created: ", result.ID + "codigo: " + result.CODE);
+		res.status(200).json(result);
 	}catch(err){
-		res.status(500).json({message:err});
+		if(err.name == "SequelizeUniqueConstraintError"){
+			res.status(400).json({message:"Correo o codigo ya utilizados"});
+		}else if(err.name == "SequelizeValidationError"){
+			res.status(400).json({message:"Datos incompletos"});
+		}else{
+			res.status(500).json({message:"internal server error"});
+		}
 	}
 });
+
+//login
+router.get('/login', async(req, res) => {
+	try{
+		const result = await sequelize.transaction(async (t) => {
+			const user = await User.findAll({
+						where: {
+							[Op.and]: [{
+								CODE: req.body.code
+							},{
+								PASWORD: req.body.pass
+							}]
+						}
+						}, { transaction: t });
+			console.log("user" + user);
+			return user;
+		});
+		sequelize.close();
+		if(result == ""){
+			throw new Error()
+		}
+		res.json(result);
+	}catch(err){
+		res.status(406).json({message:'Usuario o contraseña incorrecto'});
+	}
+});
+
+//export module
+module.exports = router;

@@ -1,7 +1,5 @@
 const express = require('express');
-const { Sequelize } = require('sequelize');
 const path = require('path');
-require('dotenv/config');
 var app = express();
 
 app.set('view engine','ejs');
@@ -18,17 +16,13 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 //Middleware-close
 
-//routes-open
+//routes start
 const userRoute = require('./controller/users');
 app.use('/user', userRoute);
-/*
-const assetRoute = require('./routes/assets');
-app.use('/asset', assetRoute);
 
-const peopleRoute = require('./routes/people');
-app.use('/people', peopleRoute);
-*/
-//routes-close
+const groupRoute = require('./controller/groups');
+app.use('/group', groupRoute);
+//routes finish
 
 app.get('/', function(req, res){
 	res.render('index');
@@ -42,19 +36,8 @@ app.get('/assetFinancial', function(req, res){
 	});
 });
 */
-
-//connect to db
-const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, {
-	host: process.env.DB_HOST,
-	dialect: 'mysql'
-  });
-
-sequelize.authenticate()
-		.then(() => {console.info('INFO - Database connected.')})
-		.catch(err => { console.error('ERROR - Unable to connect to the database:', err)});
-
-//sequelize.close();
 		
 app.listen(1337, function(){
-	console.log('app ready on port 1337');
+	var date = new Date();
+	console.log(date.getHours() + ":" + date.getMinutes() + ' app ready on port 1337');
 });
