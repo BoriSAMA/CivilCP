@@ -22,6 +22,9 @@ app.use('/user', userRoute);
 
 const groupRoute = require('./controller/groups');
 app.use('/group', groupRoute);
+
+const itemRoute = require('./controller/items');
+app.use('/item', itemRoute);
 //routes finish
 
 app.get('/', function(req, res){

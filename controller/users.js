@@ -21,7 +21,6 @@ router.post('/register', async(req, res) => {
 
 			return user;
 		});
-		sequelize.close();
 		console.log("user created: ", result.ID + "codigo: " + result.CODE);
 		res.status(200).json(result);
 	}catch(err){
@@ -51,7 +50,6 @@ router.get('/login', async(req, res) => {
 			console.log("user" + user);
 			return user;
 		});
-		sequelize.close();
 		if(result == ""){
 			throw new Error()
 		}

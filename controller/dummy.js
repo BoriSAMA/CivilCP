@@ -36,11 +36,15 @@ router.get('/', async(req, res) => {
 		});
 
 		if(result == ""){
-			throw new Error()
+			throw {name : "Error", message : "jajanose"};
 		}
 		res.json(result);
 	}catch(err){
-		res.status(406).json({message:err});
+		if(err.name == "Error"){
+            res.status(404).json({message:err.message});
+        }else{
+            res.status(500).json({message:"internal server error"});
+        }
 	}
 });
 
@@ -54,7 +58,11 @@ router.get('/:userId', async(req,res) => {
 	}
 });
 
-//Location.findAll( { include: [ { model: Warehouse, as: 'warehouse' } ] } )
+//cambiar en init_models
+//models.chapter_group.hasMany(models.chapter, {foreignKey: 'ID_CHP_GRP'})
+//models.chapter.belongsTo(models.chapter_group, {foreignKey: 'ID'})
+//como popular el arreglo
+//await models.chapter.findAll({include: [models.chapter_group]},{ transaction: t });
 
 
 //Delete

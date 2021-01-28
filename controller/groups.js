@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
 var sequelize = require('../connection');
-const { Op } = require("sequelize");
 
 var initModels = require("../model/init-models");
 var models = initModels(sequelize);
@@ -49,13 +47,16 @@ router.post('/:name', async(req, res) => {
                 return pg;
             });
         }else{
-            throw new Error()
+            throw {name : "BadError", message : "URL not found"};
         }
-		sequelize.close();
 		console.log("pg created: "+ result.ID + " name: " + result.NAME);
 		res.status(200).json(result);
 	}catch(err){
-        res.status(500).json({message:"internal server error"});
+        if(err.name == "BadError"){
+            res.status(404).json({message:err.message});
+        }else{
+            res.status(500).json({message:"internal server error"});
+        }
 	}
 });
 
@@ -68,28 +69,35 @@ router.get('/', async(req, res) => {
 			return pg;
         });
         const ch = await sequelize.transaction(async (t) => {
-			const pg = await models.chapter.findAll({ transaction: t });
+			const pg = await models.chapter.findAll({include: [models.chapter_group]},{ transaction: t });
 			return pg;
         });
         const ag = await sequelize.transaction(async (t) => {
-			const pg = await models.activity_group.findAll({ transaction: t });
+			const pg = await models.activity_group.findAll({include: [models.chapter_group]},{ transaction: t });
 			return pg;
         });
         const ac = await sequelize.transaction(async (t) => {
-			const pg = await models.activity.findAll({ transaction: t });
+            const pg = await models.activity.findAll({include: {
+                                                            model: models.activity_group,
+                                                            include: {model: models.chapter_group}
+                                                      }
+                                                    },{ transaction: t });
 			return pg;
         });
-        sequelize.close();
 
         result = [cg, ch, ag, ac];
 
 		if(result == ""){
-			throw new Error()
+			throw {name : "EmptyError", message : "No se encontro el objeto en la lista del usuario"};
         }
 
 		res.status(500).json(result);
 	}catch(err){
-		res.status(500).json({message:"internal server error"});
+        if(err.name == "EmptyError"){
+            res.status(400).json({message:err.message});
+        }else{
+            res.status(500).json({message:"internal server error"});
+        }
 	}
 });
 
@@ -136,13 +144,16 @@ router.delete('/:name', async(req, res) => {
                 return pg;
             });
         }else{
-            throw new Error()
+            throw {name : "BadError", message : "URL not found"};
         }
-		sequelize.close();
 		console.log("pg deleted: "+ result.ID + " name: " + result.NAME);
 		res.status(200).json(result);
 	}catch(err){
-        res.status(500).json({message:"internal server error"});
+        if(err.name == "BadError"){
+            res.status(404).json({message:err.message});
+        }else{
+            res.status(500).json({message:"internal server error"});
+        }
 	}
 });
 
@@ -201,13 +212,16 @@ router.patch('/:name', async(req, res) => {
                 return pg;
             });
         }else{
-            throw new Error()
+            throw {name : "BadError", message : "URL not found"};
         }
-		sequelize.close();
 		console.log("pg updated: "+ result.ID + " name: " + result.NAME);
 		res.status(200).json(result);
 	}catch(err){
-        res.status(500).json({message:"internal server error"});
+        if(err.name == "BadError"){
+            res.status(404).json({message:err.message});
+        }else{
+            res.status(500).json({message:"internal server error"});
+        }
 	}
 });
 
