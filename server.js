@@ -25,21 +25,15 @@ app.use('/group', groupRoute);
 
 const itemRoute = require('./controller/items');
 app.use('/item', itemRoute);
+
+const salaryRoute = require('./controller/salaries');
+app.use('/salary', salaryRoute);
 //routes finish
 
 app.get('/', function(req, res){
 	res.render('index');
 });
 
-/*
-app.get('/assetFinancial', function(req, res){
-	res.render('assetViews/assetFinancial' , {
-		selected: "asset",
-		assetView: "2"
-	});
-});
-*/
-		
 app.listen(1337, function(){
 	var date = new Date();
 	console.log(date.getHours() + ":" + date.getMinutes() + ' app ready on port 1337');
