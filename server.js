@@ -40,6 +40,9 @@ app.use('/apu', apuRoute);
 
 const apuItemsRoute = require('./controller/apuItems');
 app.use('/apuItems', apuItemsRoute);
+
+const workerRoute = require('./controller/worker');
+app.use('/worker', workerRoute);
 //routes finish
 
 app.get('/', function(req, res){
