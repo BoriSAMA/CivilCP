@@ -1,15 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="Pagina de registro del proyecto de ingenieria civil" />
-        <meta name="author" content="JAAP - BAMA" />
-        <title>Proyecto - Registrarse</title>
-        <link href="css/styles.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
-    </head>
+<%- include('../structure/header.ejs') %>
     <body class="bg-primary">
         <div id="layoutAuthentication">
             <div id="layoutAuthentication_content">
@@ -53,11 +42,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group mt-4 mb-0"><a class="btn btn-primary btn-block" href="login.html">Registrarse</a></div>
+                                            <div class="form-group mt-4 mb-0"><button class="btn btn-primary btn-block" type="button" onclick="register()">Registrarse</button></div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center">
-                                        <div class="small"><a href="login.html">¿Ya tienes una cuenta? Inicia sesión</a></div>
+                                        <div class="small"><a href="/user/login">¿Ya tienes una cuenta? Inicia sesión</a></div>
                                     </div>
                                 </div>
                             </div>
@@ -66,8 +55,8 @@
                 </main>
             </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="js/scripts.js"></script>
+
+    <%- include('../structure/footer.ejs') %>
+    <script type="text/javascript" src="/user/user.js"></script>
     </body>
 </html>

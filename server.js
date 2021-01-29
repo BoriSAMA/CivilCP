@@ -41,12 +41,15 @@ app.use('/apu', apuRoute);
 const apuItemsRoute = require('./controller/apuItems');
 app.use('/apuItems', apuItemsRoute);
 
-const workerRoute = require('./controller/worker');
+const workerRoute = require('./controller/workers');
 app.use('/worker', workerRoute);
+
+const indexRoute = require('./controller/index');
+app.use('/index', indexRoute);
 //routes finish
 
 app.get('/', function(req, res){
-	res.render('index');
+	res.render('user/login');
 });
 
 app.listen(1337, function(){

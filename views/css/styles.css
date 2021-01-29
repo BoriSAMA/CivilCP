@@ -6075,7 +6075,7 @@ a.close.disabled {
 }
 
 .bg-primary {
-  background-image: url(../img/bgimg.jpg);
+  background-image: url(/bgimg.jpg);
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;

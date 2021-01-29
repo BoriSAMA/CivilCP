@@ -59,7 +59,7 @@ router.get('/', async(req, res) => {
 	}
 });
 
-//get all for user
+//get all for items
 router.get('/:name', async(req, res) => {
 	try{
         if(!(req.params.name == "user")){
