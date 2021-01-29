@@ -34,6 +34,12 @@ app.use('/quotations', quotesRoute);
 
 const quoteRoute = require('./controller/quotationGroups');
 app.use('/quotation', quoteRoute);
+
+const apuRoute = require('./controller/apu');
+app.use('/apu', apuRoute);
+
+const apuItemsRoute = require('./controller/apuItems');
+app.use('/apuItems', apuItemsRoute);
 //routes finish
 
 app.get('/', function(req, res){

@@ -7,6 +7,11 @@ var initModels = require("../model/init-models");
 var models = initModels(sequelize);
 
 
+//TODO
+/**
+ * get all items by a activity group
+*/
+
 //submit an item
 router.post('/', async(req, res) => {
 	try{
