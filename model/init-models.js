@@ -14,6 +14,7 @@ var _predecessor_type = require("./predecessor_type");
 var _quotation = require("./quotation");
 var _quote_activity = require("./quote_activity");
 var _quote_chapter = require("./quote_chapter");
+var _quote_chp_grp = require("./quote_chp_grp");
 var _rank = require("./rank");
 var _salary = require("./salary");
 var _sch_act_gang = require("./sch_act_gang");
@@ -38,6 +39,7 @@ function initModels(sequelize) {
   var quotation = _quotation(sequelize, DataTypes);
   var quote_activity = _quote_activity(sequelize, DataTypes);
   var quote_chapter = _quote_chapter(sequelize, DataTypes);
+  var quote_chp_grp = _quote_chp_grp(sequelize, DataTypes);
   var rank = _rank(sequelize, DataTypes);
   var salary = _salary(sequelize, DataTypes);
   var sch_act_gang = _sch_act_gang(sequelize, DataTypes);
@@ -46,91 +48,66 @@ function initModels(sequelize) {
   var user = _user(sequelize, DataTypes);
   var worker = _worker(sequelize, DataTypes);
 
-  //activity.belongsTo(activity_group, { as: "ID_ACT_GRP_activity_group", foreignKey: "ID_ACT_GRP"});
   activity.belongsTo(activity_group, {foreignKey: "ID_ACT_GRP"});
   activity_group.hasMany(activity, { as: "activities", foreignKey: "ID_ACT_GRP"});
-  //activity_group.belongsTo(chapter_group, { as: "ID_CHP_GRP_chapter_group", foreignKey: "ID_CHP_GRP"});
   activity_group.belongsTo(chapter_group, {foreignKey: "ID_CHP_GRP"});
   chapter_group.hasMany(activity_group, { as: "activity_groups", foreignKey: "ID_CHP_GRP"});
-  //apu.belongsTo(quote_activity, { as: "ID_QUO_ACT_quote_activity", foreignKey: "ID_QUO_ACT"});
-  apu.belongsTo(quote_activity, { foreignKey: "ID_QUO_ACT"});
+  apu.belongsTo(quote_activity, {foreignKey: "ID_QUO_ACT"});
   quote_activity.hasMany(apu, { as: "apus", foreignKey: "ID_QUO_ACT"});
-  //apu_content.belongsTo(apu, { as: "ID_APU_apu", foreignKey: "ID_APU"});
   apu_content.belongsTo(apu, { foreignKey: "ID_APU"});
   apu.hasMany(apu_content, { as: "apu_contents", foreignKey: "ID_APU"});
-  //apu_content.belongsTo(content, { as: "ID_CONTENT_content", foreignKey: "ID_CONTENT"});
-  apu_content.belongsTo(content, { foreignKey: "ID_CONTENT"});
+  apu_content.belongsTo(content, {foreignKey: "ID_CONTENT"});
   content.hasMany(apu_content, { as: "apu_contents", foreignKey: "ID_CONTENT"});
-  //apu_item.belongsTo(item_list, { as: "ID_ITEM_item_list", foreignKey: "ID_ITEM"});
   apu_item.belongsTo(item_list, { foreignKey: "ID_ITEM"});
   item_list.hasMany(apu_item, { as: "apu_items", foreignKey: "ID_ITEM"});
-  //apu_item.belongsTo(apu_content, { as: "ID_APU_CONTENT_apu_content", foreignKey: "ID_APU_CONTENT"});
   apu_item.belongsTo(apu_content, { foreignKey: "ID_APU_CONTENT"});
   apu_content.hasMany(apu_item, { as: "apu_items", foreignKey: "ID_APU_CONTENT"});
-  //apu_item.belongsTo(salary, { as: "ID_SALARY_salary", foreignKey: "ID_SALARY"});
   apu_item.belongsTo(salary, { foreignKey: "ID_SALARY"});
   salary.hasMany(apu_item, { as: "apu_items", foreignKey: "ID_SALARY"});
-  //chapter.belongsTo(chapter_group, { as: "ID_CHP_GRP_chapter_group", foreignKey: "ID_CHP_GRP"});
-  chapter.belongsTo(chapter_group, {foreignKey: "ID_CHP_GRP"});
+  chapter.belongsTo(chapter_group, { foreignKey: "ID_CHP_GRP"});
   chapter_group.hasMany(chapter, { as: "chapters", foreignKey: "ID_CHP_GRP"});
-  //gang.belongsTo(apu_content, { as: "ID_APU_CONTENT_apu_content", foreignKey: "ID_APU_CONTENT"});
   gang.belongsTo(apu_content, { foreignKey: "ID_APU_CONTENT"});
   apu_content.hasMany(gang, { as: "gangs", foreignKey: "ID_APU_CONTENT"});
-  //gang_worker.belongsTo(rank, { as: "ID_RANK_rank", foreignKey: "ID_RANK"});
   gang_worker.belongsTo(rank, { foreignKey: "ID_RANK"});
   rank.hasMany(gang_worker, { as: "gang_workers", foreignKey: "ID_RANK"});
-  //gang_worker.belongsTo(gang, { as: "ID_GANG_gang", foreignKey: "ID_GANG"});
   gang_worker.belongsTo(gang, { foreignKey: "ID_GANG"});
   gang.hasMany(gang_worker, { as: "gang_workers", foreignKey: "ID_GANG"});
-  //gang_worker.belongsTo(worker, { as: "ID_WORKER_worker", foreignKey: "ID_WORKER"});
   gang_worker.belongsTo(worker, { foreignKey: "ID_WORKER"});
   worker.hasMany(gang_worker, { as: "gang_workers", foreignKey: "ID_WORKER"});
-  //item_list.belongsTo(activity_group, { as: "ID_ACT_GRP_activity_group", foreignKey: "ID_ACT_GRP"});
   item_list.belongsTo(activity_group, { foreignKey: "ID_ACT_GRP"});
   activity_group.hasMany(item_list, { as: "item_lists", foreignKey: "ID_ACT_GRP"});
-  //item_list.belongsTo(content, { as: "ID_CONTENT_content", foreignKey: "ID_CONTENT"});
   item_list.belongsTo(content, { foreignKey: "ID_CONTENT"});
   content.hasMany(item_list, { as: "item_lists", foreignKey: "ID_CONTENT"});
-  //item_list.belongsTo(user, { as: "ID_USER_user", foreignKey: "ID_USER"});
   item_list.belongsTo(user, { foreignKey: "ID_USER"});
   user.hasMany(item_list, { as: "item_lists", foreignKey: "ID_USER"});
-  //quotation.belongsTo(user, { as: "ID_USER_user", foreignKey: "ID_USER"});
   quotation.belongsTo(user, { foreignKey: "ID_USER"});
   user.hasMany(quotation, { as: "quotations", foreignKey: "ID_USER"});
-  //quote_activity.belongsTo(activity, { as: "ID_ACVTIVITY_activity", foreignKey: "ID_ACVTIVITY"});
   quote_activity.belongsTo(activity, { foreignKey: "ID_ACVTIVITY"});
   activity.hasMany(quote_activity, { as: "quote_activities", foreignKey: "ID_ACVTIVITY"});
-  //quote_activity.belongsTo(quote_chapter, { as: "IC_QUO_CHP_quote_chapter", foreignKey: "IC_QUO_CHP"});
-  quote_activity.belongsTo(quote_chapter, {foreignKey: "IC_QUO_CHP"});
+  quote_activity.belongsTo(quote_chapter, { foreignKey: "IC_QUO_CHP"});
   quote_chapter.hasMany(quote_activity, { as: "quote_activities", foreignKey: "IC_QUO_CHP"});
-  //quote_chapter.belongsTo(chapter, { as: "ID_CHAPTER_chapter", foreignKey: "ID_CHAPTER"});
   quote_chapter.belongsTo(chapter, { foreignKey: "ID_CHAPTER"});
   chapter.hasMany(quote_chapter, { as: "quote_chapters", foreignKey: "ID_CHAPTER"});
-  //quote_chapter.belongsTo(quotation, { as: "ID_QUOTE_quotation", foreignKey: "ID_QUOTE"});
-  quote_chapter.belongsTo(quotation, { foreignKey: "ID_QUOTE"});
-  quotation.hasMany(quote_chapter, { as: "quote_chapters", foreignKey: "ID_QUOTE"});
-  //sch_act_gang.belongsTo(schedule_activity, { as: "ID_SCH_ACT_schedule_activity", foreignKey: "ID_SCH_ACT"});
-  sch_act_gang.belongsTo(schedule_activity, {foreignKey: "ID_SCH_ACT"});
+  quote_chapter.belongsTo(quote_chp_grp, { foreignKey: "ID_QUO_CHP_GRP"});
+  quote_chp_grp.hasMany(quote_chapter, { as: "quote_chapters", foreignKey: "ID_QUO_CHP_GRP"});
+  quote_chp_grp.belongsTo(chapter_group, { foreignKey: "ID_CHP_GRP"});
+  chapter_group.hasMany(quote_chp_grp, { as: "quote_chp_grps", foreignKey: "ID_CHP_GRP"});
+  quote_chp_grp.belongsTo(quotation, { foreignKey: "ID_QUOTE"});
+  quotation.hasMany(quote_chp_grp, { as: "quote_chp_grps", foreignKey: "ID_QUOTE"});
+  sch_act_gang.belongsTo(schedule_activity, { foreignKey: "ID_SCH_ACT"});
   schedule_activity.hasMany(sch_act_gang, { as: "sch_act_gangs", foreignKey: "ID_SCH_ACT"});
-  //sch_act_gang.belongsTo(gang, { as: "ID_GANG_gang", foreignKey: "ID_GANG"});
   sch_act_gang.belongsTo(gang, { foreignKey: "ID_GANG"});
   gang.hasMany(sch_act_gang, { as: "sch_act_gangs", foreignKey: "ID_GANG"});
-  //schedule.belongsTo(quotation, { as: "ID_QUOTE_quotation", foreignKey: "ID_QUOTE"});
   schedule.belongsTo(quotation, { foreignKey: "ID_QUOTE"});
   quotation.hasMany(schedule, { as: "schedules", foreignKey: "ID_QUOTE"});
-  //schedule_activity.belongsTo(quote_activity, { as: "ID_QOU_ACT_quote_activity", foreignKey: "ID_QOU_ACT"});
-  schedule_activity.belongsTo(quote_activity, { foreignKey: "ID_QOU_ACT"});
+  schedule_activity.belongsTo(quote_activity, {foreignKey: "ID_QOU_ACT"});
   quote_activity.hasMany(schedule_activity, { as: "schedule_activities", foreignKey: "ID_QOU_ACT"});
-  //schedule_activity.belongsTo(predecessor_type, { as: "ID_PRE_TYP_predecessor_type", foreignKey: "ID_PRE_TYP"});
   schedule_activity.belongsTo(predecessor_type, { foreignKey: "ID_PRE_TYP"});
   predecessor_type.hasMany(schedule_activity, { as: "schedule_activities", foreignKey: "ID_PRE_TYP"});
-  //schedule_activity.belongsTo(schedule, { as: "ID_SCHEDULE_schedule", foreignKey: "ID_SCHEDULE"});
   schedule_activity.belongsTo(schedule, { foreignKey: "ID_SCHEDULE"});
   schedule.hasMany(schedule_activity, { as: "schedule_activities", foreignKey: "ID_SCHEDULE"});
-  //worker.belongsTo(rank, { as: "ID_RANK_rank", foreignKey: "ID_RANK"});
   worker.belongsTo(rank, { foreignKey: "ID_RANK"});
   rank.hasMany(worker, { as: "workers", foreignKey: "ID_RANK"});
-  //worker.belongsTo(user, { as: "ID_USER_user", foreignKey: "ID_USER"});
   worker.belongsTo(user, { foreignKey: "ID_USER"});
   user.hasMany(worker, { as: "workers", foreignKey: "ID_USER"});
 
@@ -150,6 +127,7 @@ function initModels(sequelize) {
     quotation,
     quote_activity,
     quote_chapter,
+    quote_chp_grp,
     rank,
     salary,
     sch_act_gang,

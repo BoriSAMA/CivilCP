@@ -28,6 +28,12 @@ app.use('/item', itemRoute);
 
 const salaryRoute = require('./controller/salaries');
 app.use('/salary', salaryRoute);
+
+const quotesRoute = require('./controller/quotations');
+app.use('/quotations', quotesRoute);
+
+const quoteRoute = require('./controller/quotationGroups');
+app.use('/quotation', quoteRoute);
 //routes finish
 
 app.get('/', function(req, res){

@@ -1,37 +1,39 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('user', {
+  return sequelize.define('quote_chp_grp', {
     ID: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    CODE: {
-      type: DataTypes.STRING(10),
+    QUOTE_NUMBER: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    CUSTOM_NAME: {
+      type: DataTypes.STRING(120),
+      allowNull: true
+    },
+    ID_CHP_GRP: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      unique: "CODE"
+      references: {
+        model: 'chapter_group',
+        key: 'ID'
+      }
     },
-    NAME: {
-      type: DataTypes.STRING(100),
-      allowNull: false
-    },
-    SUPERUSER: {
-      type: DataTypes.TINYINT,
-      allowNull: false
-    },
-    PASWORD: {
-      type: DataTypes.STRING(15),
-      allowNull: false
-    },
-    MAIL: {
-      type: DataTypes.STRING(50),
+    ID_QUOTE: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      unique: "MAIL"
+      references: {
+        model: 'quotation',
+        key: 'ID'
+      }
     }
   }, {
     sequelize,
-    tableName: 'user',
+    tableName: 'quote_chp_grp',
     timestamps: false,
     indexes: [
       {
@@ -43,19 +45,17 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "CODE",
-        unique: true,
+        name: "ID_CHP_GRP",
         using: "BTREE",
         fields: [
-          { name: "CODE" },
+          { name: "ID_CHP_GRP" },
         ]
       },
       {
-        name: "MAIL",
-        unique: true,
+        name: "ID_QUOTE",
         using: "BTREE",
         fields: [
-          { name: "MAIL" },
+          { name: "ID_QUOTE" },
         ]
       },
     ]

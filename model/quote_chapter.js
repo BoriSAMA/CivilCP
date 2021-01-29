@@ -17,17 +17,17 @@ module.exports = function(sequelize, DataTypes) {
     },
     ID_CHAPTER: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'chapter',
         key: 'ID'
       }
     },
-    ID_QUOTE: {
+    ID_QUO_CHP_GRP: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'quotation',
+        model: 'quote_chp_grp',
         key: 'ID'
       }
     }
@@ -52,10 +52,10 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "ID_QUOTE",
+        name: "ID_QUO_CHP_GRP",
         using: "BTREE",
         fields: [
-          { name: "ID_QUOTE" },
+          { name: "ID_QUO_CHP_GRP" },
         ]
       },
     ]

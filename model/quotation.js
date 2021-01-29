@@ -18,6 +18,46 @@ module.exports = function(sequelize, DataTypes) {
         model: 'user',
         key: 'ID'
       }
+    },
+    TOTAL_DIRECT: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    PRC_ADMIN: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    ADMIN: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    PRC_UNEXPECTED: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    UNEXPECTED: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    PRC_UTILITY: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    UTILITY: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    PRC_IVA: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
+    IVA: {
+      type: DataTypes.BIGINT,
+      allowNull: true
+    },
+    TOTAL: {
+      type: DataTypes.BIGINT,
+      allowNull: true
     }
   }, {
     sequelize,
@@ -34,6 +74,13 @@ module.exports = function(sequelize, DataTypes) {
       },
       {
         name: "ID_USER",
+        using: "BTREE",
+        fields: [
+          { name: "ID_USER" },
+        ]
+      },
+      {
+        name: "ID_USER_2",
         using: "BTREE",
         fields: [
           { name: "ID_USER" },

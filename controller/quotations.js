@@ -103,7 +103,17 @@ router.patch('/', async(req, res) => {
     try{
 		const result = await sequelize.transaction(async (t) => {
             const item = await models.quotation.update({ 
-                                NAME: req.body.name
+                                NAME: req.body.name,
+                                TOTAL_DIRECT: req.body.tdir,
+                                PRC_ADMIN: req.body.padm,
+                                ADMIN: req.body.admi,
+                                PRC_UNEXPECTED: req.body.pune,
+                                UNEXPECTED: req.body.unex,
+                                PRC_UTILITY: req.body.puti,
+                                UTILITY: req.body.util,
+                                PRC_IVA: req.body.piva,
+                                IVA: req.body.iva,
+                                TOTAL: req.body.total
                             },{
                                 where: {
                                     [Op.and]: [{

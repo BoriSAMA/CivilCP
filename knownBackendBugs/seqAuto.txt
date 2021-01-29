@@ -1,0 +1,1 @@
+node_modules\.bin\sequelize-auto sequelize-auto -h ec2-34-195-7-120.compute-1.amazonaws.com -d contruprojects -u boris -x 1234 -p 3306  --dialect mysql -o "./model"
