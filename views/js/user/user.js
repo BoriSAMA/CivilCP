@@ -48,7 +48,7 @@ async function login(){
       alert("bienvenido");
       window.location="/index";
     }else(
-      alert("no se pudo :c")
+      alert(response.json().message)
     )
   }catch(err){
     alert(err);
