@@ -5,41 +5,36 @@
           <div class="card mb-4">
               <div class="card-header">
                   <i class="fas fa-table mr-1"></i>
-                  Caracterizaciones
+                  Maquinarias
               </div>
               <div class="card ml-2 mb-2 mt-2 mr-2">
                   <div class="table-responsive">
                       <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
                           <thead class="table-secondary">
                               <tr>
-                                  <th>Grupo de Procesos</th>
-                                  <th>Grupo de Actividades</th>
-                                  <th>Identificador</th>
+                                  <th>Nombre</th>
+                                  <th>Rendimiento</th>
                               </tr>
                           </thead>
                           <tfoot>
                               <tr>
-                                  <th>Grupo de Procesos</th>
-                                  <th>Grupo de Actividades</th>
-                                  <th>Identificador</th>
+                                  <th>Nombre</th>
+                                  <th>Rendimiento</th>
                                   <th></th>
                               </tr>
                           </tfoot>
                           <tbody>
                               <tr>
-                                  <td>Iniciales</td>
-                                  <td>Replanteo</td>
-                                  <td>REP</td>
+                                  <td>Retroexcavadora</td>
+                                  <td>10m/h</td>
                               </tr>
                               <tr>
-                                  <td>Iniciales</td>
-                                  <td>Replanteo</td>
-                                  <td>REP</td>
+                                  <td>Retroexcavadora</td>
+                                  <td>10m/h</td>
                               </tr>
                               <tr>
-                                  <td>Iniciales</td>
-                                  <td>Replanteo</td>
-                                  <td>REP</td>
+                                  <td>Retroexcavadora</td>
+                                  <td>10m/h</td>
                               </tr>
                           </tbody>
                       </table>
@@ -47,12 +42,12 @@
                   <div class="form-row">
                     <div class="col-md-6">
                       <div class="card ml-2 mb-2 mt-2">
-                        <a class="btn btn-primary btn-block" data-title="Edit" data-toggle="modal" data-target="#editar" href="#">Agregar Caracterización</a>
+                        <a class="btn btn-primary btn-block" data-title="Edit" data-toggle="modal" data-target="#editar" href="#">Agregar Maquinaria</a>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="card mb-2 mt-2 mr-2">
-                        <a class="btn btn-primary btn-block">Guardar</a>
+                        <a class="btn btn-primary btn-block" href="/index/machinary" id="save">Guardar</a>
                       </div>
                     </div>
                   </div>
@@ -64,22 +59,24 @@
     			<div class="modal-dialog">
     				<div class="modal-content">
     					<div class="modal-header">
-                <h4 class="modal-title custom_align" id="Heading">Agregar Caracterización</h4>
+                <h4 class="modal-title custom_align" id="Heading">Agregar Maquinaria</h4>
     						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
     					</div>
     					<div class="modal-body">
-    						<div class="form-group">
-                  <label class="small mb-1">Grupo de Procesos</label>
-    							<input class="form-control " type="text" placeholder="Grupo de Procesos">
-    						</div>
-    						<div class="form-group">
-                  <label class="small mb-1">Grupo de Actividades</label>
-    							<input class="form-control " type="text" placeholder="Grupo de Actividades">
-    						</div>
-                <div class="form-group">
-                  <label class="small mb-1">Identificador</label>
-    							<input class="form-control " type="text" placeholder="Identificador">
-    						</div>
+                  <div class="form-row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="small mb-1">Nombre</label>
+          							<input class="form-control " type="text" placeholder="Nombre Maquinaria">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label class="small mb-1">Rendimiento</label>
+                        <input class="form-control " type="text" placeholder="Rendimiento">
+                      </div>
+                    </div>
+                  </div>
     					</div>
     					<div class="modal-footer ">
     						<button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>

@@ -31,9 +31,21 @@ router.get('/machinary', function(req, res){
     });
 });
 
+router.get('/machinaryL', function(req, res){
+	res.status(200).render('index',{
+        selected: 'machinaryL'
+    });
+});
+
 router.get('/mats', function(req, res){
 	res.status(200).render('index',{
         selected: 'mats'
+    });
+});
+
+router.get('/matsL', function(req, res){
+	res.status(200).render('index',{
+        selected: 'matsL'
     });
 });
 

@@ -13,7 +13,7 @@ router.post('/register', async(req, res) => {
 	try{
 		console.log(req.body);
 		var { name, code, mail, pass, pass2 } = req.body;
-	  
+
 		if (!name || !code || !mail || !pass || !pass2) {
 			throw {name : "regError", message : "Datos incompletos"};
 		}
@@ -90,15 +90,15 @@ router.post('/login', async(req, res) => {
 		});
 
 		if(result == ""){
-			throw {name : "loginError", message : "Usuario o contraseña incorrecto"}; 
+			throw {name : "loginError", message : "Usuario o contraseña incorrecto"};
 		}
 
 		var user = result[0].dataValues;
-  
+
           // Match password
             var passwaord = bcrypt.compare(req.body.pass, user.PASWORD, (err, isMatch) => {
 				if (err) throw err;
-				
+
                 if (isMatch) {
                     return true;
                 } else {
@@ -117,7 +117,8 @@ router.post('/login', async(req, res) => {
 			});
 		}else{
 			res.status(400).render('user/login',{
-				error: "internal server error"
+				error: err
+				//error: "internal server error"
 			});
 		}
 	}
