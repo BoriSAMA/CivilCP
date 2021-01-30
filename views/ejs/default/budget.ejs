@@ -12,72 +12,51 @@
                       <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
                           <thead class="table-secondary">
                               <tr>
-                                  <th colspan="4">Nombre Presupuesto</th>
+                                  <th colspan="7" style="text-align:center">Nombre Presupuesto</th>
                               </tr>
                               <tr>
-                                  <th>G.P</th>
-                                  <th>G.A</th>
-                                  <th>Actividad</th>
-                                  <th>A.P.U</th>
+                                <th>GP</th>
+                                <th>ID</th>
+                                <th colspan="5">Capítulo</th>
                               </tr>
                           </thead>
-                          <tfoot>
-                              <tr>
-                                  <th>G.P</th>
-                                  <th>G.A</th>
-                                  <th>Actividad</th>
-                                  <th>A.P.U</th>
-                                  <th></th>
-                              </tr>
-                          </tfoot>
                           <tbody>
                               <tr>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Procesos</option>
-                                    <option value="A1">GP 1</option>
-                                    <option value="A2">GP 2</option>
-                                    <option value="A3">GP 3</option>
-                                  </select></td>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Actividades</option>
-                                    <option value="A1">GA 1</option>
-                                    <option value="A2">GA 2</option>
-                                    <option value="A3">GA 3</option>
-                                  </select></td>
-                                  <td>Nombre Actividad</td>
-                                  <td><button type="button" class="btn btn-primary"><span class="fas fa-pen"></span></button></td>
+                                <td><select class="selectBuscar" disabled>
+                                  <option selected>GP</option>
+                                  <option value="A1">GP 1</option>
+                                  <option value="A2">GP 2</option>
+                                  <option value="A3">GP 3</option>
+                                </select></td>
+                                <td>ID</td>
+                                <td colspan="5">Nombre</td>
                               </tr>
+                          </tbody>
+                          <thead class="table-secondary">
+                            <tr>
+                              <th>GA</th>
+                              <th>ID</th>
+                              <th>Actividad</th>
+                              <th>Medida</th>
+                              <th>Cantidad</th>
+                              <th>A.P.U</th>
+                              <th>Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
                               <tr>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Procesos</option>
-                                    <option value="A1">GP 1</option>
-                                    <option value="A2">GP 2</option>
-                                    <option value="A3">GP 3</option>
-                                  </select></td>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Actividades</option>
-                                    <option value="A1">GA 1</option>
-                                    <option value="A2">GA 2</option>
-                                    <option value="A3">GA 3</option>
-                                  </select></td>
-                                  <td>Nombre Actividad</td>
-                                  <td><button type="button" class="btn btn-primary"><span class="fas fa-pen"></span></button></td>
-                              </tr>
-                              <tr>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Procesos</option>
-                                    <option value="A1">GP 1</option>
-                                    <option value="A2">GP 2</option>
-                                    <option value="A3">GP 3</option>
-                                  </select></td>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Actividades</option>
-                                    <option value="A1">GA 1</option>
-                                    <option value="A2">GA 2</option>
-                                    <option value="A3">GA 3</option>
-                                  </select></td>
-                                  <td>Nombre Actividad</td>
-                                  <td><button type="button" class="btn btn-primary"><span class="fas fa-pen"></span></button></td>
+                                <td><select class="selectBuscar" disabled>
+                                  <option selected>GA</option>
+                                  <option value="A1">GA 1</option>
+                                  <option value="A2">GA 2</option>
+                                  <option value="A3">GA 3</option>
+                                </select></td>
+                                <td>ID</td>
+                                <td>Actividad</td>
+                                <td>Medida</td>
+                                <td>Cantidad</td>
+                                <td><button type="button" class="btn btn-primary"><span class="fas fa-pen"></span></button></td>
+                                <td>Total</td>
                               </tr>
                           </tbody>
                       </table>
