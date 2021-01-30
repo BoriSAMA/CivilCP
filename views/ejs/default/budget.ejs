@@ -5,31 +5,28 @@
           <div class="card mb-4">
               <div class="card-header">
                   <i class="fas fa-table mr-1"></i>
-                  Cuadrillas
+                  Presupuestos
               </div>
               <div class="card ml-2 mb-2 mt-2 mr-2">
                   <div class="table-responsive">
                       <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
                           <thead class="table-secondary">
                               <tr>
-                                  <th>Grupo de Procesos</th>
-                                  <th>Grupo de Actividades</th>
-                                  <th colspan="3">Cuadrilla</th>
-                                  <th>Rendimiento</th>
-                                  <th>Descripción</th>
-                                  <th>Unidad</th>
-                                  <th>Precio</th>
+                                  <th colspan="4">Nombre Presupuesto</th>
+                              </tr>
+                              <tr>
+                                  <th>G.P</th>
+                                  <th>G.A</th>
+                                  <th>Actividad</th>
+                                  <th>A.P.U</th>
                               </tr>
                           </thead>
                           <tfoot>
                               <tr>
-                                  <th>Grupo de Procesos</th>
-                                  <th>Grupo de Actividades</th>
-                                  <th colspan="3">Cuadrilla</th>
-                                  <th>Rendimiento</th>
-                                  <th>Descripción</th>
-                                  <th>Unidad</th>
-                                  <th>Precio</th>
+                                  <th>G.P</th>
+                                  <th>G.A</th>
+                                  <th>Actividad</th>
+                                  <th>A.P.U</th>
                                   <th></th>
                               </tr>
                           </tfoot>
@@ -47,13 +44,8 @@
                                     <option value="A2">GA 2</option>
                                     <option value="A3">GA 3</option>
                                   </select></td>
-                                  <td>OT</td>
-                                  <td>O</td>
-                                  <td>A</td>
-                                  <td>-</td>
-                                  <td>Descripción</td>
-                                  <td>Dia</td>
-                                  <td>#</td>
+                                  <td>Nombre Actividad</td>
+                                  <td><button type="button" class="btn btn-primary"><span class="fas fa-pen"></span></button></td>
                               </tr>
                               <tr>
                                   <td><select class="selectBuscar" disabled>
@@ -68,13 +60,8 @@
                                     <option value="A2">GA 2</option>
                                     <option value="A3">GA 3</option>
                                   </select></td>
-                                  <td>OT</td>
-                                  <td>O</td>
-                                  <td>A</td>
-                                  <td>-</td>
-                                  <td>Descripción</td>
-                                  <td>Dia</td>
-                                  <td>#</td>
+                                  <td>Nombre Actividad</td>
+                                  <td><button type="button" class="btn btn-primary"><span class="fas fa-pen"></span></button></td>
                               </tr>
                               <tr>
                                   <td><select class="selectBuscar" disabled>
@@ -89,13 +76,8 @@
                                     <option value="A2">GA 2</option>
                                     <option value="A3">GA 3</option>
                                   </select></td>
-                                  <td>OT</td>
-                                  <td>O</td>
-                                  <td>A</td>
-                                  <td>-</td>
-                                  <td>Descripción</td>
-                                  <td>Dia</td>
-                                  <td>#</td>
+                                  <td>Nombre Actividad</td>
+                                  <td><button type="button" class="btn btn-primary"><span class="fas fa-pen"></span></button></td>
                               </tr>
                           </tbody>
                       </table>
@@ -103,7 +85,7 @@
                   <div class="form-row">
                     <div class="col-md-6">
                       <div class="card ml-2 mb-2 mt-2">
-                        <a class="btn btn-primary btn-block" data-title="Edit" data-toggle="modal" data-target="#editar" href="#">Agregar Cuadrilla</a>
+                        <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#editar" href="#">Agregar</a>
                       </div>
                     </div>
                     <div class="col-md-6">
@@ -120,14 +102,14 @@
     			<div class="modal-dialog">
     				<div class="modal-content">
     					<div class="modal-header">
-                <h4 class="modal-title custom_align" id="Heading">Agregar Cuadrilla</h4>
+                <h4 class="modal-title custom_align" id="Heading">Agregar Presupuesto</h4>
     						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
     					</div>
     					<div class="modal-body">
-                  <div class="form-row">
+                <div class="form-row">
                     <div class="col-md-6">
+                      <label class="small mb-1">G.P</label>
                       <div class="form-group">
-                        <label class="small mb-1">Grupo de Procesos</label>
                         <select class="selectBuscar">
                           <option selected>Seleccionar</option>
                           <option value="A1">GP 1</option>
@@ -137,8 +119,8 @@
                       </div>
                     </div>
                     <div class="col-md-6">
+                      <label class="small mb-1">G.A</label>
                       <div class="form-group">
-                        <label class="small mb-1">Grupo de Actividades</label>
                         <select class="selectBuscar">
                           <option selected>Seleccionar</option>
                           <option value="A1">GA 1</option>
@@ -147,50 +129,11 @@
                         </select>
                       </div>
                     </div>
-                  </div>
+                </div>
                 <div class="form-group">
-                  <label class="small mb-1">Cuadrilla</label>
-                  <div class="form-row">
-                    <div class="col-md-4">
-                      <input class="form-control " type="text" placeholder="Oficiales Técnicos">
-                    </div>
-                    <div class="col-md-4">
-                      <input class="form-control " type="text" placeholder="Oficiales">
-                    </div>
-                    <div class="col-md-4">
-                      <input class="form-control " type="text" placeholder="Ayudantes">
-                    </div>
-                  </div>
+                  <label class="small mb-1">Nombre de la Actividad</label>
+    							<input class="form-control " type="text" placeholder="Nombre">
     						</div>
-                <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="small mb-1">Rendimiento</label>
-                      <input class="form-control " type="text" placeholder="Rendimiento">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="small mb-1">Descripción</label>
-                      <input class="form-control " type="text" placeholder="Descripción">
-                    </div>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="small mb-1">Unidad</label>
-                      <input class="form-control " type="text" placeholder="Unidad">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="small mb-1">Precio</label>
-                      <input class="form-control " type="text" placeholder="Precio">
-                    </div>
-                  </div>
-                </div>
-    					</div>
     					<div class="modal-footer ">
     						<button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
     					</div>
@@ -200,12 +143,4 @@
     			<!-- /.modal-dialog -->
     </div>
   </div>
-  <script>
-   $('#makeEditable').SetEditable({ $addButton: $('#agg')});
-  </script>
-  <script>
-  	$(document).ready(function() {
-  			$('.selectBuscar').select2();
-  	});
-  </script>
 </main>
