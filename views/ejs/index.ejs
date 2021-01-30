@@ -23,19 +23,19 @@
                             </a>
                             <div class="collapse" id="collapseDB" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                  <a class="nav-link" href="#" id="lren">
+                                  <a class="nav-link" href="/index/charac" id="lren">
                                       <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                       Caracterizaciones
                                   </a>
-                                  <a class="nav-link" href="#" id="lcua">
+                                  <a class="nav-link" href="/index/gangs" id="lcua">
                                       <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                                       Cuadrillas
                                   </a>
-                                  <a class="nav-link" href="#" id="lmaq">
+                                  <a class="nav-link" href="/index/machinary" id="lmaq">
                                       <div class="sb-nav-link-icon"><i class="fas fa-truck-pickup"></i></div>
                                       Maquinarias
                                   </a>
-                                  <a class="nav-link" href="#" id="lmat">
+                                  <a class="nav-link" href="/index/mats" id="lmat">
                                       <div class="sb-nav-link-icon"><i class="fas fa-toolbox"></i></div>
                                       Materiales
                                   </a>
@@ -49,11 +49,11 @@
                             </a>
                             <div class="collapse" id="collapsePresupuesto" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                  <a class="nav-link" href="#" id="pre">
+                                  <a class="nav-link" href="/index/budget" id="pre">
                                       <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                       Lista de Presupuestos
                                   </a>
-                                  <a class="nav-link" href="#" id="lcomp">
+                                  <a class="nav-link" href="/index/shoppinglist" id="lcomp">
                                     <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
                                       Listado de Compras
                                   </a>
@@ -66,69 +66,52 @@
                             </a>
                             <div class="collapse" id="collapseProgramacion" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                  <a class="nav-link" href="#" id="dia">
+                                  <a class="nav-link" href="/index/gantt" id="dia">
                                     <div class="sb-nav-link-icon"><i class="fas fa-chart-bar"></i></div>
                                       Diagrama de Gantt
                                   </a>
-                                  <a class="nav-link" href="#" id="ltra">
+                                  <a class="nav-link" href="/index/workers" id="ltra">
                                     <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                                       Listado de Trabajadores
                                   </a>
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAPU" aria-expanded="false" aria-controls="collapseAPU">
-                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                                Analisis de Precios Unitarios
-                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                            </a>
-                            <div class="collapse" id="collapseAPU" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a class="nav-link" href="#" id="apre">Agregar presupuesto</a>
-                                    <a class="nav-link" href="#" id="amaq">Agregar maquinarias</a>
-                                    <a class="nav-link" href="#" id="amat">Agregar materiales</a>
-                                    <a class="nav-link" href="#" id="amob">Agregar mano de obra</a>
-                                </nav>
-                            </div>
-
-                            <a class="nav-link" href="#" id="xd">
-                                <div class="sb-nav-link-icon"><i class="fas fa-toolbox"></i></div>
-                                Pruebas XD
-                            </a>
                         </div>
                     </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-                <% if(selected == "charac"){ -%>
-                    <%- include('default/charac.ejs') %>
-                <% }else if(selected == "gangs"){ -%>
-                    <%- include('default/gangs.ejs') %>
-                <% }else if(selected == "machinary"){ -%>
-                    <%- include('default/machinary.ejs') %>
-                <% }else if(selected == "mats"){ -%>
-                    <%- include('default/mats.ejs') %>
-                <% }else if(selected == "="){ -%>
-                    <%- include('default/=.ejs') %>
-                <% }else if(selected == "="){ -%>
-                    <%- include('default/=.ejs') %>
-                <% }else if(selected == "="){ -%>
-                    <%- include('default/=.ejs') %>
-                <% }else if(selected == "="){ -%>
-                    <%- include('default/=.ejs') %>
-                <% }else if(selected == "="){ -%>
-                    <%- include('default/=.ejs') %>
-                <% }else if(selected == "="){ -%>
-                    <%- include('default/=.ejs') %>
-                <% }else if(selected == "="){ -%>
-                    <%- include('default/=.ejs') %>
-                <% }else if(selected == "="){ -%>
-                    <%- include('default/=.ejs') %>
-                <% }else{ -%>
-                    <%- include('default/normal.ejs') %>
-                <% } -%>
+              <% if(selected == "salary"){ -%>
+                  <%- include('default/salary.ejs') %>
+              <% }else if(selected == "charac"){ -%>
+                  <%- include('default/charac.ejs') %>
+              <% }else if(selected == "gangs"){ -%>
+                  <%- include('default/gangs.ejs') %>
+              <% }else if(selected == "machinary"){ -%>
+                  <%- include('default/machinary.ejs') %>
+              <% }else if(selected == "mats"){ -%>
+                  <%- include('default/mats.ejs') %>
+              <% }else if(selected == "budget"){ -%>
+                  <%- include('default/budget.ejs') %>
+              <% }else if(selected == "shoppinglist"){ -%>
+                  <%- include('default/shoppinglist.ejs') %>
+              <% }else if(selected == "gantt"){ -%>
+                  <%- include('default/gantt.ejs') %>
+              <% }else if(selected == "workers"){ -%>
+                  <%- include('default/workers.ejs') %>
+              <% }else if(selected == "apumachinary"){ -%>
+                  <%- include('default/apumachinary.ejs') %>
+              <% }else if(selected == "apumats"){ -%>
+                  <%- include('default/apumats.ejs') %>
+              <% }else if(selected == "apuworkers"){ -%>
+                  <%- include('default/apuworkers.ejs') %>
+              <% }else if(selected == "aputrans"){ -%>
+                  <%- include('default/aputrans.ejs') %>
+              <% }else{ -%>
+                  <%- include('default/normal.ejs') %>
+              <% } -%>
             </div>
-        </div>
-
+          </div>
         <%- include('structure/footer.ejs') %>
         <script src="/index.js"></script>
     </body>

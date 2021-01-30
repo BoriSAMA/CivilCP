@@ -37,5 +37,52 @@ router.get('/mats', function(req, res){
     });
 });
 
+router.get('/budget', function(req, res){
+	res.status(200).render('index',{
+        selected: 'budget'
+    });
+});
+
+router.get('/shoppinglist', function(req, res){
+	res.status(200).render('index',{
+        selected: 'shoppinglist'
+    });
+});
+
+router.get('/gantt', function(req, res){
+	res.status(200).render('index',{
+        selected: 'gantt'
+    });
+});
+
+router.get('/workers', function(req, res){
+	res.status(200).render('index',{
+        selected: 'workers'
+    });
+});
+
+router.get('/apumachinary', function(req, res){
+	res.status(200).render('index',{
+        selected: 'apumachinary'
+    });
+});
+
+router.get('/apumats', function(req, res){
+	res.status(200).render('index',{
+        selected: 'apumats'
+    });
+});
+
+router.get('/apuworkers', function(req, res){
+	res.status(200).render('index',{
+        selected: 'apuworkers'
+    });
+});
+
+router.get('/aputrans', function(req, res){
+	res.status(200).render('index',{
+        selected: 'aputrans'
+    });
+});
 //export module
 module.exports = router;
