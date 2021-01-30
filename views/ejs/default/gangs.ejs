@@ -1,0 +1,242 @@
+<main>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-12 mt-4">
+          <div class="card mb-4">
+              <div class="card-header">
+                  <i class="fas fa-table mr-1"></i>
+                  Cuadrillas
+              </div>
+              <div class="card ml-2 mb-2 mt-2 mr-2">
+                  <div class="table-responsive">
+                      <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
+                          <thead class="table-secondary">
+                              <tr>
+                                  <th>Grupo de Procesos</th>
+                                  <th>Grupo de Actividades</th>
+                                  <th>Actividad</th>
+                                  <th colspan="3">Cuadrilla</th>
+                                  <th>Rendimiento</th>
+                                  <th>Descripción</th>
+                                  <th>Unidad</th>
+                                  <th>Precio</th>
+                              </tr>
+                          </thead>
+                          <tfoot>
+                              <tr>
+                                  <th>Grupo de Procesos</th>
+                                  <th>Grupo de Actividades</th>
+                                  <th>Actividad</th>
+                                  <th colspan="3">Cuadrilla</th>
+                                  <th>Rendimiento</th>
+                                  <th>Descripción</th>
+                                  <th>Unidad</th>
+                                  <th>Precio</th>
+                                  <th></th>
+                              </tr>
+                          </tfoot>
+                          <tbody>
+                              <tr>
+                                  <td><select class="selectBuscar" disabled>
+                                    <option selected>Grupo de Procesos</option>
+                                    <option value="A1">GP 1</option>
+                                    <option value="A2">GP 2</option>
+                                    <option value="A3">GP 3</option>
+                                  </select></td>
+                                  <td><select class="selectBuscar" disabled>
+                                    <option selected>Grupo de Actividades</option>
+                                    <option value="A1">GA 1</option>
+                                    <option value="A2">GA 2</option>
+                                    <option value="A3">GA 3</option>
+                                  </select></td>
+                                  <td><select class="selectBuscar" disabled>
+                                    <option selected>Actividad 1</option>
+                                    <option value="A1">Actividad 1</option>
+                                    <option value="A2">Actividad 2</option>
+                                    <option value="A3">Actividad 3</option>
+                                  </select></td>
+                                  <td>OT</td>
+                                  <td>O</td>
+                                  <td>A</td>
+                                  <td>-</td>
+                                  <td>Descripción</td>
+                                  <td>Dia</td>
+                                  <td>#</td>
+                              </tr>
+                              <tr>
+                                  <td><select class="selectBuscar" disabled>
+                                    <option selected>Grupo de Procesos</option>
+                                    <option value="A1">GP 1</option>
+                                    <option value="A2">GP 2</option>
+                                    <option value="A3">GP 3</option>
+                                  </select></td>
+                                  <td><select class="selectBuscar" disabled>
+                                    <option selected>Grupo de Actividades</option>
+                                    <option value="A1">GA 1</option>
+                                    <option value="A2">GA 2</option>
+                                    <option value="A3">GA 3</option>
+                                  </select></td>
+                                  <td><select class="selectBuscar" disabled>
+                                    <option selected>Actividad 1</option>
+                                    <option value="A1">Actividad 1</option>
+                                    <option value="A2">Actividad 2</option>
+                                    <option value="A3">Actividad 3</option>
+                                  </select></td>
+                                  <td>OT</td>
+                                  <td>O</td>
+                                  <td>A</td>
+                                  <td>-</td>
+                                  <td>Descripción</td>
+                                  <td>Dia</td>
+                                  <td>#</td>
+                              </tr>
+                              <tr>
+                                  <td><select class="selectBuscar" disabled>
+                                    <option selected>Grupo de Procesos</option>
+                                    <option value="A1">GP 1</option>
+                                    <option value="A2">GP 2</option>
+                                    <option value="A3">GP 3</option>
+                                  </select></td>
+                                  <td><select class="selectBuscar" disabled>
+                                    <option selected>Grupo de Actividades</option>
+                                    <option value="A1">GA 1</option>
+                                    <option value="A2">GA 2</option>
+                                    <option value="A3">GA 3</option>
+                                  </select></td>
+                                  <td><select class="selectBuscar" disabled>
+                                    <option selected>Actividad 1</option>
+                                    <option value="A1">Actividad 1</option>
+                                    <option value="A2">Actividad 2</option>
+                                    <option value="A3">Actividad 3</option>
+                                  </select></td>
+                                  <td>OT</td>
+                                  <td>O</td>
+                                  <td>A</td>
+                                  <td>-</td>
+                                  <td>Descripción</td>
+                                  <td>Dia</td>
+                                  <td>#</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+                  <div class="form-row">
+                    <div class="col-md-6">
+                      <div class="card ml-2 mb-2 mt-2">
+                        <a class="btn btn-primary btn-block" data-title="Edit" data-toggle="modal" data-target="#editar" href="#">Agregar Cuadrilla</a>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card mb-2 mt-2 mr-2">
+                        <a class="btn btn-primary btn-block">Guardar</a>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="modal" id="editar" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    			<div class="modal-dialog">
+    				<div class="modal-content">
+    					<div class="modal-header">
+                <h4 class="modal-title custom_align" id="Heading">Agregar Cuadrilla</h4>
+    						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
+    					</div>
+    					<div class="modal-body">
+                  <div class="form-row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="small mb-1">Grupo de Procesos</label>
+                        <select class="selectBuscar">
+                          <option selected>Seleccionar</option>
+                          <option value="A1">GP 1</option>
+                          <option value="A2">GP 2</option>
+                          <option value="A3">GP 3</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="small mb-1">Grupo de Actividades</label>
+                        <select class="selectBuscar">
+                          <option selected>Seleccionar</option>
+                          <option value="A1">GA 1</option>
+                          <option value="A2">GA 2</option>
+                          <option value="A3">GA 3</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="small mb-1">Actividad</label>
+                        <select class="selectBuscar">
+                          <option selected>Seleccionar</option>
+                          <option value="A1">Actividad 1</option>
+                          <option value="A2">Actividad 2</option>
+                          <option value="A3">Actividad 3</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                <div class="form-group">
+                  <label class="small mb-1">Cuadrilla</label>
+                  <div class="form-row">
+                    <div class="col-md-4">
+                      <input class="form-control " type="text" placeholder="Oficiales Técnicos">
+                    </div>
+                    <div class="col-md-4">
+                      <input class="form-control " type="text" placeholder="Oficiales">
+                    </div>
+                    <div class="col-md-4">
+                      <input class="form-control " type="text" placeholder="Ayudantes">
+                    </div>
+                  </div>
+    						</div>
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="small mb-1">Rendimiento</label>
+                      <input class="form-control " type="text" placeholder="Rendimiento">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="small mb-1">Descripción</label>
+                      <input class="form-control " type="text" placeholder="Descripción">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="small mb-1">Unidad</label>
+                      <input class="form-control " type="text" placeholder="Unidad">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="small mb-1">Precio</label>
+                      <input class="form-control " type="text" placeholder="Precio">
+                    </div>
+                  </div>
+                </div>
+    					</div>
+    					<div class="modal-footer ">
+    						<button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
+    					</div>
+    				</div>
+    				<!-- /.modal-content -->
+    			</div>
+    			<!-- /.modal-dialog -->
+    </div>
+  </div>
+  <script>
+   $('#makeEditable').SetEditable({ $addButton: $('#agg')});
+  </script>
+  <script>
+  	$(document).ready(function() {
+  			$('.selectBuscar').select2();
+  	});
+  </script>
+</main>

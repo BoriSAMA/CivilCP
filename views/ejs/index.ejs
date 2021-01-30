@@ -4,7 +4,7 @@
             <button class="btn btn-link btn-sm order-1 order-lg-0 ml-2" id="sidebarToggle" href="#"><h4><i class="fas fa-bars"></i></h4></button>
             <a class="navbar-brand ml-auto ml-md-12" href="/index.html">Proyecto Ingenieria Civil</a>
             <!-- Navbar-->
-            <button class=" btn btn-dark navbar-brand ml-auto ml-md-12" type="button" onclick="logout()">Finalizar Sesión <i class="fas fa-sign-out-alt"></i></a>
+            <button class=" btn btn-dark navbar-brand ml-auto ml-md-12" type="button" onclick="logout()">Finalizar Sesión <i class="fas fa-sign-out-alt"></i></button>
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
@@ -99,8 +99,30 @@
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-                <% if(selected == "salary"){ -%>
-                    <%- include('default/salary.ejs') %>
+                <% if(selected == "charac"){ -%>
+                    <%- include('default/charac.ejs') %>
+                <% }else if(selected == "gangs"){ -%>
+                    <%- include('default/gangs.ejs') %>
+                <% }else if(selected == "machinary"){ -%>
+                    <%- include('default/machinary.ejs') %>
+                <% }else if(selected == "mats"){ -%>
+                    <%- include('default/mats.ejs') %>
+                <% }else if(selected == "="){ -%>
+                    <%- include('default/=.ejs') %>
+                <% }else if(selected == "="){ -%>
+                    <%- include('default/=.ejs') %>
+                <% }else if(selected == "="){ -%>
+                    <%- include('default/=.ejs') %>
+                <% }else if(selected == "="){ -%>
+                    <%- include('default/=.ejs') %>
+                <% }else if(selected == "="){ -%>
+                    <%- include('default/=.ejs') %>
+                <% }else if(selected == "="){ -%>
+                    <%- include('default/=.ejs') %>
+                <% }else if(selected == "="){ -%>
+                    <%- include('default/=.ejs') %>
+                <% }else if(selected == "="){ -%>
+                    <%- include('default/=.ejs') %>
                 <% }else{ -%>
                     <%- include('default/normal.ejs') %>
                 <% } -%>
