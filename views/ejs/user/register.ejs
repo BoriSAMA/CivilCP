@@ -8,41 +8,42 @@
                             <div class="col-lg-7">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Crear una cuenta</h3></div>
+                                    <%- include ("../partials/messages"); %>
                                     <div class="card-body">
-                                        <form>
+                                        <form action="/user/register" method="POST">
                                             <div class="form-row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="ingresarNombre">Nombre</label>
-                                                        <input class="form-control py-4" id="ingresarNombre" type="text" placeholder="Ingresar Nombre" />
+                                                        <input class="form-control py-4" name="name" id="ingresarNombre" type="text" placeholder="Ingresar Nombre" />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="ingresarCodigo">Código</label>
-                                                        <input class="form-control py-4" id="ingresarCodigo" type="text" placeholder="Ingresar Código" />
+                                                        <input class="form-control py-4" name="code" id="ingresarCodigo" type="text" placeholder="Ingresar Código" />
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <label class="small mb-1" for="ingresarCorreo">Correo</label>
-                                                <input class="form-control py-4" id="ingresarCorreo" type="email" aria-describedby="emailHelp" placeholder="Ingresar Correo" />
+                                                <input class="form-control py-4" name="mail" id="ingresarCorreo" type="email" aria-describedby="emailHelp" placeholder="Ingresar Correo" />
                                             </div>
                                             <div class="form-row">
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="ingresarContraseña">Contraseña</label>
-                                                        <input class="form-control py-4" id="ingresarContraseña" type="password" placeholder="Ingresar Contraseña" />
+                                                        <input class="form-control py-4" name="pass" id="ingresarContraseña" type="password" placeholder="Ingresar Contraseña" />
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label class="small mb-1" for="ingresarContraseñaConfirmar">Confirmar Contraseña</label>
-                                                        <input class="form-control py-4" id="ingresarContraseñaConfirmar" type="password" placeholder="Confirmar Contraseña" />
+                                                        <input class="form-control py-4" name="pass2" id="ingresarContraseñaConfirmar" type="password" placeholder="Confirmar Contraseña" />
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group mt-4 mb-0"><button class="btn btn-primary btn-block" type="button" onclick="register()">Registrarse</button></div>
+                                            <div class="form-group mt-4 mb-0"><button class="btn btn-primary btn-block" type="submit"">Registrarse</button></div>
                                         </form>
                                     </div>
                                     <div class="card-footer text-center">
@@ -57,6 +58,5 @@
         </div>
 
     <%- include('../structure/footer.ejs') %>
-    <script type="text/javascript" src="/user/user.js"></script>
     </body>
 </html>

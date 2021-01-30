@@ -1,5 +1,0 @@
-DB_USER = 'boris'
-DB_PASS = '1234'
-DB_NAME = 'contruprojects'
-DB_HOST = 'ec2-34-195-7-120.compute-1.amazonaws.com'
-DB_PORT = '3306'
