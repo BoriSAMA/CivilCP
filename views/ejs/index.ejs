@@ -2,7 +2,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <button class="btn btn-link btn-sm order-1 order-lg-0 ml-2" id="sidebarToggle" href="#"><h4><i class="fas fa-bars"></i></h4></button>
-            <a class="navbar-brand ml-auto ml-md-12" href="/index.html">Proyecto Ingenieria Civil</a>
+            <a class="navbar-brand ml-auto ml-md-12" href="/index">Proyecto Ingenieria Civil</a>
             <!-- Navbar-->
             <button class=" btn btn-dark navbar-brand ml-auto ml-md-12" type="button" onclick="logout()">Finalizar Sesión <i class="fas fa-sign-out-alt"></i></button>
         </nav>
@@ -89,8 +89,12 @@
                   <%- include('default/gangs.ejs') %>
               <% }else if(selected == "machinary"){ -%>
                   <%- include('default/machinary.ejs') %>
+              <% }else if(selected == "machinaryL"){ -%>
+                  <%- include('default/machinaryL.ejs') %>
               <% }else if(selected == "mats"){ -%>
                   <%- include('default/mats.ejs') %>
+              <% }else if(selected == "matsL"){ -%>
+                  <%- include('default/matsL.ejs') %>
               <% }else if(selected == "budget"){ -%>
                   <%- include('default/budget.ejs') %>
               <% }else if(selected == "shoppinglist"){ -%>

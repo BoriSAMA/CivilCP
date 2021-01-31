@@ -92,7 +92,7 @@
                   <div class="form-row">
                     <div class="col-md-4">
                       <div class="card ml-2 mb-2 mt-2">
-                        <a class="btn btn-primary btn-block" href="#" id="maqu">Ver Maquinarias</a>
+                        <a class="btn btn-primary btn-block" href="/index/machinaryL" id="maqu">Ver Maquinarias</a>
                       </div>
                     </div>
                     <div class="col-md-4">
@@ -163,17 +163,4 @@
     			<!-- /.modal-dialog -->
     </div>
   </div>
-  <script>
-   $('#makeEditable').SetEditable({ $addButton: $('#agg')});
-  </script>
-  <script>
-  	$(document).ready(function() {
-  			$('.selectBuscar').select2();
-  	});
-  </script>
-  <script>
-    $('#maqu').on('click', function(){
-         $('#layoutSidenav_content').load('lmaquinarias.html');
-    });
-  </script>
 </main>

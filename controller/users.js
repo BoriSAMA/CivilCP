@@ -13,7 +13,7 @@ router.post('/register', async(req, res) => {
 	try{
 		console.log(req.body);
 		var { name, code, mail, pass, pass2 } = req.body;
-	  
+
 		if (!name || !code || !mail || !pass || !pass2) {
 			throw {name : "regError", message : "Datos incompletos"};
 		}else if (pass != pass2) {
@@ -85,7 +85,7 @@ router.post('/login', async(req, res) => {
 		});
 
 		if(result == ""){
-			throw {name : "loginError", message : "Usuario o contraseña incorrecto"}; 
+			throw {name : "loginError", message : "Usuario o contraseña incorrecto"};
 		}
 
 		var user = result[0].dataValues;
@@ -106,7 +106,8 @@ router.post('/login', async(req, res) => {
 			});
 		}else{
 			res.status(400).render('user/login',{
-				error: "internal server error"
+				error: err
+				//error: "internal server error"
 			});
 		}
 	}
