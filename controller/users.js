@@ -16,17 +16,13 @@ router.post('/register', async(req, res) => {
 	  
 		if (!name || !code || !mail || !pass || !pass2) {
 			throw {name : "regError", message : "Datos incompletos"};
-		}
-		if (pass != pass2) {
+		}else if (pass != pass2) {
 			throw {name : "regError", message : "Las contraseñas no concuerdan"};
-		}
-		if (pass.length < 6) {
+		}else if (pass.length < 6) {
 			throw {name : "regError", message : "La contraseña debe ser de al menos 6 de longitud"};
-		}
-		if (code.length < 7) {
+		}else if (code.length < 7) {
 			throw {name : "regError", message : "El codigo debe ser de al menos 7 de longitud"};
-		}
-		if (!mail.endsWith("@ufps.edu.co")){
+		}else if (!mail.endsWith("@ufps.edu.co")){
 			throw {name : "regError", message : "el correo debe ser de la UFPS"};
 		}
 
@@ -51,7 +47,6 @@ router.post('/register', async(req, res) => {
 		res.status(200).render('user/login',{
 			success: "se ha registrado correctamente"
 		});
-
 	}catch(err){
 		if(err.name == "SequelizeUniqueConstraintError"){
 			res.status(400).render('user/register',{
@@ -95,21 +90,15 @@ router.post('/login', async(req, res) => {
 
 		var user = result[0].dataValues;
   
-          // Match password
-            var passwaord = bcrypt.compare(req.body.pass, user.PASWORD, (err, isMatch) => {
-				if (err) throw err;
-				
-                if (isMatch) {
-                    return true;
-                } else {
-                    throw {name : "loginError", message : "Usuario o contraseña incorrecto"};
-                }
-            });
+		// Match password
+		const password = await compareAsync(req.body.pass, user.PASWORD);
 
-		res.status(200).render('index',{
-			selected: 'normal',
-			user: user
-		});
+		if(!password){
+			throw {name : "loginError", message : "Usuario o contraseña incorrecto"};	
+		}
+
+		req.session.user = user;
+		res.redirect('/index');
 	}catch(err){
 		if(err.name == "loginError"){
 			res.status(400).render('user/login',{
@@ -122,6 +111,18 @@ router.post('/login', async(req, res) => {
 		}
 	}
 });
+
+function compareAsync(param1, param2) {
+    return new Promise(function(resolve, reject) {
+        bcrypt.compare(param1, param2, function(err, res) {
+            if (err) {
+                 reject(err);
+            } else {
+                 resolve(res);
+            }
+        });
+    });
+}
 
 router.get('/login', async(req, res) => {
 	try{

@@ -8,6 +8,13 @@ app.set('view engine','ejs');
 app.set('views', path.join(__dirname, 'views/ejs'));
 
 //Middleware-open
+app.use(session({
+    secret: 'uwu',
+    resave: false,
+	saveUninitialized: true,
+	cookie: { maxAge: 3600000 }
+}))
+
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 app.use(express.static(path.join(__dirname, 'views/css')));
