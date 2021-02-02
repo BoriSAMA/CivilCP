@@ -96,9 +96,11 @@ router.post('/login', async(req, res) => {
 		if(!password){
 			throw {name : "loginError", message : "Usuario o contraseña incorrecto"};	
 		}
-
-		req.session.user = user;
-		res.redirect('/index');
+		req.session.user= user;
+		res.status(200).render('index',{
+			selected: 'normal',
+			user: req.session.user
+		});
 	}catch(err){
 		if(err.name == "loginError"){
 			res.status(400).render('user/login',{
@@ -106,8 +108,7 @@ router.post('/login', async(req, res) => {
 			});
 		}else{
 			res.status(400).render('user/login',{
-				error: err
-				//error: "internal server error"
+				error: "internal server error"
 			});
 		}
 	}
@@ -128,6 +129,15 @@ function compareAsync(param1, param2) {
 router.get('/login', async(req, res) => {
 	try{
 		res.status(200).render('user/login');
+	}catch(err){
+        res.status(500).json({message:"internal server error"});
+	}
+});
+
+router.get('/logout', async(req, res) => {
+	try{
+		req.session.destroy();
+		res.redirect('login');
 	}catch(err){
         res.status(500).json({message:"internal server error"});
 	}

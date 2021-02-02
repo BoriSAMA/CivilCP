@@ -1,6 +1,10 @@
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
+var sequelize = require('./connection');
+const auth = require('./authenticate');
+var SequelizeStore = require("connect-session-sequelize")(session.Store);
+
 
 var app = express();
 
@@ -8,12 +12,22 @@ app.set('view engine','ejs');
 app.set('views', path.join(__dirname, 'views/ejs'));
 
 //Middleware-open
-app.use(session({
-    secret: 'uwu',
-    resave: false,
-	saveUninitialized: true,
-	cookie: { maxAge: 3600000 }
-}))
+var myUser = new SequelizeStore({
+	db: sequelize,
+	tableName: 'session',
+	checkExpirationInterval: 30 * 60 * 1000,
+	expiration: 2 * 60 * 60 * 1000 
+});
+
+// configure express
+app.use(
+	session({
+	  secret: "uwu",
+	  store: myUser,
+	  resave: false,
+	  saveUninitialized: false
+	})
+);
 
 app.use(express.static(path.join(__dirname, 'bower_components')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
@@ -28,6 +42,9 @@ app.use(express.json());
 //routes start
 const userRoute = require('./controller/users');
 app.use('/user', userRoute);
+
+//custom middleware to comprobate if a user is logged
+app.use(auth);
 
 const groupRoute = require('./controller/groups');
 app.use('/group', groupRoute);

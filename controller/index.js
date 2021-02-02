@@ -2,12 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', function(req, res){
-    if(req.session.user){
-        res.status(200).render('index',{
-            selected: 'normal',
-            user: req.session.user
-        });
-    }
+    res.status(200).render('index',{
+        selected: 'normal',
+        user: req.session.user
+    });
 });
 
 router.get('/salary', function(req, res){
