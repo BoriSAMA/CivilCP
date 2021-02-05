@@ -9,9 +9,7 @@ router.get('/', function(req, res){
 });
 
 router.get('/salary', function(req, res){
-	res.status(200).render('index',{
-        selected: 'salary'
-    });
+    res.redirect("/salary/all");
 });
 
 router.get('/charac', function(req, res){

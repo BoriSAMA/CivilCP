@@ -1,5 +1,4 @@
 module.exports = function authenticate(req, res, next) {
-    console.log(req.session.user);
     if(typeof req.session.user !== 'undefined'){
         next();
     }else{

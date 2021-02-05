@@ -11,7 +11,6 @@ var User = require('../model/user')(sequelize, DataTypes);
 //register
 router.post('/register', async(req, res) => {
 	try{
-		console.log(req.body);
 		var { name, code, mail, pass, pass2 } = req.body;
 
 		if (!name || !code || !mail || !pass || !pass2) {

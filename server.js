@@ -40,6 +40,10 @@ app.use(express.json());
 //Middleware-close
 
 //routes start
+app.get('/', function(req, res){
+	res.render('user/login');
+});
+
 const userRoute = require('./controller/users');
 app.use('/user', userRoute);
 
@@ -73,10 +77,6 @@ app.use('/worker', workerRoute);
 const indexRoute = require('./controller/index');
 app.use('/index', indexRoute);
 //routes finish
-
-app.get('/', function(req, res){
-	res.render('user/login');
-});
 
 app.listen(1337, function(){
 	var date = new Date();

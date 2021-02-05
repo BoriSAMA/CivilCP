@@ -1,20 +1,16 @@
 {
   "name": "construprojects",
-  "description": "",
+  "description": "Bower packages for the ptoject",
   "main": "server.js",
   "authors": [
     "BAMA",
     "JAAP"
   ],
   "license": "ISC",
-  "keywords": [
-    "uwu",
-    "awa",
-    "owo"
-  ],
   "homepage": "",
   "dependencies": {
     "bootstrap": "^4.6.0",
+    "jquery-ui": "^1.12.1",
     "jquery": "^3.5.1",
     "select2": "^4.0.13"
   }

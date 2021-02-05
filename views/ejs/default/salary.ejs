@@ -1,356 +1,452 @@
 <main>
     <div class="container-fluid">
       <div class="row">
-        <div class="col-xl-6 mt-4">
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-money-bill-wave mr-1"></i>
-                    Salarios
-                </div>
-                <div class="card ml-2 mt-2 mr-2">
-                      <div class="card-body">
-                        <div class="form-row">
-                          <div class="col-md-6">
-                            <label class="py-2" for="mul">Multiplicador</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="mul" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="vsm">V.S.M</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="vsm" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="stp">S.T.P</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="stp" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <a class="btn btn-primary btn-block" href="#">Calcular</a>
-                          </div>
-                          <div class="col-md-6">
-                            <a class="btn btn-primary btn-block" href="#">Comparar</a>
-                          </div>
-                        </div>
-                      </div>
-                </div>
-                <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="card ml-2 mt-2">
-                      <div class="card-header">
-                        Prestaciones Sociales
-                      </div>
-                      <div class="card-body">
-                        <div class="form-row">
-                          <div class="col-md-6">
-                            <label class="py-2" for="ca">C.A</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="ca" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="tsc">T.S.C</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="tsc" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="pri">Prima</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="pri" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="vac">Vacaciones</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="vac" type="text" placeholder="###" disabled/>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="card mt-2 mr-2">
-                      <div class="card-header">
-                        Aportes Parafiscales
-                      </div>
-                      <div class="card-body">
-                        <div class="form-row">
-                          <div class="col-md-6">
-                            <label class="py-2" for="sena">SENA</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="sena" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="icbf">ICBF</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="icbf" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="ccf">C.C.F</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="ccf" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="fic">F.I.C</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="fic" type="text" placeholder="###" disabled/>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="card ml-2 mt-2">
-                      <div class="card-header">
-                        Seguridad Social
-                      </div>
-                      <div class="card-body">
-                        <div class="form-row">
-                          <div class="col-md-6">
-                            <label class="py-2" for="pen">Pensión</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="pen" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="salu">Salud</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="salu" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="arl">ARL</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="arl" type="text" placeholder="###" disabled/>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="card mt-2 mr-2">
-                      <div class="card-header">
-                        Dotación
-                      </div>
-                      <div class="card-body">
-                        <div class="form-row">
-                          <div class="col-md-6">
-                            <label class="py-2" for="dot">Dotación</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="dot" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="is">I.S</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="is" type="text" placeholder="###" disabled/>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card ml-2 mb-2 mt-2 mr-2">
-                  <a class="btn btn-primary btn-block" href="#">Aceptar</a>
-                  <a class="btn btn-primary btn-block" href="#">Calcular Horas Efectivas</a>
-                </div>
-            </div>
+        <div id="message">
+          <%- include ("../partials/messages"); %>
         </div>
+        <div class="col-xl-12 mt-4">
+          <div class="card mb-4">
+              <div class="card-header">
+                  <i class="fas fa-table mr-1"></i>
+                  Salarios a Emplear
+              </div>
+              <div class="card ml-2 mb-2 mt-2 mr-2">
+                <div class="table-responsive">
+                  <!--id="makeEditable"-->
+                    <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                        <thead class="table-secondary">
+                              <tr>
+                                  <th class="align-middle" width="5%">#</th>
+                                  <th class="align-middle" width="15%">Multiplicador</th>
+                                  <th class="align-middle" width="30%">Valor</th>
+                                  <th class="align-middle" width="30%">Valor Hora Efectiva</th>
+                                  <th class="text-center" width="20%">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                                      <i class="fa fa-plus" aria-hidden="true"></i>
+                                      Añadir salario
+                                    </button>
+                                  </th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <%if(salaries.length > 0) { -%>
+                              <%for(var i = 0; i < salaries.length; i++) { -%>
+                                <tr>
+                                    <td><%= i + 1%></td>
+                                    <td><%=salaries[i].MULTIPLIER %></td>
+                                    <td><%=salaries[i].VALUE %></td>
+                                    <%if(typeof salaries[i].HOURLY_VALUE !== 'undefined') { -%>
+                                      <td><%=salaries[i].HOURLY_VALUE %></td>
+                                    <%}else{%>
+                                      <td>Por definir</td>
+                                    <%}%>
+                                    <td>
+                                      <div class="row mw-100 m-0">
+                                        <div class="col">
+                                          <button class="w-100 btn btn-primary" onclick="updSalary('<%=salaries[i].ID %>')">
+                                            <i class="fa fa-pen" aria-hidden="true"></i>
+                                          </button>
+                                        </div>
+                                        <div class="col">
+                                          <button class="w-100 btn btn-danger" onclick="delSalary('<%=salaries[i].ID %>')">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                          </button>
+                                        </div>      
+                                      </div>
+                                                                      
+                                    </td>
+                                </tr>
+                              <%}%>
+                            <%}else{%>
+                              <td colspan="5"><h4 class="text-center Normal weight text">Aun no se han añadido salarios</h4></td>
+                            <%}%>  
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div id="information">
+        <div class="row">
           <div class="col-xl-6 mt-4">
               <div class="card mb-4">
                   <div class="card-header">
-                      <i class="fas fa-clock mr-1"></i>
-                      Calculo de Horas Efectivas
+                      <i class="fas fa-money-bill-wave mr-1"></i>
+                      Salarios
                   </div>
                   <div class="card ml-2 mt-2 mr-2">
-                    <div class="card-body">
-                      <div class="form-row">
-                        <div class="col-md-6">
-                          <label class="py-2" for="smcp">Salario Mensual C.P</label>
+                        <div class="card-body">
+                          <form>
+                            <div class="form-row">
+                              <div class="col-md-6">
+                                <label class="py-2" for="mul1">Multiplicador</label>
+                              </div>
+                              <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                  <div class="input-group-prepend">
+                                    <span class="input-group-text" id="basic-addon1">x</span>
+                                  </div>
+                                  <input class="form-control py-2" id="mul1" type="number" name="mult" aria-describedby="basic-addon1">
+                                </div>
+                              </div>
+  
+                              <div class="col-md-6">
+                                <label class="py-2" for="vsm1" data-toggle="tooltip" data-placement="right" title="Valor del salario mensual">
+                                  <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                  V.S.M.
+                                </label>
+                              </div>
+  
+                              <div class="col-md-6">
+                                <input class="form-control py-2" id="vsm1" type="number" name="val" placeholder=""/>
+                              </div>
+  
+                              <div class="col-md-6">
+                                <label class="py-2" for="stp1" data-toggle="tooltip" data-placement="right" title="Subsidio de transporte">
+                                  <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                  S.T.P.
+                                </label>
+                              </div>
+  
+                              <div class="col-md-6">
+                                <input class="form-control py-2" id="stp1" type="number" name="tran" placeholder=""/>
+                              </div>
+                            </div>
+                          </form>
                         </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="smcp" type="text" placeholder="###" disabled/>
+                  </div>
+                  <div class="form-row">
+                    <div class="col-md-6">
+                      <div class="card ml-2 mt-2">
+                        <div class="card-header">
+                          Prestaciones Sociales
                         </div>
-                        <div class="col-md-6">
-                          <label class="py-2" for="sacp">Salario Anual C.P</label>
+                        <div class="card-body">
+                          <div class="form-row">
+                            <div class="col-md-6">
+                              <label class="py-2" for="ca"  data-toggle="tooltip" data-placement="right" title="Cesantias anuales">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                C.A
+                              </label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="ca" type="text" placeholder="###" disabled/>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="py-2" for="tsc"  data-toggle="tooltip" data-placement="right" title="Intereses sobre cesantias">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                I.S.C
+                              </label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="tsc" type="text" placeholder="###" disabled/>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="py-2" for="pri">Prima</label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="pri" type="text" placeholder="###" disabled/>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="py-2" for="vac">Vacaciones</label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="vac" type="text" placeholder="###" disabled/>
+                            </div>
+                          </div>
                         </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="sacp" type="text" placeholder="###" disabled/>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="card mt-2 mr-2">
+                        <div class="card-header">
+                          Aportes Parafiscales
+                        </div>
+                        <div class="card-body">
+                          <div class="form-row">
+                            <div class="col-md-6">
+                              <label class="py-2" for="sena">SENA</label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="sena" type="text" placeholder="###" disabled/>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="py-2" for="icbf">ICBF</label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="icbf" type="text" placeholder="###" disabled/>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="py-2" for="ccf" data-toggle="tooltip" data-placement="right" title="Caja de compensacion familiar">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                C.C.F
+                              </label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="ccf" type="text" placeholder="###" disabled/>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="py-2" for="fic" data-toggle="tooltip" data-placement="right" title="Fondo de Formación Profesional de la Industria de la Construcción">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                F.I.C
+                              </label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="fic" type="text" placeholder="###" disabled/>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="card ml-2 mt-2 mr-2">
-                    <div class="card-body">
-                      <div class="form-row">
-                        <div class="col-md-6">
-                          <label class="py-2" for="hca">Horas Calendario Anuales</label>
+                  <div class="form-row">
+                    <div class="col-md-6">
+                      <div class="card ml-2 mt-2">
+                        <div class="card-header">
+                          Seguridad Social
                         </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="hca" type="text" placeholder="###" disabled/>
-                        </div>
-                        <div class="col-md-6">
-                          <label class="py-2" for="hea">Horas Efectivas Anuales</label>
-                        </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="hea" type="text" placeholder="###" disabled/>
-                        </div>
-                        <div class="col-md-6">
-                          <label class="py-2" for="hl">Horas Laborales</label>
-                        </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="hl" type="text" placeholder="###" disabled/>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="card ml-2 mt-2 mr-2">
-                    <div class="card-body">
-                      <div class="form-row">
-                        <div class="col-md-6">
-                          <label class="py-2" for="vhc">Valor Hora Calendario</label>
-                        </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="vhc" type="text" placeholder="###" disabled/>
-                        </div>
-                        <div class="col-md-6">
-                          <label class="py-2" for="vhe">Valor Hora Efectiva</label>
-                        </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="vhe" type="text" placeholder="###" disabled/>
-                        </div>
-                        <div class="col-md-6">
-                          <label class="py-2" for="vhl">Valor Hora Laboral</label>
-                        </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="vhl" type="text" placeholder="###" disabled/>
+                        <div class="card-body">
+                          <div class="form-row">
+                            <div class="col-md-6">
+                              <label class="py-2" for="pen">Pensión</label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="pen" type="text" placeholder="###" disabled/>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="py-2" for="salu">Salud</label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="salu" type="text" placeholder="###" disabled/>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="py-2" for="arl"data-toggle="tooltip" data-placement="right" title="Administradora de riesgos laborales">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                ARL
+                              </label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="arl" type="text" placeholder="###" disabled/>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="card ml-2 mt-2 mr-2">
-                    <div class="card-body">
-                      <div class="form-row">
-                        <div class="col-md-6">
-                          <label class="py-2" for="pi">Porcentaje de Incremento</label>
+                    <div class="col-md-6">
+                      <div class="card mt-2 mr-2">
+                        <div class="card-header">
+                          Dotación
                         </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="pi" type="text" placeholder="###" disabled/>
-                        </div>
-                        <div class="col-md-6">
-                          <label class="py-2" for="vhe2">Valor Hora Efectiva</label>
-                        </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="vhe2" type="text" placeholder="###" disabled/>
-                        </div>
-                        <div class="col-md-6">
-                          <label class="py-2" for="vhl2">Valor Hora Laboral</label>
-                        </div>
-                        <div class="col-md-6">
-                          <input class="form-control py-2" id="vhl2" type="text" placeholder="###" disabled/>
+                        <div class="card-body">
+                          <div class="form-row">
+                            <div class="col-md-6">
+                              <label class="py-2" for="dot">Dotación</label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="dot" type="text" placeholder="###" disabled/>
+                            </div>
+                            <div class="col-md-6">
+                              <label class="py-2" for="is"data-toggle="tooltip" data-placement="right" title="Implmentaion de seguridad industrial">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                I.S
+                              </label>
+                            </div>
+                            <div class="col-md-6">
+                              <input class="form-control py-2" id="is" type="text" placeholder="###" disabled/>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div class="card ml-2 mb-2 mt-2 mr-2">
-                    <a class="btn btn-primary btn-block" id="agg">Agregar</a>
+                    <a class="btn btn-primary btn-block" id="agg">Agregar informacion</a>
                   </div>
               </div>
           </div>
-          <div class="col-xl-12 mt-4">
-              <div class="card mb-4">
-                  <div class="card-header">
-                      <i class="fas fa-table mr-1"></i>
-                      Salarios a Emplear
-                  </div>
-                  <div class="card ml-2 mb-2 mt-2 mr-2">
-                    <div class="table-responsive">
-                        <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                            <thead class="table-secondary">
-                                  <tr>
-                                      <th>#</th>
-                                      <th>F.M</th>
-                                      <th>Valor</th>
-                                      <th>Valor Hora Efectiva</th>
-                                  </tr>
-                              </thead>
-                              <tfoot>
-                                  <tr>
-                                      <th>#</th>
-                                      <th>F.M</th>
-                                      <th>Valor</th>
-                                      <th>Valor Hora Efectiva</th>
-                                      <th></th>
-                                  </tr>
-                              </tfoot>
-                              <tbody>
-                                  <tr>
-                                      <td>#</td>
-                                      <td>1.2</td>
-                                      <td>###</td>
-                                      <td>###</td>
-                                  </tr>
-                                  <tr>
-                                      <td>#</td>
-                                      <td>1.2</td>
-                                      <td>###</td>
-                                      <td>###</td>
-                                  </tr>
-                                  <tr>
-                                      <td>#</td>
-                                      <td>1.2</td>
-                                      <td>###</td>
-                                      <td>###</td>
-                                  </tr>
-                                  <tr>
-                                      <td>#</td>
-                                      <td>1.2</td>
-                                      <td>###</td>
-                                      <td>###</td>
-                                  </tr>
-                                  <tr>
-                                      <td>#</td>
-                                      <td>1.2</td>
-                                      <td>###</td>
-                                      <td>###</td>
-                                  </tr>
-                                  <tr>
-                                      <td>#</td>
-                                      <td>1.2</td>
-                                      <td>###</td>
-                                      <td>###</td>
-                                  </tr>
-                                  <tr>
-                                      <td>#</td>
-                                      <td>1.2</td>
-                                      <td>###</td>
-                                      <td>###</td>
-                                  </tr>
-                                  <tr>
-                                      <td>#</td>
-                                      <td>1.2</td>
-                                      <td>###</td>
-                                      <td>###</td>
-                                  </tr>
-                              </tbody>
-                          </table>
+            <div class="col-xl-6 mt-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-clock mr-1"></i>
+                        Calculo de Horas Efectivas
+                    </div>
+                    <div class="card ml-2 mt-2 mr-2">
+                      <div class="card-body">
+                        <div class="form-row">
+                          <div class="col-md-6">
+                            <label class="py-2" for="smcp"data-toggle="tooltip" data-placement="right" title="Salario mensual con subsidio de transporte">
+                              <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                              Salario Mensual 
+                            </label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="smcp" type="text" placeholder="###" disabled/>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="py-2" for="sacp"data-toggle="tooltip" data-placement="right" title="Salario aual con subsidio de transporte">
+                              <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                              Salario Anual
+                            </label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="sacp" type="text" placeholder="###" disabled/>
+                          </div>
+                        </div>
                       </div>
-                  </div>
-              </div>
-          </div>
+                    </div>
+                    <div class="card ml-2 mt-2 mr-2">
+                      <div class="card-body">
+                        <div class="form-row">
+                          <div class="col-md-6">
+                            <label class="py-2" for="hca">Horas Calendario Anuales</label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="hca" type="text" placeholder="###" disabled/>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="py-2" for="hl">Horas Laborales Anuales</label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="hl" type="text" placeholder="###" disabled/>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="py-2" for="hea">Horas Efectivas Anuales</label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="hea" type="text" placeholder="###" disabled/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card ml-2 mt-2 mr-2">
+                      <div class="card-body">
+                        <div class="form-row">
+                          <div class="col-md-6">
+                            <label class="py-2" for="vhc">Valor Hora Calendario</label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="vhc" type="text" placeholder="###" disabled/>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="py-2" for="vhe">Valor Hora Efectiva</label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="vhe" type="text" placeholder="###" disabled/>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="py-2" for="vhl">Valor Hora Laboral</label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="vhl" type="text" placeholder="###" disabled/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card ml-2 mt-2 mr-2">
+                      <div class="card-body">
+                        <div class="form-row">
+                          <div class="col-md-6">
+                            <label class="py-2" for="pi">Porcentaje de Incremento</label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="pi" type="text" placeholder="###" disabled/>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="py-2" for="vhe2">Valor Hora Efectiva</label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="vhe2" type="text" placeholder="###" disabled/>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="py-2" for="vhl2">Valor Hora Laboral</label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="vhl2" type="text" placeholder="###" disabled/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card ml-2 mb-2 mt-2 mr-2">
+                      <a class="btn btn-primary btn-block" href="#">Calcular Horas Efectivas</a>
+                    </div>
+                </div>
+            </div>
+        </div>
       </div>
     </div>
+
+     <!-- Modal add-->
+  <div class="modal fade" id="addModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal2-title" id="exampleModalLongTitle">Añadir salario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="col-md-6">
+              <label class="py-2" for="mul">Multiplicador</label>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">x</span>
+                </div>
+                <input class="form-control py-2" id="mul" type="number" name="mult" aria-describedby="basic-addon1">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="py-2" for="vsm" data-toggle="tooltip" data-placement="right" title="Valor del salario mensual">
+                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                V.S.M.
+              </label>
+            </div>
+            <div class="col-md-6">
+              <input class="form-control py-2" id="vsm" type="number" name="val" placeholder=""/>
+            </div>
+            <div class="col-md-6">
+              <label class="py-2" for="stp" data-toggle="tooltip" data-placement="right" title="Subsidio de transporte">
+                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                S.T.P.
+              </label>
+            </div>
+            <div class="col-md-6">
+              <input class="form-control py-2" id="stp" type="number" name="tran" placeholder=""/>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="card w-100 mt-2">
+              <button class="btn btn-primary btn-block" type="button" onclick="regSalary()">
+                Guardar Salario
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal -->
+  <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>
