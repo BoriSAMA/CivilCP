@@ -34,16 +34,16 @@
                                 <tr>
                                     <td><%= i + 1%></td>
                                     <td><%=salaries[i].MULTIPLIER %></td>
-                                    <td><%=salaries[i].VALUE %></td>
-                                    <%if(typeof salaries[i].HOURLY_VALUE !== 'undefined') { -%>
-                                      <td><%=salaries[i].HOURLY_VALUE %></td>
+                                    <td>$<%=salaries[i].VALUE %></td>
+                                    <%if(salaries[i].HOURLY_VALUE !== 0) { -%>
+                                      <td>$<%=salaries[i].HOURLY_VALUE %></td>
                                     <%}else{%>
                                       <td>Por definir</td>
                                     <%}%>
                                     <td>
                                       <div class="row mw-100 m-0">
                                         <div class="col">
-                                          <button class="w-100 btn btn-primary" onclick="updSalary('<%=salaries[i].ID %>')">
+                                          <button class="w-100 btn btn-primary" onclick="initSalary('<%=salaries[i].ID %>')">
                                             <i class="fa fa-pen" aria-hidden="true"></i>
                                           </button>
                                         </div>
@@ -67,7 +67,7 @@
           </div>
         </div>
       </div>
-      <div id="information">
+      <div id="information" hidden>
         <div class="row">
           <div class="col-xl-6 mt-4">
               <div class="card mb-4">
@@ -87,7 +87,7 @@
                                   <div class="input-group-prepend">
                                     <span class="input-group-text" id="basic-addon1">x</span>
                                   </div>
-                                  <input class="form-control py-2" id="mul1" type="number" name="mult" aria-describedby="basic-addon1">
+                                  <input class="form-control py-2" id="mul1" type="number" name="mult" aria-describedby="basic-addon1" disabled>
                                 </div>
                               </div>
   
@@ -99,7 +99,7 @@
                               </div>
   
                               <div class="col-md-6">
-                                <input class="form-control py-2" id="vsm1" type="number" name="val" placeholder=""/>
+                                <input class="form-control py-2" id="vsm1" type="text" data-type="currency"/>
                               </div>
   
                               <div class="col-md-6">
@@ -110,7 +110,7 @@
                               </div>
   
                               <div class="col-md-6">
-                                <input class="form-control py-2" id="stp1" type="number" name="tran" placeholder=""/>
+                                <input class="form-control py-2" id="stp1" type="text" data-type="currency"/>
                               </div>
                             </div>
                           </form>
@@ -131,7 +131,7 @@
                               </label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="ca" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="ca" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
                               <label class="py-2" for="tsc"  data-toggle="tooltip" data-placement="right" title="Intereses sobre cesantias">
@@ -140,19 +140,19 @@
                               </label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="tsc" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="tsc" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
                               <label class="py-2" for="pri">Prima</label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="pri" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="pri" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
                               <label class="py-2" for="vac">Vacaciones</label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="vac" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="vac" type="text" disabled/>
                             </div>
                           </div>
                         </div>
@@ -169,13 +169,13 @@
                               <label class="py-2" for="sena">SENA</label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="sena" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="sena" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
                               <label class="py-2" for="icbf">ICBF</label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="icbf" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="icbf" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
                               <label class="py-2" for="ccf" data-toggle="tooltip" data-placement="right" title="Caja de compensacion familiar">
@@ -184,7 +184,7 @@
                               </label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="ccf" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="ccf" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
                               <label class="py-2" for="fic" data-toggle="tooltip" data-placement="right" title="Fondo de Formación Profesional de la Industria de la Construcción">
@@ -193,7 +193,7 @@
                               </label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="fic" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="fic" type="text" disabled/>
                             </div>
                           </div>
                         </div>
@@ -212,13 +212,13 @@
                               <label class="py-2" for="pen">Pensión</label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="pen" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="pen" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
                               <label class="py-2" for="salu">Salud</label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="salu" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="salu" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
                               <label class="py-2" for="arl"data-toggle="tooltip" data-placement="right" title="Administradora de riesgos laborales">
@@ -227,7 +227,7 @@
                               </label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="arl" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="arl" type="text" disabled/>
                             </div>
                           </div>
                         </div>
@@ -244,7 +244,7 @@
                               <label class="py-2" for="dot">Dotación</label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="dot" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="dot" type="text" data-type="currency"/>
                             </div>
                             <div class="col-md-6">
                               <label class="py-2" for="is"data-toggle="tooltip" data-placement="right" title="Implmentaion de seguridad industrial">
@@ -253,7 +253,7 @@
                               </label>
                             </div>
                             <div class="col-md-6">
-                              <input class="form-control py-2" id="is" type="text" placeholder="###" disabled/>
+                              <input class="form-control py-2" id="is" type="text" data-type="currency"/>
                             </div>
                           </div>
                         </div>
@@ -261,7 +261,7 @@
                     </div>
                   </div>
                   <div class="card ml-2 mb-2 mt-2 mr-2">
-                    <a class="btn btn-primary btn-block" id="agg">Agregar informacion</a>
+                    <button class="btn btn-primary btn-block" type="button" id="agg">Actualizar salario</button>
                   </div>
               </div>
           </div>
@@ -281,7 +281,7 @@
                             </label>
                           </div>
                           <div class="col-md-6">
-                            <input class="form-control py-2" id="smcp" type="text" placeholder="###" disabled/>
+                            <input class="form-control py-2" id="smcp" type="text" disabled/>
                           </div>
                           <div class="col-md-6">
                             <label class="py-2" for="sacp"data-toggle="tooltip" data-placement="right" title="Salario aual con subsidio de transporte">
@@ -290,7 +290,7 @@
                             </label>
                           </div>
                           <div class="col-md-6">
-                            <input class="form-control py-2" id="sacp" type="text" placeholder="###" disabled/>
+                            <input class="form-control py-2" id="sacp" type="text" disabled/>
                           </div>
                         </div>
                       </div>
@@ -302,19 +302,19 @@
                             <label class="py-2" for="hca">Horas Calendario Anuales</label>
                           </div>
                           <div class="col-md-6">
-                            <input class="form-control py-2" id="hca" type="text" placeholder="###" disabled/>
+                            <input class="form-control py-2" id="hca" type="number"/>
                           </div>
                           <div class="col-md-6">
                             <label class="py-2" for="hl">Horas Laborales Anuales</label>
                           </div>
                           <div class="col-md-6">
-                            <input class="form-control py-2" id="hl" type="text" placeholder="###" disabled/>
+                            <input class="form-control py-2" id="hl" type="number"/>
                           </div>
                           <div class="col-md-6">
                             <label class="py-2" for="hea">Horas Efectivas Anuales</label>
                           </div>
                           <div class="col-md-6">
-                            <input class="form-control py-2" id="hea" type="text" placeholder="###" disabled/>
+                            <input class="form-control py-2" id="hea" type="number"/>
                           </div>
                         </div>
                       </div>
@@ -326,19 +326,19 @@
                             <label class="py-2" for="vhc">Valor Hora Calendario</label>
                           </div>
                           <div class="col-md-6">
-                            <input class="form-control py-2" id="vhc" type="text" placeholder="###" disabled/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="vhe">Valor Hora Efectiva</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="vhe" type="text" placeholder="###" disabled/>
+                            <input class="form-control py-2" id="vhc" type="text" disabled/>
                           </div>
                           <div class="col-md-6">
                             <label class="py-2" for="vhl">Valor Hora Laboral</label>
                           </div>
                           <div class="col-md-6">
-                            <input class="form-control py-2" id="vhl" type="text" placeholder="###" disabled/>
+                            <input class="form-control py-2" id="vhl" type="text" disabled/>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="py-2" for="vhe">Valor Hora Efectiva</label>
+                          </div>
+                          <div class="col-md-6">
+                            <input class="form-control py-2" id="vhe" type="text" disabled/>
                           </div>
                         </div>
                       </div>
@@ -350,25 +350,25 @@
                             <label class="py-2" for="pi">Porcentaje de Incremento</label>
                           </div>
                           <div class="col-md-6">
-                            <input class="form-control py-2" id="pi" type="text" placeholder="###" disabled/>
+                            <input class="form-control py-2" id="pi" type="number"/>
                           </div>
                           <div class="col-md-6">
                             <label class="py-2" for="vhe2">Valor Hora Efectiva</label>
                           </div>
                           <div class="col-md-6">
-                            <input class="form-control py-2" id="vhe2" type="text" placeholder="###" disabled/>
+                            <input class="form-control py-2" id="vhe2" type="number"/>
                           </div>
                           <div class="col-md-6">
                             <label class="py-2" for="vhl2">Valor Hora Laboral</label>
                           </div>
                           <div class="col-md-6">
-                            <input class="form-control py-2" id="vhl2" type="text" placeholder="###" disabled/>
+                            <input class="form-control py-2" id="vhl2" type="number"/>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="card ml-2 mb-2 mt-2 mr-2">
-                      <a class="btn btn-primary btn-block" href="#">Calcular Horas Efectivas</a>
+                      <button class="btn btn-primary btn-block" type="button" id="sav">Guardar Horas Efectivas</button>
                     </div>
                 </div>
             </div>
@@ -406,7 +406,7 @@
               </label>
             </div>
             <div class="col-md-6">
-              <input class="form-control py-2" id="vsm" type="number" name="val" placeholder=""/>
+              <input class="form-control py-2" id="vsm" type="text" data-type="currency"/>
             </div>
             <div class="col-md-6">
               <label class="py-2" for="stp" data-toggle="tooltip" data-placement="right" title="Subsidio de transporte">
@@ -415,7 +415,7 @@
               </label>
             </div>
             <div class="col-md-6">
-              <input class="form-control py-2" id="stp" type="number" name="tran" placeholder=""/>
+              <input class="form-control py-2" id="stp" type="text" data-type="currency"/>
             </div>
           </div>
         </div>

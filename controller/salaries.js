@@ -74,6 +74,19 @@ router.get('/all/', async(req, res) => {
 });
 
 //get one
+router.get('/mult/:id', async(req, res) => {
+	try{
+		const result = await sequelize.transaction(async (t) => {
+			const sal = await Salary.findOne({where: {MULTIPLIER: req.params.id}},{ transaction: t });
+			return sal;
+        });
+		res.status(200).json(result);
+	}catch(err){
+        res.status(500).json({name: "Error", message: "internal server error"});
+	}
+});
+
+//get one
 router.get('/:id', async(req, res) => {
 	try{
 		const result = await sequelize.transaction(async (t) => {
@@ -120,7 +133,7 @@ router.delete('/', async(req, res) => {
 });
 
 //Update
-router.patch('/', async(req, res) => {
+router.patch('/:id', async(req, res) => {
     try{
 		const result = await sequelize.transaction(async (t) => {
             const sal = await Salary.update({ 
@@ -136,7 +149,7 @@ router.patch('/', async(req, res) => {
                                 HOURLY_VALUE: req.body.hourly
                             },{
                                 where: {
-                                    ID: req.body.id
+                                    ID: req.params.id
                                 }
                             },{ transaction: t });
             return sal;
