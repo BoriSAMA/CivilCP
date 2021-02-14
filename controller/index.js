@@ -12,10 +12,8 @@ router.get('/salary', function(req, res){
     res.redirect("/salary/all");
 });
 
-router.get('/charac', function(req, res){
-	res.status(200).render('index',{
-        selected: 'charac'
-    });
+router.get('/char', function(req, res){
+    res.redirect("/group/all");
 });
 
 router.get('/gangs', function(req, res){

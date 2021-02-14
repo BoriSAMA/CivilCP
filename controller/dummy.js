@@ -58,11 +58,14 @@ router.get('/:userId', async(req,res) => {
 	}
 });
 
-//cambiar en init_models
-//models.chapter_group.hasMany(models.chapter, {foreignKey: 'ID_CHP_GRP'})
-//models.chapter.belongsTo(models.chapter_group, {foreignKey: 'ID'})
-//como popular el arreglo
-//await models.chapter.findAll({include: [models.chapter_group]},{ transaction: t });
+const ac = await sequelize.transaction(async (t) => {
+	const pg = await models.activity.findAll({include: {
+													model: models.activity_group,
+													include: {model: models.chapter_group}
+											  }
+											},{ transaction: t });
+	return pg;
+});
 
 
 //Delete

@@ -21,9 +21,9 @@ router.post('/', async(req, res) => {
 
         await sequelize.transaction(async (t) => {
             const sal = await Salary.create({
-                            VALUE: req.body.val,
-                            MULTIPLIER: req.body.mult,
-                            TRANSPORT_SUBSIDY: req.body.tran,
+                            VALUE: val,
+                            MULTIPLIER: mult,
+                            TRANSPORT_SUBSIDY: tran,
                             ENDOWMENT: 0,
                             SAFETY_EQUIPMENT: 0,
                             ANNUAL_CALENDAR_HOURS: 0,

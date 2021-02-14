@@ -5,93 +5,158 @@ var sequelize = require('../connection');
 var initModels = require("../model/init-models");
 var models = initModels(sequelize);
 
-//submit a group
-router.post('/:name', async(req, res) => {
+//submit a chapter group
+router.post('/chp_grp/', async(req, res) => {
 	try{
-        var result;
-        var url = req.params.name;
-        console.log(url)
-        if(url == 'chp_grp'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.chapter_group.create({
-                                NAME: req.body.name,
-                                PREFIX: req.body.pref
-                            }, { transaction: t });
-                return pg;
-            });
-        }else if(url == 'chapter'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.chapter.create({
-                               NAME: req.body.name,
-                               ID_CHP_GRP: req.body.idchgr
-                           }, { transaction: t });
-               return pg;
-            });
-       }else if(url == 'act_grp'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.activity_group.create({
-                                NAME: req.body.name,
-                                PREFIX: req.body.pref,
-                                ID_CHP_GRP: req.body.idchgr
-                            }, { transaction: t });
+        console.log(req.body);
+        var {name, pref, idchgr, idacgr} = req.body;
 
-                return pg;
-            });
-        }else if(url == 'activity'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.activity.create({
-                                NAME: req.body.name,
-                                ID_ACT_GRP: req.body.idacgr
-                            }, { transaction: t });
+        if (!name || !pref) {
+			throw {name : "regError", message : "Datos incompletos"};
+		}
 
-                return pg;
-            });
-        }else{
-            throw {name : "BadError", message : "URL not found"};
-        }
-		console.log("pg created: "+ result.ID + " name: " + result.NAME);
-		res.status(200).json(result);
+        await sequelize.transaction(async (t) => {
+            const pg = await models.chapter_group.create({
+                            NAME: name,
+                            PREFIX: pref
+                        }, { transaction: t });
+            return pg;
+        });
+        
+        res.status(200).json({name: "Exito", message: "Se ha registrado el grupo de procesos"});
 	}catch(err){
-        if(err.name == "BadError"){
-            res.status(404).json({message:err.message});
-        }else{
-            res.status(500).json({message:"internal server error"});
-        }
+        if(err.name == "regError"){
+            res.status(400).json({name: "Error", message: err.message});
+		}else {
+            res.status(500).json({name: "Error", message: "internal server error"});
+		}
 	}
 });
 
-//get all
-router.get('/', async(req, res) => {
+//submit an activity group
+router.post('/act_grp/', async(req, res) => {
 	try{
-        var result;
+        var {name, pref, idchgr, idacgr} = req.body;
+
+        if (!name || !pref || !idchgr) {
+			throw {name : "regError", message : "Datos incompletos"};
+		}
+
+        await sequelize.transaction(async (t) => {
+            const pg = await models.activity_group.create({
+                            NAME: name,
+                            PREFIX: pref,
+                            ID_CHP_GRP: idchgr
+                        }, { transaction: t });
+
+            return pg;
+        });
+        
+        res.status(200).json({name: "Exito", message: "Se ha registrado el grupo de actividades"});
+	}catch(err){
+        if(err.name == "regError"){
+            res.status(400).json({name: "Error", message: err.message});
+		}else {
+            res.status(500).json({name: "Error", message: "internal server error"});
+		}
+	}
+});
+
+//submit an activity
+router.post('/activity/', async(req, res) => {
+	try{
+        var {name, pref, idchgr, idacgr} = req.body;
+
+        if (!name || !idacgr) {
+			throw {name : "regError", message : "Datos incompletos"};
+		}
+
+        await sequelize.transaction(async (t) => {
+            const pg = await models.activity.create({
+                            NAME: name,
+                            ID_ACT_GRP: idacgr
+                        }, { transaction: t });
+
+            return pg;
+        });
+        
+        res.status(200).json({name: "Exito", message: "Se ha registrado la actividad"});
+	}catch(err){
+        if(err.name == "regError"){
+            res.status(400).json({name: "Error", message: err.message});
+		}else {
+            res.status(500).json({name: "Error", message: "internal server error"});
+		}
+	}
+});
+
+
+//submit a chapter
+router.post('/chapter/', async(req, res) => {
+	try{
+        var {name, pref, idchgr, idacgr} = req.body;
+
+        if (!name || !idchgr) {
+			throw {name : "regError", message : "Datos incompletos"};
+		}
+
+        await sequelize.transaction(async (t) => {
+            const pg = await models.chapter.create({
+                           NAME: name,
+                           ID_CHP_GRP: idchgr
+                       }, { transaction: t });
+           return pg;
+        });
+
+        res.status(200).json({name: "Exito", message: "Se ha registrado el capitulo"});
+	}catch(err){
+        if(err.name == "regError"){
+            res.status(400).json({name: "Error", message: err.message});
+		}else {
+            res.status(500).json({name: "Error", message: "internal server error"});
+		}
+	}
+});
+
+
+//get all
+router.get('/all', async(req, res) => {
+    var array = [];
+	try{
 		const cg = await sequelize.transaction(async (t) => {
-			const pg = await models.chapter_group.findAll({ transaction: t });
+			const pg = await models.chapter_group.findAll({
+                                            order:[
+                                                ['ID', 'DESC']
+                                            ]}, { transaction: t });
 			return pg;
         });
         const ch = await sequelize.transaction(async (t) => {
-			const pg = await models.chapter.findAll({include: [models.chapter_group]},{ transaction: t });
+			const pg = await models.chapter.findAll({
+                                            order:[
+                                                ['ID_CHP_GRP', 'DESC']
+                                            ]}, { transaction: t });
 			return pg;
         });
         const ag = await sequelize.transaction(async (t) => {
-			const pg = await models.activity_group.findAll({include: [models.chapter_group]},{ transaction: t });
+			const pg = await models.activity_group.findAll({
+                                            order:[
+                                                ['ID_CHP_GRP', 'DESC']
+                                            ]}, { transaction: t });
 			return pg;
         });
         const ac = await sequelize.transaction(async (t) => {
-            const pg = await models.activity.findAll({include: {
-                                                            model: models.activity_group,
-                                                            include: {model: models.chapter_group}
-                                                      }
-                                                    },{ transaction: t });
+            const pg = await models.activity.findAll({
+                                            order:[
+                                                ['ID_ACT_GRP', 'DESC']
+                                            ]}, { transaction: t });
 			return pg;
         });
-
-        result = [cg, ch, ag, ac];
-
-		if(result == ""){
-			throw {name : "EmptyError", message : "No se encontro el objeto en la lista del usuario"};
-        }
-
-		res.status(500).json(result);
+        
+        //var result = [cg, ch, ag, ac];
+        console.log(cg)
+		res.status(200).render('index',{
+            selected: 'char'
+        });
 	}catch(err){
         if(err.name == "EmptyError"){
             res.status(400).json({message:err.message});
