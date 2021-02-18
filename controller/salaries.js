@@ -12,8 +12,8 @@ var Salary = require('../model/salary')(sequelize, DataTypes);
 router.post('/', async(req, res) => {
 	try{
 		var { mult, val, tran} = req.body;
-
-        if (!mult || !val || !tran) {
+        console.log();
+        if (!mult || !val || tran === "") {
 			throw {name : "regError", message : "Datos incompletos"};
 		}else if (mult < 1 || mult > 3) {
 			throw {name : "regError", message : "El multiplicador debe ser un numero entre 1 y 3"};

@@ -5,10 +5,13 @@ var sequelize = require('../connection');
 var initModels = require("../model/init-models");
 var models = initModels(sequelize);
 
+/**
+ * Submit methods
+ */
+//------------------------------------------------------------------------------------------------
 //submit a chapter group
 router.post('/chp_grp/', async(req, res) => {
 	try{
-        console.log(req.body);
         var {name, pref, idchgr, idacgr} = req.body;
 
         if (!name || !pref) {
@@ -61,231 +64,239 @@ router.post('/act_grp/', async(req, res) => {
 		}
 	}
 });
-
-//submit an activity
-router.post('/activity/', async(req, res) => {
-	try{
-        var {name, pref, idchgr, idacgr} = req.body;
-
-        if (!name || !idacgr) {
-			throw {name : "regError", message : "Datos incompletos"};
-		}
-
-        await sequelize.transaction(async (t) => {
-            const pg = await models.activity.create({
-                            NAME: name,
-                            ID_ACT_GRP: idacgr
-                        }, { transaction: t });
-
-            return pg;
-        });
-        
-        res.status(200).json({name: "Exito", message: "Se ha registrado la actividad"});
-	}catch(err){
-        if(err.name == "regError"){
-            res.status(400).json({name: "Error", message: err.message});
-		}else {
-            res.status(500).json({name: "Error", message: "internal server error"});
-		}
-	}
-});
-
-
-//submit a chapter
-router.post('/chapter/', async(req, res) => {
-	try{
-        var {name, pref, idchgr, idacgr} = req.body;
-
-        if (!name || !idchgr) {
-			throw {name : "regError", message : "Datos incompletos"};
-		}
-
-        await sequelize.transaction(async (t) => {
-            const pg = await models.chapter.create({
-                           NAME: name,
-                           ID_CHP_GRP: idchgr
-                       }, { transaction: t });
-           return pg;
-        });
-
-        res.status(200).json({name: "Exito", message: "Se ha registrado el capitulo"});
-	}catch(err){
-        if(err.name == "regError"){
-            res.status(400).json({name: "Error", message: err.message});
-		}else {
-            res.status(500).json({name: "Error", message: "internal server error"});
-		}
-	}
-});
-
-
+//------------------------------------------------------------------------------------------------
+/**
+ * Get methods
+ */
+//------------------------------------------------------------------------------------------------
 //get all
 router.get('/all', async(req, res) => {
-    var array = [];
 	try{
+        var array = {cg: [], ag: []};
 		const cg = await sequelize.transaction(async (t) => {
 			const pg = await models.chapter_group.findAll({
                                             order:[
-                                                ['ID', 'DESC']
-                                            ]}, { transaction: t });
-			return pg;
-        });
-        const ch = await sequelize.transaction(async (t) => {
-			const pg = await models.chapter.findAll({
-                                            order:[
-                                                ['ID_CHP_GRP', 'DESC']
+                                                ['ID', 'ASC']
                                             ]}, { transaction: t });
 			return pg;
         });
         const ag = await sequelize.transaction(async (t) => {
 			const pg = await models.activity_group.findAll({
                                             order:[
-                                                ['ID_CHP_GRP', 'DESC']
+                                                ['ID_CHP_GRP', 'ASC']
+                                            ],
+                                            include: [
+                                                models.chapter_group
                                             ]}, { transaction: t });
 			return pg;
         });
-        const ac = await sequelize.transaction(async (t) => {
-            const pg = await models.activity.findAll({
-                                            order:[
-                                                ['ID_ACT_GRP', 'DESC']
+        for (let i = 0; i < cg.length; i++) {
+            array.cg[i] = cg[i].dataValues;
+        }
+        for (let i = 0; i < ag.length; i++) {
+            array.ag[i] = ag[i].dataValues;
+            array.ag[i].chapter_group = array.ag[i].chapter_group.dataValues;
+        }
+
+        res.status(200).render('index',{
+            selected: 'char',
+            user: req.session.user,
+            groups: array
+        });
+	}catch(err){
+        res.status(200).render('index',{
+            selected: 'char',
+            user: req.session.user,
+            error: err,
+            groups: array
+        });
+	}
+});
+
+//get one chapter group
+router.get('/chp_grp/:id', async(req, res) => {
+	try{
+		const cg = await sequelize.transaction(async (t) => {
+			const pg = await models.chapter_group.findAll({
+                                            where: {
+                                                ID: req.params.id
+                                            }}, { transaction: t });
+			return pg;
+        });
+
+        if(result == ""){
+            throw {name : "EmptyError", message : "Grupo de procesos no encontrado"};
+        }
+
+        res.status(200).json(cg);
+	}catch(err){
+        if(err.name == "EmptyError"){
+            res.status(400).json({name: "Error", message: err.message});
+        }else{
+            res.status(500).json({name: "Error", message: "internal server error"});
+        }
+	}
+});
+
+//get one activity group
+router.get('/act_grp/:id', async(req, res) => {
+	try{
+        const ag = await sequelize.transaction(async (t) => {
+			const pg = await models.activity_group.findAll({
+                                            where: {
+                                                ID: req.params.id
+                                            },
+                                            include: [
+                                                models.chapter_group
                                             ]}, { transaction: t });
 			return pg;
         });
         
-        //var result = [cg, ch, ag, ac];
-        console.log(cg)
-		res.status(200).render('index',{
-            selected: 'char'
-        });
+        if(result == ""){
+            throw {name : "EmptyError", message : "Grupo de actividades no encontrado"};
+        }
+
+        res.status(200).json(cg);
 	}catch(err){
         if(err.name == "EmptyError"){
-            res.status(400).json({message:err.message});
+            res.status(400).json({name: "Error", message: err.message});
         }else{
-            res.status(500).json({message:"internal server error"});
+            res.status(500).json({name: "Error", message: "internal server error"});
         }
 	}
 });
 
-
-//Delete
-router.delete('/:name', async(req, res) => {
+//------------------------------------------------------------------------------------------------
+/**
+ * Delete methods
+ */
+//------------------------------------------------------------------------------------------------
+//Delete a chapter group
+router.delete('/chp_grp/:id', async(req, res) => {
 	try{
-        var result;
-        var url = req.params.name;
-        if(url == 'chp_grp'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.chapter_group.destroy({
-                                where: {
-                                    ID: req.body.id
-                                }
-                            }, { transaction: t });
-                return pg;
-            });
-        }else if(url == 'chapter'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.chapter.destroy({
-                                where: {
-                                    ID: req.body.id
-                                }
-                            },  { transaction: t });
-               return pg;
-            });
-       }else if(url == 'act_grp'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.activity_group.destroy({
-                                where: {
-                                    ID: req.body.id
-                                }
-                            }, { transaction: t });
-                return pg;
-            });
-        }else if(url == 'activity'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.activity.destroy({
-                                where: {
-                                    ID: req.body.id
-                                }
-                            }, { transaction: t });
-                return pg;
-            });
-        }else{
-            throw {name : "BadError", message : "URL not found"};
+        const result = await sequelize.transaction(async (t) => {
+            const pg = await models.chapter_group.destroy({
+                            where: {
+                                ID: req.params.id
+                            }
+                        }, { transaction: t });
+            return pg;
+        });
+        
+		if(result == 0){
+			throw {name : "MatchError", message : "No se encontro"}; 
         }
-		console.log("pg deleted: "+ result.ID + " name: " + result.NAME);
-		res.status(200).json(result);
+
+		res.status(200).json({name: "Exito", message: "Se ha eliminado el grupo de procesos correctamente"});
 	}catch(err){
-        if(err.name == "BadError"){
-            res.status(404).json({message:err.message});
-        }else{
-            res.status(500).json({message:"internal server error"});
+        if(err.name == "MatchError"){
+            res.status(400).json({name: "Error", message: err.message});
+        }else if(err.name == "SequelizeForeignKeyConstraintError"){
+            res.status(400).json({name: "Error", message:"No se pueden eliminar grupos de procesos referenciados por otras caracterizaciones"});
+        }else {
+            res.status(500).json({name: "Error", message:"internal server error"});
         }
 	}
 });
 
-//Update
-router.patch('/:name', async(req, res) => {
+//Delete an activity group
+router.delete('/act_grp/:id', async(req, res) => {
 	try{
-        var result;
-        var url = req.params.name;
-        if(url == 'chp_grp'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.chapter_group.update({ 
-                                    NAME: req.body.name,
-                                    PREFIX: req.body.pref
-                                }, {
-                                    where: {
-                                        ID: req.body.id
-                                    }
-                                }, { transaction: t });
-                return pg;
-            });
-        }else if(url == 'chapter'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.chapter.update({
-                                    NAME: req.body.name,
-                                    ID_CHP_GRP: req.body.idchgr
-                                }, {
-                                    where: {
-                                        ID: req.body.id
-                                    }
-                                }, { transaction: t });
-               return pg;
-            });
-       }else if(url == 'act_grp'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.activity_group.update({
-                                    NAME: req.body.name,
-                                    PREFIX: req.body.pref,
-                                    ID_CHP_GRP: req.body.idchgr
-                                }, {
-                                    where: {
-                                        ID: req.body.id
-                                    }
-                                }, { transaction: t });
-                return pg;
-            });
-        }else if(url == 'activity'){
-            result = await sequelize.transaction(async (t) => {
-                const pg = await models.activity.update({
-                                    NAME: req.body.name,
-                                    ID_ACT_GRP: req.body.idacgr
-                                }, {
-                                    where: {
-                                        ID: req.body.id
-                                    }
-                                }, { transaction: t });
-                return pg;
-            });
-        }else{
-            throw {name : "BadError", message : "URL not found"};
+        const result = await sequelize.transaction(async (t) => {
+            const pg = await models.activity_group.destroy({
+                            where: {
+                                ID: req.params.id
+                            }
+                        }, { transaction: t });
+            return pg;
+        });
+        
+		if(result == 0){
+			throw {name : "MatchError", message : "No se encontro"}; 
         }
-		console.log("pg updated: "+ result.ID + " name: " + result.NAME);
-		res.status(200).json(result);
+
+		res.status(200).json({name: "Exito", message: "Se ha eliminado el grupo de actividades correctamente"});
 	}catch(err){
-        if(err.name == "BadError"){
-            res.status(404).json({message:err.message});
-        }else{
-            res.status(500).json({message:"internal server error"});
+        if(err.name == "MatchError"){
+            res.status(400).json({name: "Error", message: err.message});
+        }else if(err.name == "SequelizeForeignKeyConstraintError"){
+            res.status(400).json({name: "Error", message:"No se pueden eliminar grupos de actividades referenciados por otras caracterizaciones"});
+        }else {
+            res.status(500).json({name: "Error", message:"internal server error"});
+        }
+	}
+});
+//------------------------------------------------------------------------------------------------
+/**
+ * Update chapter
+ */
+//------------------------------------------------------------------------------------------------
+//Update a chapter group
+router.patch('/chp_grp/:id', async(req, res) => {
+	try{
+        var {name, pref, idchgr, idacgr} = req.body;
+
+        if (!name || !pref) {
+			throw {name : "regError", message : "Datos incompletos"};
+		}
+        
+        const result = await sequelize.transaction(async (t) => {
+            const pg = await models.chapter_group.update({ 
+                                NAME: name,
+                                PREFIX: pref
+                            }, {
+                                where: {
+                                    ID: req.params.id
+                                }
+                            }, { transaction: t });
+            return pg;
+        });
+        
+		if(result == 0){
+			throw {name : "MatchError", message : "No se encontro"}; 
+        }
+
+		res.status(200).json({name: "Exito", message: "Se ha actualizado el grupo de procesos"});
+	}catch(err){
+        if(err.name == "MatchError"){
+            res.status(400).json({name: "Error", message: err.message});
+        }else {
+            res.status(500).json({name: "Error", message:"internal server error"});
+        }
+	}
+});
+
+//Update an activity group
+router.patch('/act_grp/:id', async(req, res) => {
+	try{
+        var {name, pref, idchgr, idacgr} = req.body;
+
+        if (!name || !pref || !idchgr) {
+			throw {name : "regError", message : "Datos incompletos"};
+		}
+        const result = await sequelize.transaction(async (t) => {
+            const pg = await models.activity_group.update({
+                                NAME: name,
+                                PREFIX: pref,
+                                ID_CHP_GRP: idchgr
+                            }, {
+                                where: {
+                                    ID: req.params.id
+                                }
+                            }, { transaction: t });
+            return pg;
+        });
+        
+		if(result == 0){
+			throw {name : "MatchError", message : "No se encontro"}; 
+        }
+
+		res.status(200).json({name: "Exito", message: "Se ha actualizado el grupo de actividades"});
+	}catch(err){
+        if(err.name == "MatchError"){
+            res.status(400).json({name: "Error", message: err.message});
+        }else {
+            res.status(500).json({name: "Error", message:"internal server error"});
         }
 	}
 });

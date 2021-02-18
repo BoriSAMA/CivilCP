@@ -7,16 +7,22 @@
         <script src="/scripts.js"></script>
         <script src="/bootstable.min.js"></script>
 
-        <script src="/default/s_salary.js"></script>
-        <script src="/default/s_groups.js"></script>
-
+        <% if(locals.selected){ -%>
+                <% if(selected == "salary"){ -%>
+                        <script src="/default/s_salary.js"></script>
+                <% }else if(selected == "char"){ -%>
+                        <script src="/default/s_groups.js"></script>
+                <% }-%>
+        <% }-%>
         <script>
                 if(document.getElementById("gantt_here")){
                         gantt.init("gantt_here");
                 }
                 
                 $(document).ready(function() {
-        		$('.selectBuscar').select2();
+        		$('.selectBuscar').select2({
+                                theme: 'bootstrap4',
+                        });
                 });
 
                 $(document).ready(function(){

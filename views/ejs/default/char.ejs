@@ -2,126 +2,195 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-xl-12 mt-4">
-          <div class="card mb-4">
-              <div id="message">
-                <%- include ("../partials/messages"); %>
-              </div>
-              <div class="card-header">
+        <div class="card mb-4">
+          <div id="message">
+            <%- include ("../partials/messages"); %>
+          </div>
+          <div class="card-header">
+            <div class="row">
+              <div class="col-8">
+                <span class="align-middle">
                   <i class="fas fa-table mr-1"></i>
                   Caracterizaciones
+                </span>
               </div>
-              <div class="card ml-2 mb-2 mt-2 mr-2">
-                  <div class="table-responsive">
-                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
-                          <thead class="table-secondary">
-                              <tr>
-                                  <th class="align-middle">Grupo de Procesos</th>
-                                  <th class="align-middle">Grupo de Actividades</th>
-                                  <th class="align-middle">Identificador</th>
-                                  <th class="text-center" width="20%">
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
-                                    <i class="fa fa-plus" aria-hidden="true"></i>
-                                    Añadir caracterizacion
-                                  </button>
-                                </th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                  <td>Iniciales</td>
-                                  <td>Replanteo</td>
-                                  <td>REP</td>
-                                  <td></td>
-                              </tr>
-                              <tr>
-                                  <td>Iniciales</td>
-                                  <td>Replanteo</td>
-                                  <td>REP</td>
-                                  <td></td>
-                              </tr>
-                              <tr>
-                                  <td>Iniciales</td>
-                                  <td>Replanteo</td>
-                                  <td>REP</td>
-                                  <td></td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div>
+              <div class="col-4">
+                <select id="char_type" class="custom-select mw-25">
+                  <option value="1">Grupo de procesos</option>
+                  <option value="2">Grupo de actividades</option>
+                </select>
               </div>
+            </div>
           </div>
+          <div class="card ml-2 mb-2 mt-2 mr-2">
+            <div id="char_chp_grp" class="table-responsive">
+                <table class="table table-bordered table-hover align-middle m-0" width="100%" height="100%" cellspacing="0">
+                    <thead class="table-secondary">
+                        <tr class="h-50">
+                          <th class="align-middle text-center" colspan="4">Grupos de procesos</th>
+                        </tr>
+                        <tr>
+                          <th class="align-middle" width="5%">#</th>
+                          <th class="align-middle" width="15%">Prefijo</th>
+                          <th class="align-middle">Nombre</th>
+                          <th class="text-center" width="20%">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                              <i class="fa fa-plus" aria-hidden="true"></i>
+                              Añadir
+                            </button>
+                          </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <%if(groups.cg.length > 0) { -%>
+                        <%for(var i = 0; i < groups.cg.length; i++) { -%>
+                          <tr id="<%= groups.cg[i].ID %>">
+                            <td class="align-middle"><%= i + 1 %></td>
+                            <td class="align-middle"><%= groups.cg[i].PREFIX %></td>
+                            <td class="align-middle"><%= groups.cg[i].NAME %></td>
+                            <td>
+                              <div class="row mw-100 m-0">
+                                <div class="col">
+                                  <button class="w-100 btn btn-primary" onclick="initGroup('1', '<%=groups.cg[i].ID %>')">
+                                    <i class="fa fa-pen" aria-hidden="true"></i>
+                                  </button>
+                                </div>
+                                <div class="col">
+                                  <button class="w-100 btn btn-danger" onclick="delGroup('1', '<%=groups.cg[i].ID %>')">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </button>
+                                </div>      
+                              </div>
+                            </td>
+                          </tr>
+                        <%}%>
+                      <%} else{%>
+                        <td colspan="4"><h4 class="text-center Normal weight text">Aun no se han añadido grupos de procesos</h4></td>
+                      <%}%>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div id="char_act_grp" class="table-responsive" hidden>
+                <table class="table table-bordered table-hover align-middle m-0" width="100%" height="100%" cellspacing="0">
+                    <thead class="table-secondary">
+                        <tr class="h-50">
+                          <th class="align-middle text-center" colspan="5">Grupos de actividades</th>
+                        </tr>
+                        <tr>
+                          <th class="align-middle" width="5%">#</th>
+                          <th class="align-middle" width="20%">Grupo de procesos</th>
+                          <th class="align-middle" width="15%">Prefijo</th>
+                          <th class="align-middle">Nombre</th>
+                          <th class="text-center" width="20%">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                              <i class="fa fa-plus" aria-hidden="true"></i>
+                              Añadir
+                            </button>
+                          </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <%if(groups.ag.length > 0) { -%>
+                        <%for(var i = 0; i < groups.ag.length; i++) { -%>
+                          <tr id="<%=groups.ag[i].ID %>">
+                            <td class="align-middle"><%= i + 1 %></td>
+                            <td class="align-middle" cg_id="<%= groups.ag[i].chapter_group.ID %>"><%= groups.ag[i].chapter_group.NAME %></td>
+                            <td class="align-middle"><%= groups.ag[i].PREFIX %></td>
+                            <td class="align-middle"><%= groups.ag[i].NAME %></td>
+                            <td>
+                              <div class="row mw-100 m-0">
+                                <div class="col">
+                                  <button class="w-100 btn btn-primary" onclick="initGroup('2', '<%=groups.ag[i].ID %>')">
+                                    <i class="fa fa-pen" aria-hidden="true"></i>
+                                  </button>
+                                </div>
+                                <div class="col">
+                                  <button class="w-100 btn btn-danger" onclick="delGroup('2', '<%=groups.ag[i].ID %>')">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                  </button>
+                                </div>      
+                              </div>  
+                            </td>
+                          </tr>
+                        <%}%>
+                      <%}else{%>
+                        <td colspan="5"><h4 class="text-center Normal weight text">Aun no se han añadido grupos de actividades</h4></td>
+                      <%}%>
+                    </tbody>
+                </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
-
   
      <!-- Modal add-->
-     <div class="modal fade" id="addModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal2-title" id="exampleModalLongTitle">Añadir caracterizacion</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+  <div class="modal fade" id="addModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal2-title" id="exampleModalLongTitle">Añadir caracterizacion</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="small mb-1">Tipo</label>
+            <input class="form-control" type="text" id="add_type" value="Grupo de procesos" disabled>
           </div>
-          
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="char_type">Tipo de la caracterizacion</label>
-              <select id="char_type" class="custom-select">
-                <option value="1">Grupo de procesos</option>
-                <option value="2">Grupo de actividades</option>
-                <option value="3">Capitulo</option>
-                <option value="4">Actividad</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="small mb-1">Nombre</label>
-              <input class="form-control" type="text" id="char_name" placeholder="Nombre de la caracterizacion">
-            </div>
-            <div class="form-group" id="add_pref">
-              <label class="small mb-1">Prefijo</label>
-              <input class="form-control" type="text" id="char_pref" placeholder="Abreviacion o acronimo">
-            </div>
-            <div class="form-group" id="add_pg" hidden>
-              <label for="char_pg">Grupo de procesos</label>
-              <select id="char_pg" class="custom-select"></select>
-            </div>
-            <div class="form-group" id="add_ag" hidden>
-              <label for="char_ag" class="small mb-1">Grupo de actividades</label>
-              <select id="char_ag" class="custom-select"></select>
-            </div>
+          <div class="form-group">
+            <label class="small mb-1">Nombre</label>
+            <input class="form-control" type="text" id="char_name" placeholder="Nombre de la caracterizacion">
           </div>
-          <div class="modal-footer">
-            <div class="card w-100 mt-2">
-                <button class="btn btn-primary btn-block" type="button" onclick="regGroup()">
-                  Guardar caracterizacion
-                </button>
-            </div>
+          <div class="form-group" id="add_pref">
+            <label class="small mb-1">Prefijo</label>
+            <input class="form-control" type="text" id="char_pref" placeholder="Abreviacion o acronimo">
+          </div>
+          <div class="form-group" id="add_pg" hidden>
+            <label for="char_pg">Grupo de procesos</label>
+            <select id="char_pg" class="custom-select selectBuscar">
+              <%if(groups.cg.length > 0) { -%>
+                <%for(var i = 0; i < groups.cg.length; i++) { -%>
+                  <option value="<%= groups.cg[i].ID %>"><%= groups.cg[i].PREFIX%> - <%= groups.cg[i].NAME%></option>
+                <%}%>
+              <%} else {%>
+                <option value="0">Aun no se han añadido grupos de procesos</option>
+              <%}%>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="card w-100 mt-2">
+              <button class="btn btn-primary btn-block" type="button" onclick="regGroup()">
+                Guardar caracterizacion
+              </button>
           </div>
         </div>
       </div>
     </div>
+  </div>
   
-      <!-- Modal msg-->
-    <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          </div>
+  <!-- Modal msg-->
+  <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         </div>
       </div>
     </div>
+  </div>
 </main>

@@ -39,6 +39,18 @@ $("input[data-type='currency']").on({
   }
 });
 
+if ($('#all-salaries tbody tr td:nth-child(1)').html() === "1") {
+  $('#all-salaries tbody tr td:nth-child(3)').each( function(){
+    translateTxt($(this), $(this).html());    
+  });
+  
+  $('#all-salaries tbody tr td:nth-child(4)').each( function(){
+    if ($(this).html() != "Por definir") {
+      translateTxt($(this), $(this).html());  
+    }
+  });
+}
+
 async function regSalary(){
     let response = await fetch(host + salary, {
       method: 'POST',
@@ -233,7 +245,11 @@ function translateTxt(input, num){
     right_side = "00";
   }
   ret = "$" + left_side + "." + right_side;
-  input.val(ret);
+  if (input.is('input')) {
+    input.val(ret);
+  }else{
+    input.html(ret);
+  }
 }
 
 async function calculateSal(){
