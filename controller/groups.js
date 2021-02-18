@@ -12,7 +12,7 @@ var models = initModels(sequelize);
 //submit a chapter group
 router.post('/chp_grp/', async(req, res) => {
 	try{
-        var {name, pref, idchgr, idacgr} = req.body;
+        var {name, pref, idchgr} = req.body;
 
         if (!name || !pref) {
 			throw {name : "regError", message : "Datos incompletos"};
@@ -39,7 +39,7 @@ router.post('/chp_grp/', async(req, res) => {
 //submit an activity group
 router.post('/act_grp/', async(req, res) => {
 	try{
-        var {name, pref, idchgr, idacgr} = req.body;
+        var {name, pref, idchgr} = req.body;
 
         if (!name || !pref || !idchgr) {
 			throw {name : "regError", message : "Datos incompletos"};
@@ -234,8 +234,9 @@ router.delete('/act_grp/:id', async(req, res) => {
 //Update a chapter group
 router.patch('/chp_grp/:id', async(req, res) => {
 	try{
-        var {name, pref, idchgr, idacgr} = req.body;
+        var {name, pref, idchgr} = req.body;
 
+        console.log(req.body);
         if (!name || !pref) {
 			throw {name : "regError", message : "Datos incompletos"};
 		}
@@ -258,7 +259,7 @@ router.patch('/chp_grp/:id', async(req, res) => {
 
 		res.status(200).json({name: "Exito", message: "Se ha actualizado el grupo de procesos"});
 	}catch(err){
-        if(err.name == "MatchError"){
+        if(err.name == "MatchError" || err.name == "regError"){
             res.status(400).json({name: "Error", message: err.message});
         }else {
             res.status(500).json({name: "Error", message:"internal server error"});
@@ -269,7 +270,7 @@ router.patch('/chp_grp/:id', async(req, res) => {
 //Update an activity group
 router.patch('/act_grp/:id', async(req, res) => {
 	try{
-        var {name, pref, idchgr, idacgr} = req.body;
+        var {name, pref, idchgr} = req.body;
 
         if (!name || !pref || !idchgr) {
 			throw {name : "regError", message : "Datos incompletos"};
