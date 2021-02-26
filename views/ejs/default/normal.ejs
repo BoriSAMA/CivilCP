@@ -2,16 +2,52 @@
     <div class="container-fluid">
         <div class="row">
         <div class="col-xl-12 mt-4">
-            <div class="card mb-4">
+            <div id="index-card" class="card mb-4">
                 <div class="card-header">
-                    <h4><i class="fas fa-home"></i> Página Principal X</h4>
-                </div>
-                <div class="card-body">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    <h4><i class="fas fa-home"></i> Página Principal</h4>
                 </div>
                 <% if(locals.user){ %> 
-                    <h1>Bienvenido de vuelta <%= user.NAME%></h1>
+                    <h1 class="text-center mt-4">Bienvenido de vuelta <%= user.NAME%></h1>
                 <% } %> 
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            <div class="card w-75">
+                                <div class="card-body">
+                                    <h5 class="card-title">Salarios</h5>
+                                    <% if(user.SUPERUSER){ -%>
+                                        <p class="card-text">Ver, editar y agregar salarios</p>
+                                        <a href="#" class="w-100 btn btn-primary">Ir</a>
+                                    <% } else {-%>
+                                        <p class="card-text">Ver los Salarios</p>
+                                        <a href="#" class="w-100 btn btn-primary">Ir</a>
+                                    <% }-%>
+                                </div>
+                            </div>
+                        </div>
+                        <% if(!user.SUPERUSER){ -%>
+                            <div class="col d-flex justify-content-center">
+                                <div class="card w-75">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Ver los presupuestos</h5>
+                                        <p class="card-text">Ver, editar y agregar presupuestos</p>
+                                        <a href="#" class="w-100 btn btn-primary">Ir</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }else{-%>
+                            <div class="col d-flex justify-content-center">
+                                <div class="card w-75">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Base de datos</h5>
+                                        <p class="card-text">Ver los items agregados por los usuarios</p>
+                                        <a href="#" class="w-100 btn btn-primary">Ir</a>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }-%>
+                    </div>
+                </div>
             </div>
         </div>
         </div>

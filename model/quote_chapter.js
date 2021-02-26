@@ -15,14 +15,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(10),
       allowNull: false
     },
-    ID_CHAPTER: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'chapter',
-        key: 'ID'
-      }
-    },
     ID_QUO_CHP_GRP: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -42,13 +34,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "ID" },
-        ]
-      },
-      {
-        name: "ID_CHAPTER",
-        using: "BTREE",
-        fields: [
-          { name: "ID_CHAPTER" },
         ]
       },
       {

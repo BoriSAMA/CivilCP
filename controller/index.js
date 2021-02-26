@@ -17,26 +17,35 @@ router.get('/char', function(req, res){
 });
 
 router.get('/gangs', function(req, res){
+    res.redirect("/item/gangs");
+});
+
+router.get('/machineries', function(req, res){
+	res.redirect("/item/machineries");
+});
+
+router.get('/materials', function(req, res){
+	res.redirect("/item/materials");
+});
+
+router.get('/materials', function(req, res){
+	res.redirect("/item/materials");
+});
+
+router.get('/transports', function(req, res){
 	res.status(200).render('index',{
-        selected: 'gangs'
+        selected: 'normal',
+        user: req.session.user
     });
 });
 
-router.get('/machinary', function(req, res){
-	res.status(200).render('index',{
-        selected: 'machinary'
-    });
+router.get('/all-items', function(req, res){
+	res.redirect("/item/all");
 });
 
 router.get('/machinaryL', function(req, res){
 	res.status(200).render('index',{
         selected: 'machinaryL'
-    });
-});
-
-router.get('/mats', function(req, res){
-	res.status(200).render('index',{
-        selected: 'mats'
     });
 });
 

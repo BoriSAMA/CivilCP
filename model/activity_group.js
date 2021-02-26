@@ -8,12 +8,13 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     NAME: {
-      type: DataTypes.STRING(120),
+      type: DataTypes.STRING(200),
       allowNull: false
     },
     PREFIX: {
       type: DataTypes.STRING(10),
-      allowNull: false
+      allowNull: false,
+      unique: "PREFIX"
     },
     ID_CHP_GRP: {
       type: DataTypes.INTEGER,
@@ -34,6 +35,14 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "ID" },
+        ]
+      },
+      {
+        name: "PREFIX",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "PREFIX" },
         ]
       },
       {

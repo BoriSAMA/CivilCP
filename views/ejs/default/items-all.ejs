@@ -1,0 +1,249 @@
+<main>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xl-12 mt-4">
+            <div class="card mb-4">
+                <div id="message">
+                    <%- include ("../partials/messages"); %>
+                </div>
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col">
+                            <i class="fas fa-table h-100 align-middle"></i>
+                            <span class="align-middle">
+                                Items de los usuarios
+                            </span>
+                        </div>
+                        <div class="col-4">
+                            <select id="item_type" class="custom-select mw-25">
+                                <option value="1">Materiales</option>
+                                <option value="2">Cuadrillas</option>
+                                <option value="3">Maquinaria</option>
+                                <option value="4">Transporte</option>
+                            </select>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-info align-middle w-100" type="button" onclick="showfilters()">
+                                <i class="fa fa-filter h-100 align-middle" aria-hidden="true"></i>
+                                Filtros
+                            </button>
+                        </div>
+                      </div>
+                      <div class="row filters mt-1 pt-2" style="background-color: #D4E0E3;" hidden>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="chp_grp">Grupo de procesos:</label>
+                                <select id="chp_grp" class="custom-select selectBuscar">
+                                    <option value="0">Ninguno</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="act_grp">Grupo de actividades:</label>
+                                <select id="act_grp_2" class="custom-select selectBuscar">
+                                    <option value="0">Ninguno</option>
+                                </select>
+                                <div id="select_act_grp" hidden>
+                                    
+                                </div>
+                            </div>
+                          </div>
+                      </div>
+                        
+                </div>
+
+                <div class="card ml-2 mb-2 mt-2 mr-2">
+                    <div id="item_material" class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th class="align-middle text-center" colspan="8">Materiales y equipo</th>
+                                </tr>
+                                <tr>
+                                  <th class="align-middle" width="5%">#</th>
+                                  <th class="align-middle" width="12%">Usuario</th>
+                                  <th class="align-middle" width="8%">G.A.</th>
+                                  <th class="align-middle">Nombre</th>
+                                  <th class="align-middle" width="10%">Unidad</th>
+                                  <th class="align-middle" width="15%">Costo</th>
+                                  <th class="align-middle" width="15%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%if(items.mt.length > 0) { -%>
+                                    <%for(var i = 0; i < items.mt.length; i++) { -%>
+                                        <tr id="<%= items.mt[i].ID %>" act_grp="<%= items.mt[i].ID_ACT_GRP %>" chp_grp="<%= items.mt[i].activity_group.ID_CHP_GRP %>">
+                                            <td class="align-middle"><%= i + 1 %></td>
+                                            <td class="align-middle"><%= items.mt[i].user.CODE %></td>
+                                            <td class="align-middle"><%= items.mt[i].activity_group.PREFIX %></td>
+                                            <td class="align-middle"><%= items.mt[i].NAME %></td>
+                                            <td class="align-middle"><%= items.mt[i].MEASSURE_UNIT %></td>
+                                            <td class="align-middle"><%= items.mt[i].COST %></td>
+                                            <td>
+                                                <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#addModal" onclick="addCopy('<%= items.mt[i].ID %>')">
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    Copiar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <%}%>
+                                <%} else{%>
+                                    <td colspan="8"><h4 class="text-center Normal weight text">No se han añadido materiales</h4></td>
+                                <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="item_gang" class="table-responsive" hidden>
+                        <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th class="align-middle text-center" colspan="8">Cuadrillas</th>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle" width="5%">#</th>
+                                    <th class="align-middle" width="12%">Usuario</th>
+                                    <th class="align-middle" width="8%">G.A.</th>
+                                    <th class="align-middle">Nombre</th>
+                                    <th class="align-middle" width="7%">Rendimiento</th>
+                                    <th class="align-middle" width="6%">Unidad</th>
+                                    <th class="align-middle" width="7%">Costo</th>
+                                    <th class="align-middle" width="15%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%if(items.ga.length > 0) { -%>
+                                    <%for(var i = 0; i < items.ga.length; i++) { -%>
+                                        <tr id="<%= items.ga[i].ID %>" act_grp="<%= items.ga[i].ID_ACT_GRP %>" chp_grp="<%= items.ga[i].activity_group.ID_CHP_GRP %>">
+                                            <td class="align-middle"><%= i + 1 %></td>
+                                            <td class="align-middle"><%= items.ga[i].user.CODE %></td>
+                                            <td class="align-middle"><%= items.ga[i].activity_group.PREFIX %></td>
+                                            <td class="align-middle"><%= items.ga[i].NAME %></td>
+                                            <td class="align-middle"><%= items.ga[i].PERFORMANCE %></td>
+                                            <td class="align-middle"><%= items.ga[i].MEASSURE_UNIT %></td>
+                                            <td class="align-middle"><%= items.ga[i].COST %></td>
+                                            <td>
+                                                <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#addModal" onclick="addCopy('<%= items.ga[i].ID %>')">
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    Copiar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <%}%>
+                                <%} else{%>
+                                    <td colspan="8"><h4 class="text-center Normal weight text">No se han añadido materiales</h4></td>
+                                <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="item_machinery" class="table-responsive" hidden>
+                        <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th class="align-middle text-center" colspan="8">Maquinaria</th>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle" width="5%">#</th>
+                                    <th class="align-middle" width="12%">Usuario</th>
+                                    <th class="align-middle" width="8%">G.A.</th>
+                                    <th class="align-middle">Nombre</th>
+                                    <th class="align-middle" width="7%">Rendimiento</th>
+                                    <th class="align-middle" width="6%">Unidad</th>
+                                    <th class="align-middle" width="7%">Costo</th>
+                                    <th class="align-middle" width="15%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%if(items.mc.length > 0) { -%>
+                                    <%for(var i = 0; i < items.mc.length; i++) { -%>
+                                        <tr id="<%= items.mc[i].ID %>" act_grp="<%= items.mc[i].ID_ACT_GRP %>" chp_grp="<%= items.mc[i].activity_group.ID_CHP_GRP %>">
+                                            <td class="align-middle"><%= i + 1 %></td>
+                                            <td class="align-middle"><%= items.mc[i].user.CODE %></td>
+                                            <td class="align-middle"><%= items.mc[i].activity_group.PREFIX %></td>
+                                            <td class="align-middle"><%= items.mc[i].NAME %></td>
+                                            <td class="align-middle"><%= items.mc[i].PERFORMANCE %></td>
+                                            <td class="align-middle"><%= items.mc[i].MEASSURE_UNIT %></td>
+                                            <td class="align-middle"><%= items.mc[i].COST %></td>
+                                            <td>
+                                                <button class="w-100 btn btn-primary" onclick="chargeModal('<%= items.mc[i].ID %>')">
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    Copiar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <%}%>
+                                <%} else{%>
+                                    <td colspan="8"><h4 class="text-center Normal weight text">No se ha añadido maquinaria</h4></td>
+                                <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="item_transport" class="table-responsive" hidden>
+                        <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th class="align-middle text-center" colspan="9">Materiales y equipo</th>
+                                </tr>
+                                <tr>
+                                  <th class="align-middle" width="5%">#</th>
+                                  <th class="align-middle" width="12%">Usuario</th>
+                                  <th class="align-middle" width="8%">G.A.</th>
+                                  <th class="align-middle">Nombre</th>
+                                  <th class="align-middle" width="10%">Unidad</th>
+                                  <th class="align-middle" width="15%">Costo</th>
+                                  <th class="align-middle" width="15%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%if(items.tr.length > 0) { -%>
+                                    <%for(var i = 0; i < items.tr.length; i++) { -%>
+                                        <tr id="<%= items.mt[i].ID %>" act_grp="<%= items.tr[i].ID_ACT_GRP %>" chp_grp="<%= items.tr[i].activity_group.ID_CHP_GRP %>">
+                                            <td class="align-middle"><%= i + 1 %></td>
+                                            <td class="align-middle"><%= items.tr[i].user.CODE %></td>
+                                            <td class="align-middle"><%= items.tr[i].activity_group.PREFIX %></td>
+                                            <td class="align-middle"><%= items.tr[i].NAME %></td>
+                                            <td class="align-middle"><%= items.tr[i].MEASSURE_UNIT %></td>
+                                            <td class="align-middle"><%= items.tr[i].COST %></td>
+                                            <td>
+                                                <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#addModal" onclick="addCopy('<%= items.tr[i].ID %>')">
+                                                    <i class="fa fa-clone" aria-hidden="true"></i>
+                                                    Copiar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    <%}%>
+                                <%} else{%>
+                                    <td colspan="9"><h4 class="text-center Normal weight text">No se han añadido cuadrillas</h4></td>
+                                <%}%>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Modal msg-->
+    <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            ...
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+        </div>
+    </div>
+  </main>

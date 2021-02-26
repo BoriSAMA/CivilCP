@@ -1,6 +1,9 @@
-const host = "http://127.0.0.1:1337/";
-const salary = "salary";
 var real_value = 0;
+var smmlv;
+
+$(async function() {
+  smmlv = await getSmmlv();
+});
 
 $('#msgModal').on('hidden.bs.modal', function () {
   window.location = '/index/salary';
@@ -70,7 +73,6 @@ async function regSalary(){
     $("#msgModal").modal();
 }
 
-
 async function delSalary(id){
   let response = await fetch(host + salary, {
     method: 'DELETE',
@@ -99,10 +101,26 @@ async function getSalary(id){
   return json[0];
 }
 
-async function updSalary(id){
-    var qdai = 0, qhrly = 0;
+async function getSmmlv() {
+  let response = await fetch(host + salary + "/mult/1", {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    }
+  });
+  var json = await response.json();
+  return json;
+}
+
+async function updSalary(cond, id){
+  var hca = 0, hl = 0, hea = 0, qdai = 0, qhrly = 0;
+  if (cond == 1) {
+    hca = $('#hca').val();
+    hl = $('#hl').val();
+    hea = $('#hea').val();
     qhrly = parseFloat(translateNum($('#vhe').val()))
     qdai = qhrly * 8
+  }
 
   let response = await fetch(host + salary + id, {
     method: 'PATCH',
@@ -113,15 +131,19 @@ async function updSalary(id){
         tran: parseFloat(translateNum($('#stp1').val())),
         endo: parseFloat(translateNum($('#dot').val())),
         saeq: parseFloat(translateNum($('#is').val())),
-        ach: $('#hca').val(),
-        awh: $('#hl').val(),
-        aeh: $('#hea').val(),
+        ach: hca,
+        awh: hl,
+        aeh: hea,
         daily: qdai,
         hourly: qhrly
     })
   });
 
   var json = await response.json();
+
+  if ($('#mul1').val() == 1) {
+    smmlv = await getSmmlv();
+  }
 
   $('#msgModal .modal-title').html(json.name);
   $('#msgModal .modal-body').html(json.message);
@@ -151,15 +173,26 @@ async function chargeSalary(salAux){
     translateTxt($('#sena'), 0);
     translateTxt($('#icbf'), 0);
     translateTxt($('#ccf'), anu_val * 0.04);
-    translateTxt($('#fic'), anu_val * 0.025);
     translateTxt($('#dot'), salAux.ENDOWMENT);
     translateTxt($('#is'), salAux.SAFETY_EQUIPMENT);
     if (salAux.MULTIPLIER > 2) {
       $( "#dot" ).prop( "disabled", true );
     }
-    $('#hca').val(salAux.ANNUAL_CALENDAR_HOURS);
-    $('#hl').val(salAux.ANNUAL_WORKING_HOURS);
-    $('#hea').val(salAux.TOTAL_ANNUAL_EFFECTIVE_HOURS);
+
+    if ($('#mul1').val() != 1) {
+        if (salAux.TOTAL_ANNUAL_EFFECTIVE_HOURS === 0) {
+          $('#hca').val(smmlv.ANNUAL_CALENDAR_HOURS);
+          $('#hl').val(smmlv.ANNUAL_WORKING_HOURS);
+          $('#hea').val(smmlv.TOTAL_ANNUAL_EFFECTIVE_HOURS);
+        }else{
+          $('#hca').val(salAux.ANNUAL_CALENDAR_HOURS);
+          $('#hl').val(salAux.ANNUAL_WORKING_HOURS);
+          $('#hea').val(salAux.TOTAL_ANNUAL_EFFECTIVE_HOURS);
+        }
+        translateTxt($('#fic'), (smmlv.VALUE * 12) * 0.025);
+    }else{
+      translateTxt($('#fic'), anu_val * 0.025);
+    }
   } 
   $('#information').removeAttr('hidden');
 }
@@ -167,11 +200,12 @@ async function chargeSalary(salAux){
 async function initSalary(id){
   var ide = "/" + id;
   var auxSalary = await getSalary(ide);
+
   $("#agg").on("click", function(){
-    updSalary(ide)
+    updSalary(0, ide)
   });
   $("#sav").on("click", function(){
-    updSalary(ide)
+    updSalary(1, ide)
   });
 
   chargeSalary(auxSalary);
@@ -181,95 +215,17 @@ async function initSalary(id){
   chargeHours($('#hea'), $('#vhe'));
 }
 
-function formatNumber(n) {
-  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-}
-  
-function formatCurrency(input, blur) {
-  var input_val = input.val();
-  if (input_val === "") { 
-    return;
-  }
-  var original_len = input_val.length;
-  var caret_pos = input.prop("selectionStart");
-  if (input_val.indexOf(".") >= 0) {
-    var decimal_pos = input_val.indexOf(".");
-    var left_side = input_val.substring(0, decimal_pos);
-    var right_side = input_val.substring(decimal_pos);
-    left_side = formatNumber(left_side);
-    right_side = formatNumber(right_side);
-    if (blur === "blur") {
-      right_side += "00";
-    }
-    right_side = right_side.substring(0, 2);
-    input_val = "$" + left_side + "." + right_side;
-
-  } else {
-    input_val = formatNumber(input_val);
-    input_val = "$" + input_val;
-    
-    if (blur === "blur") {
-      input_val += ".00";
-    }
-  }
-
-  input.val(input_val);
-  var updated_len = input_val.length;
-  caret_pos = updated_len - original_len + caret_pos;
-  input[0].setSelectionRange(caret_pos, caret_pos);
-}
-  
-function translateNum(text){
-  var aux, ret = "";
-  aux = text.substring(1);
-  aux = aux.split(",");
-  for (let i = 0; i < aux.length; i++) {
-    ret += aux[i];
-  }
-  return ret;
-}
-
-function translateTxt(input, num){
-  input.attr("value",num);
-  var right_side = "", left_side = "", ret = "";
-  var aux = num.toString();
-  var decimal_pos = aux.indexOf(".");
-  
-  if (decimal_pos !== -1) {
-    right_side = aux.substring(decimal_pos + 1);
-    left_side = aux.substring(0, decimal_pos);
-    right_side = right_side.substring(0, 2);
-    left_side = formatNumber(left_side);
-  }else{
-    left_side = formatNumber(aux);
-    right_side = "00";
-  }
-  ret = "$" + left_side + "." + right_side;
-  if (input.is('input')) {
-    input.val(ret);
-  }else{
-    input.html(ret);
-  }
-}
-
 async function calculateSal(){
-  var json, aux = parseFloat($('#mul').val());
-  if (aux > 1 && aux <= 3) {
-    let response = await fetch(host + salary + "/mult/1", {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8'
-      }
-    });
-    json = await response.json();
-    if (typeof json.name !== 'undefined') {
+  var aux = parseFloat($('#mul').val());
+  if (aux > 1) {
+    if (typeof smmlv.name !== 'undefined') {
       return;
     }
     $( "#vsm" ).prop( "disabled", true );
-    translateTxt($('#vsm'), json.VALUE * aux);
+    translateTxt($('#vsm'), smmlv.VALUE * aux);
     if (aux <= 2) {
       $( "#stp" ).prop( "disabled", true );
-      translateTxt($('#stp'), json.TRANSPORT_SUBSIDY);
+      translateTxt($('#stp'), smmlv.TRANSPORT_SUBSIDY);
     }else{
       $( "#stp" ).prop( "disabled", true );
       translateTxt($('#stp'), 0);

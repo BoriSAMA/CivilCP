@@ -1,10 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const url = require('url');
 
 var sequelize = require('../connection');
 var DataTypes = require("sequelize").DataTypes;
-const { Op } = require("sequelize");
 
 var Salary = require('../model/salary')(sequelize, DataTypes);
 
@@ -12,11 +10,10 @@ var Salary = require('../model/salary')(sequelize, DataTypes);
 router.post('/', async(req, res) => {
 	try{
 		var { mult, val, tran} = req.body;
-        console.log();
         if (!mult || !val || tran === "") {
 			throw {name : "regError", message : "Datos incompletos"};
-		}else if (mult < 1 || mult > 3) {
-			throw {name : "regError", message : "El multiplicador debe ser un numero entre 1 y 3"};
+		}else if (mult < 1) {
+			throw {name : "regError", message : "El multiplicador debe ser un numero mayor a 1"};
 		}
 
         await sequelize.transaction(async (t) => {
@@ -39,7 +36,9 @@ router.post('/', async(req, res) => {
 	}catch(err){
         if(err.name == "regError"){
             res.status(400).json({name: "Error", message: err.message});
-		}else {
+		}else if(err.name == "SequelizeUniqueConstraintError"){
+            res.status(400).json({name: "Error", message: "El multiplicador debe ser unico"});
+		}else{
             res.status(500).json({name: "Error", message: "internal server error"});
 		}
 	}

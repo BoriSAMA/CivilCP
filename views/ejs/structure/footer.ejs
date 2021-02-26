@@ -9,11 +9,22 @@
 
         <% if(locals.selected){ -%>
                 <% if(selected == "salary"){ -%>
-                        <script src="/default/s_salary.js"></script>
+                        <script src="/default/salary/s_salary.js"></script>
                 <% }else if(selected == "char"){ -%>
-                        <script src="/default/s_groups.js"></script>
+                        <script src="/default/group/s_groups.js"></script>
+                <% }else if(selected == "gang"){ -%>
+                        <script src="/default/item/s_gang.js"></script>
+                <% }else if(selected == "material"){ -%>
+                        <script src="/default/item/s_material.js"></script>
+                <% }else if(selected == "transport"){ -%>
+                        <script src="/default/item/s_transport.js"></script>
+                <% }else if(selected == "machinery"){ -%>
+                        <script src="/default/item/s_machinery.js"></script>
+                <% }else if(selected == "su_items"){ -%>
+                        <script src="/default/item/s_all.js"></script>
                 <% }-%>
         <% }-%>
+
         <script>
                 if(document.getElementById("gantt_here")){
                         gantt.init("gantt_here");

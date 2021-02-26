@@ -23,22 +23,32 @@
                             </a>
                             <div class="collapse" id="collapseDB" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                  <a class="nav-link" href="/index/char" id="lren">
-                                      <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                                      Caracterizaciones
-                                  </a>
-                                  <a class="nav-link" href="/index/gangs" id="lcua">
-                                      <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                                      Cuadrillas
-                                  </a>
-                                  <a class="nav-link" href="/index/machinary" id="lmaq">
-                                      <div class="sb-nav-link-icon"><i class="fas fa-truck-pickup"></i></div>
-                                      Maquinarias
-                                  </a>
-                                  <a class="nav-link" href="/index/mats" id="lmat">
-                                      <div class="sb-nav-link-icon"><i class="fas fa-toolbox"></i></div>
-                                      Materiales
-                                  </a>
+                                    <a class="nav-link" href="/index/char" id="lren">
+                                        <div class="sb-nav-link-icon p-1"><i class="fas fa-tachometer-alt"></i></div>
+                                        Caracterizaciones
+                                    </a>
+                                    <a class="nav-link" href="/index/gangs" id="lcua">
+                                        <div class="sb-nav-link-icon p-1"><i class="fas fa-users"></i></div>
+                                        Cuadrillas
+                                    </a>
+                                    <a class="nav-link" href="/index/machineries" id="lmaq">
+                                        <div class="sb-nav-link-icon p-1"><i class="fas fa-truck-pickup"></i></div>
+                                        Maquinarias
+                                    </a>
+                                    <a class="nav-link" href="/index/materials" id="lmat">
+                                        <div class="sb-nav-link-icon p-1"><i class="fas fa-toolbox"></i></div>
+                                        Materiales
+                                    </a>
+                                    <a class="nav-link" href="/index/transports" id="lmat">
+                                        <div class="sb-nav-link-icon p-1"><i class="fas fa-car-side"></i></div>
+                                        Transporte
+                                    </a>
+                                    <% if(user.SUPERUSER){ -%>
+                                        <a class="nav-link" href="/index/all-items" id="lmat">
+                                            <div class="sb-nav-link-icon p-1"><i class="fas fa-book-medical"></i></div>
+                                            Items guardados
+                                        </a>
+                                    <% }-%>
                                 </nav>
                             </div>
 
@@ -81,39 +91,58 @@
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-              <% if(selected == "salary"){ -%>
-                  <%- include('default/salary.ejs') %>
-              <% }else if(selected == "char"){ -%>
-                  <%- include('default/char.ejs') %>
-              <% }else if(selected == "gangs"){ -%>
-                  <%- include('default/gangs.ejs') %>
-              <% }else if(selected == "machinary"){ -%>
-                  <%- include('default/machinary.ejs') %>
-              <% }else if(selected == "machinaryL"){ -%>
-                  <%- include('default/machinaryL.ejs') %>
-              <% }else if(selected == "mats"){ -%>
-                  <%- include('default/mats.ejs') %>
-              <% }else if(selected == "matsL"){ -%>
-                  <%- include('default/matsL.ejs') %>
-              <% }else if(selected == "budget"){ -%>
-                  <%- include('default/budget.ejs') %>
-              <% }else if(selected == "shoppinglist"){ -%>
-                  <%- include('default/shoppinglist.ejs') %>
-              <% }else if(selected == "gantt"){ -%>
-                  <%- include('default/gantt.ejs') %>
-              <% }else if(selected == "workers"){ -%>
-                  <%- include('default/workers.ejs') %>
-              <% }else if(selected == "apumachinary"){ -%>
-                  <%- include('default/apumachinary.ejs') %>
-              <% }else if(selected == "apumats"){ -%>
-                  <%- include('default/apumats.ejs') %>
-              <% }else if(selected == "apuworkers"){ -%>
-                  <%- include('default/apuworkers.ejs') %>
-              <% }else if(selected == "aputrans"){ -%>
-                  <%- include('default/aputrans.ejs') %>
-              <% }else{ -%>
-                  <%- include('default/normal.ejs') %>
-              <% } -%>
+                <% if(selected == "salary"){ -%>
+                    
+                    <%- include('default/salary.ejs') %>
+                <% }else if(selected == "char"){ -%>
+
+                    <%- include('default/char.ejs') %>
+                <% }else if(selected == "gangs"){ -%>
+
+                    <%- include('default/gangs.ejs') %>
+                <% }else if(selected == "machinery"){ -%>
+
+                    <%- include('default/machineries.ejs') %>
+                <% }else if(selected == "su_items"){ -%>
+
+                    <%- include('default/items-all.ejs') %>
+                <% } else if(selected == "machinaryL"){ -%>
+                    
+                    <%- include('default/machinaryL.ejs') %>
+                <% }else if(selected == "materials"){ -%>
+
+                    <%- include('default/materials.ejs') %>
+                <% }else if(selected == "materialsU"){ -%>
+
+                    <%- include('default/materialsUser.ejs') %>
+                <% }else if(selected == "budget"){ -%>
+
+                    <%- include('default/budget.ejs') %>
+                <% }else if(selected == "shoppinglist"){ -%>
+
+                    <%- include('default/shoppinglist.ejs') %>
+                <% }else if(selected == "gantt"){ -%>
+
+                    <%- include('default/gantt.ejs') %>
+                <% }else if(selected == "workers"){ -%>
+
+                    <%- include('default/workers.ejs') %>
+                <% }else if(selected == "apumachinary"){ -%>
+
+                    <%- include('default/apumachinary.ejs') %>
+                <% }else if(selected == "apumats"){ -%>
+
+                    <%- include('default/apumats.ejs') %>
+                <% }else if(selected == "apuworkers"){ -%>
+
+                    <%- include('default/apuworkers.ejs') %>
+                <% }else if(selected == "aputrans"){ -%>
+
+                    <%- include('default/aputrans.ejs') %>
+                <% }else{ -%>
+                    
+                    <%- include('default/normal.ejs') %>
+                <% } -%>
             </div>
           </div>
         <%- include('structure/footer.ejs') %>

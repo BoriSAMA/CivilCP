@@ -107,9 +107,43 @@ router.get('/all', async(req, res) => {
         res.status(200).render('index',{
             selected: 'char',
             user: req.session.user,
-            error: err,
-            groups: array
+            error: "internal server error"
         });
+	}
+});
+
+//get all array
+router.get('/all/fill', async(req, res) => {
+	try{
+        var array = {cg: [], ag: []};
+		const cg = await sequelize.transaction(async (t) => {
+			const pg = await models.chapter_group.findAll({
+                                            order:[
+                                                ['ID', 'ASC']
+                                            ]}, { transaction: t });
+			return pg;
+        });
+        const ag = await sequelize.transaction(async (t) => {
+			const pg = await models.activity_group.findAll({
+                                            order:[
+                                                ['ID_CHP_GRP', 'ASC']
+                                            ],
+                                            include: [
+                                                models.chapter_group
+                                            ]}, { transaction: t });
+			return pg;
+        });
+        for (let i = 0; i < cg.length; i++) {
+            array.cg[i] = cg[i].dataValues;
+        }
+        for (let i = 0; i < ag.length; i++) {
+            array.ag[i] = ag[i].dataValues;
+            array.ag[i].chapter_group = array.ag[i].chapter_group.dataValues;
+        }
+
+        res.status(200).json(array);
+	}catch(err){
+        res.status(500).json({name: "Error", message:"internal server error"});
 	}
 });
 

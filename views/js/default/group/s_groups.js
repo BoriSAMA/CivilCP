@@ -1,5 +1,3 @@
-const host = "http://127.0.0.1:1337/";
-const group = "group";
 var edit_bool = false;
 var edit_obj = [];
 var char_type = ['char_chp_grp', 'char_act_grp'];
@@ -10,15 +8,14 @@ $("#char_type").on('change', function() {
     changeModal();
 });
 
-
 $('#msgModal').on('hidden.bs.modal', function () {
     window.location = '/index/char';
-  })
+})
   
-  $('#addModal').on('hidden.bs.modal', function () {
+$('#addModal').on('hidden.bs.modal', function () {
     $("#char_name").val("");
     $("#char_pref").val("");
-  });
+});
 
 async function regGroup(){
     var aux = getAddData();
@@ -54,8 +51,8 @@ async function delGroup(num, id) {
       
       var json = await response.json();
     
-      $('.modal-title').html(json.name);
-      $('.modal-body').html(json.message);
+      $('#msgModal .modal-title').html(json.name);
+      $('#msgModal .modal-body').html(json.message);
       $("#msgModal").modal();
 }
 

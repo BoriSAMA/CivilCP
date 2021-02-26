@@ -27,14 +27,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BIGINT,
       allowNull: true
     },
-    ID_ACVTIVITY: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'activity',
-        key: 'ID'
-      }
-    },
     IC_QUO_CHP: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -54,13 +46,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "ID" },
-        ]
-      },
-      {
-        name: "ID_ACVTIVITY",
-        using: "BTREE",
-        fields: [
-          { name: "ID_ACVTIVITY" },
         ]
       },
       {

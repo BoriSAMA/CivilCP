@@ -38,14 +38,6 @@ module.exports = function(sequelize, DataTypes) {
         model: 'apu_content',
         key: 'ID'
       }
-    },
-    ID_SALARY: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'salary',
-        key: 'ID'
-      }
     }
   }, {
     sequelize,
@@ -58,13 +50,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "ID" },
-        ]
-      },
-      {
-        name: "ID_SALARY",
-        using: "BTREE",
-        fields: [
-          { name: "ID_SALARY" },
         ]
       },
       {

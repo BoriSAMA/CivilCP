@@ -13,7 +13,8 @@ module.exports = function(sequelize, DataTypes) {
     },
     MULTIPLIER: {
       type: DataTypes.FLOAT,
-      allowNull: false
+      allowNull: false,
+      unique: "MULTIPLIER"
     },
     TRANSPORT_SUBSIDY: {
       type: DataTypes.BIGINT,
@@ -58,6 +59,14 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "ID" },
+        ]
+      },
+      {
+        name: "MULTIPLIER",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "MULTIPLIER" },
         ]
       },
     ]

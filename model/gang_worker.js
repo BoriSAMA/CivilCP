@@ -34,6 +34,14 @@ module.exports = function(sequelize, DataTypes) {
         model: 'worker',
         key: 'ID'
       }
+    },
+    ID_SALARY: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'salary',
+        key: 'ID'
+      }
     }
   }, {
     sequelize,
@@ -67,6 +75,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "ID_RANK" },
+        ]
+      },
+      {
+        name: "ID_SALARY",
+        using: "BTREE",
+        fields: [
+          { name: "ID_SALARY" },
         ]
       },
     ]
