@@ -3,360 +3,239 @@
     <div class="row">
       <div class="col-xl-12 mt-4">
           <div class="card mb-4">
-              <div id="message">
-                  <%- include ("../partials/messages"); %>
-              </div>
-              <div class="card-header">
-                  <div class="row">
-                      <div class="col">
-                          <i class="fas fa-table h-100 align-middle"></i>
-                          <span class="align-middle">
-                              Materiales
-                          </span>
+            <div class="card-header">
+              <div class="row">
+                  <div class="col">
+                      <i class="fas fa-table h-100 align-middle"></i>
+                      <span class="align-middle">
+                          Mis materiales
+                      </span>
+                  </div>
+                  <div class="col-2">
+                      <button class="btn btn-info align-middle w-100" type="button" onclick="showfilters()">
+                          <i class="fa fa-filter h-100 align-middle" aria-hidden="true"></i>
+                          Filtros
+                      </button>
+                  </div>
+                </div>
+                <div class="row filters mt-1 pt-2" style="background-color: #D4E0E3;" hidden>
+                  <div class="col">
+                      <div class="form-group">
+                          <label for="select_filter_chp_grp">Grupo de procesos:</label>
+                          <select id="select_filter_chp_grp" class="custom-select selectBuscar">
+                              <option value="0">Ninguno</option>
+                          </select>
                       </div>
-                      <div class="col-2">
-                          <button class="btn btn-info align-middle w-100" type="button" onclick="showfilters()">
-                              <i class="fa fa-filter h-100 align-middle" aria-hidden="true"></i>
-                              Filtros
-                          </button>
-                      </div>
-                    </div>
-                    <div class="row filters mt-1 pt-2" style="background-color: #D4E0E3;" hidden>
-                      <div class="col">
-                          <div class="form-group">
-                              <label for="chp_grp">Grupo de procesos:</label>
-                              <select id="chp_grp" class="custom-select selectBuscar">
+                  </div>
+                  <div class="col">
+                      <div class="form-group">
+                          <label for="select_filter_act_grp">Grupo de actividades:</label>
+                          <select id="select_filter_act_grp_2" class="custom-select selectBuscar">
+                              <option value="0">Ninguno</option>
+                          </select>
+                          <div id="select_act_grp" hidden>
+                              <select id="select_filter_act_grp" class="custom-select">
                                   <option value="0">Ninguno</option>
                               </select>
                           </div>
                       </div>
-                      <div class="col">
-                          <div class="form-group">
-                              <label for="act_grp">Grupo de actividades:</label>
-                              <select id="act_grp_2" class="custom-select selectBuscar">
-                                  <option value="0">Ninguno</option>
-                              </select>
-                              <div id="select_act_grp" hidden>
-                                  
-                              </div>
-                          </div>
-                        </div>
-                    </div>
-                      
+                  </div>
+                </div>
+            </div>
+            <div class="card ml-2 mb-2 mt-2 mr-2">
+              <div id="item_material" class="table-responsive">
+                <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                  <thead class="table-secondary">
+                      <tr>
+                        <th class="align-middle" width="5%">#</th>
+                        <th class="align-middle" width="15%">G.A.</th>
+                        <th class="align-middle">Nombre</th>
+                        <th class="align-middle" width="10%">Unidad</th>
+                        <th class="align-middle" width="15%">Costo</th>
+                          <th class="text-center" width="20%">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                              <i class="fa fa-plus" aria-hidden="true"></i>
+                              Añadir
+                            </button>
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <%if(locals.mt) { -%>
+                      <%if(mt.length > 0) { -%>
+                          <%for(var i = 0; i < mt.length; i++) { -%>
+                              <tr id="<%= mt[i].ID %>" act_grp="<%= mt[i].ID_ACT_GRP %>" chp_grp="<%= mt[i].activity_group.ID_CHP_GRP %>">
+                                  <td class="align-middle"><%= i + 1 %></td>
+                                  <td class="align-middle"><%= mt[i].activity_group.PREFIX %></td>
+                                  <td class="align-middle"><%= mt[i].NAME %></td>
+                                  <td class="align-middle"><%= mt[i].MEASSURE_UNIT %></td>
+                                  <td class="align-middle"><%= mt[i].COST %></td>
+                                    <td>
+                                      <div class="row mw-100 m-0">
+                                        <div class="col">
+                                          <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#updModal" onclick="initItem('<%= mt[i].ID %>')">
+                                            <i class="fa fa-pen" aria-hidden="true"></i>
+                                          </button>
+                                        </div>
+                                        <div class="col">
+                                          <button class="w-100 btn btn-danger" onclick="delItem('<%=mt[i].ID %>')">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                          </button>
+                                        </div>      
+                                      </div>
+                                    </td>
+                              </tr>
+                          <%}%>
+                      <%} else{%>
+                          <td colspan="8"><h4 class="text-center Normal weight text">No se han añadido materiales</h4></td>
+                      <%}%>
+                    <%}%>
+                  </tbody>
+                </table>
               </div>
-
-              <div class="card ml-2 mb-2 mt-2 mr-2">
-                  <div id="item_material" class="table-responsive">
-                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
-                          <thead class="table-secondary">
-                              <tr>
-                                  <th class="align-middle text-center" colspan="8">Materiales y equipo</th>
-                              </tr>
-                              <tr>
-                                <th class="align-middle" width="5%">#</th>
-                                <th class="align-middle" width="12%">Usuario</th>
-                                <th class="align-middle" width="8%">G.A.</th>
-                                <th class="align-middle">Nombre</th>
-                                <th class="align-middle" width="10%">Unidad</th>
-                                <th class="align-middle" width="15%">Costo</th>
-                                <th class="align-middle" width="15%"></th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <%if(items.mt.length > 0) { -%>
-                                  <%for(var i = 0; i < items.mt.length; i++) { -%>
-                                      <tr id="<%= items.mt[i].ID %>" act_grp="<%= items.mt[i].ID_ACT_GRP %>" chp_grp="<%= items.mt[i].activity_group.ID_CHP_GRP %>">
-                                          <td class="align-middle"><%= i + 1 %></td>
-                                          <td class="align-middle"><%= items.mt[i].user.CODE %></td>
-                                          <td class="align-middle"><%= items.mt[i].activity_group.PREFIX %></td>
-                                          <td class="align-middle"><%= items.mt[i].NAME %></td>
-                                          <td class="align-middle"><%= items.mt[i].MEASSURE_UNIT %></td>
-                                          <td class="align-middle"><%= items.mt[i].COST %></td>
-                                          <td>
-                                              <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#addModal" onclick="addCopy('<%= items.mt[i].ID %>')">
-                                                  <i class="fa fa-clone" aria-hidden="true"></i>
-                                                  Copiar
-                                              </button>
-                                          </td>
-                                      </tr>
-                                  <%}%>
-                              <%} else{%>
-                                  <td colspan="8"><h4 class="text-center Normal weight text">No se han añadido materiales</h4></td>
-                              <%}%>
-                          </tbody>
-                      </table>
-                  </div>
-
-                  <div id="item_gang" class="table-responsive" hidden>
-                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
-                          <thead class="table-secondary">
-                              <tr>
-                                  <th class="align-middle text-center" colspan="8">Cuadrillas</th>
-                              </tr>
-                              <tr>
-                                  <th class="align-middle" width="5%">#</th>
-                                  <th class="align-middle" width="12%">Usuario</th>
-                                  <th class="align-middle" width="8%">G.A.</th>
-                                  <th class="align-middle">Nombre</th>
-                                  <th class="align-middle" width="7%">Rendimiento</th>
-                                  <th class="align-middle" width="6%">Unidad</th>
-                                  <th class="align-middle" width="7%">Costo</th>
-                                  <th class="align-middle" width="15%"></th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <%if(items.ga.length > 0) { -%>
-                                  <%for(var i = 0; i < items.ga.length; i++) { -%>
-                                      <tr id="<%= items.ga[i].ID %>" act_grp="<%= items.ga[i].ID_ACT_GRP %>" chp_grp="<%= items.ga[i].activity_group.ID_CHP_GRP %>">
-                                          <td class="align-middle"><%= i + 1 %></td>
-                                          <td class="align-middle"><%= items.ga[i].user.CODE %></td>
-                                          <td class="align-middle"><%= items.ga[i].activity_group.PREFIX %></td>
-                                          <td class="align-middle"><%= items.ga[i].NAME %></td>
-                                          <td class="align-middle"><%= items.ga[i].PERFORMANCE %></td>
-                                          <td class="align-middle"><%= items.ga[i].MEASSURE_UNIT %></td>
-                                          <td class="align-middle"><%= items.ga[i].COST %></td>
-                                          <td>
-                                              <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#addModal" onclick="addCopy('<%= items.ga[i].ID %>')">
-                                                  <i class="fa fa-clone" aria-hidden="true"></i>
-                                                  Copiar
-                                              </button>
-                                          </td>
-                                      </tr>
-                                  <%}%>
-                              <%} else{%>
-                                  <td colspan="8"><h4 class="text-center Normal weight text">No se han añadido materiales</h4></td>
-                              <%}%>
-                          </tbody>
-                      </table>
-                  </div>
-
-                  <div id="item_machinery" class="table-responsive" hidden>
-                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
-                          <thead class="table-secondary">
-                              <tr>
-                                  <th class="align-middle text-center" colspan="8">Maquinaria</th>
-                              </tr>
-                              <tr>
-                                  <th class="align-middle" width="5%">#</th>
-                                  <th class="align-middle" width="12%">Usuario</th>
-                                  <th class="align-middle" width="8%">G.A.</th>
-                                  <th class="align-middle">Nombre</th>
-                                  <th class="align-middle" width="7%">Rendimiento</th>
-                                  <th class="align-middle" width="6%">Unidad</th>
-                                  <th class="align-middle" width="7%">Costo</th>
-                                  <th class="align-middle" width="15%"></th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <%if(items.mc.length > 0) { -%>
-                                  <%for(var i = 0; i < items.mc.length; i++) { -%>
-                                      <tr id="<%= items.mc[i].ID %>" act_grp="<%= items.mc[i].ID_ACT_GRP %>" chp_grp="<%= items.mc[i].activity_group.ID_CHP_GRP %>">
-                                          <td class="align-middle"><%= i + 1 %></td>
-                                          <td class="align-middle"><%= items.mc[i].user.CODE %></td>
-                                          <td class="align-middle"><%= items.mc[i].activity_group.PREFIX %></td>
-                                          <td class="align-middle"><%= items.mc[i].NAME %></td>
-                                          <td class="align-middle"><%= items.mc[i].PERFORMANCE %></td>
-                                          <td class="align-middle"><%= items.mc[i].MEASSURE_UNIT %></td>
-                                          <td class="align-middle"><%= items.mc[i].COST %></td>
-                                          <td>
-                                              <button class="w-100 btn btn-primary" onclick="chargeModal('<%= items.mc[i].ID %>')">
-                                                  <i class="fa fa-clone" aria-hidden="true"></i>
-                                                  Copiar
-                                              </button>
-                                          </td>
-                                      </tr>
-                                  <%}%>
-                              <%} else{%>
-                                  <td colspan="8"><h4 class="text-center Normal weight text">No se ha añadido maquinaria</h4></td>
-                              <%}%>
-                          </tbody>
-                      </table>
-                  </div>
-
-                  <div id="item_transport" class="table-responsive" hidden>
-                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
-                          <thead class="table-secondary">
-                              <tr>
-                                  <th class="align-middle text-center" colspan="9">Materiales y equipo</th>
-                              </tr>
-                              <tr>
-                                <th class="align-middle" width="5%">#</th>
-                                <th class="align-middle" width="12%">Usuario</th>
-                                <th class="align-middle" width="8%">G.A.</th>
-                                <th class="align-middle">Nombre</th>
-                                <th class="align-middle" width="10%">Unidad</th>
-                                <th class="align-middle" width="15%">Costo</th>
-                                <th class="align-middle" width="15%"></th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <%if(items.tr.length > 0) { -%>
-                                  <%for(var i = 0; i < items.tr.length; i++) { -%>
-                                      <tr id="<%= items.mt[i].ID %>" act_grp="<%= items.tr[i].ID_ACT_GRP %>" chp_grp="<%= items.tr[i].activity_group.ID_CHP_GRP %>">
-                                          <td class="align-middle"><%= i + 1 %></td>
-                                          <td class="align-middle"><%= items.tr[i].user.CODE %></td>
-                                          <td class="align-middle"><%= items.tr[i].activity_group.PREFIX %></td>
-                                          <td class="align-middle"><%= items.tr[i].NAME %></td>
-                                          <td class="align-middle"><%= items.tr[i].MEASSURE_UNIT %></td>
-                                          <td class="align-middle"><%= items.tr[i].COST %></td>
-                                          <td>
-                                              <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#addModal" onclick="addCopy('<%= items.tr[i].ID %>')">
-                                                  <i class="fa fa-clone" aria-hidden="true"></i>
-                                                  Copiar
-                                              </button>
-                                          </td>
-                                      </tr>
-                                  <%}%>
-                              <%} else{%>
-                                  <td colspan="9"><h4 class="text-center Normal weight text">No se han añadido cuadrillas</h4></td>
-                              <%}%>
-                          </tbody>
-                      </table>
-                  </div>
-              </div>
+            </div>
           </div>
       </div>
     </div>
   </div>
 
-    <!-- Modal msg-->
-  <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-          <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
+<!-- Modal add-->
+<div class="modal fade" id="addModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal2-title" id="exampleModalLongTitle">Añadir Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="select_filter_chp_grp_2">Grupo de procesos</label>
+          <select id="select_filter_chp_grp_2" class="custom-select selectBuscar">
+            
+          </select>
+        </div>
+        <div class="form-group" id="add_act_grp">
+          <label for="select_filter_act_grp_3">Grupo de actividades</label>
+          <select id="select_filter_act_grp_3" class="custom-select selectBuscar" disabled>
+            <option value="0">Ninguno</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Nombre</label>
+          <input class="form-control" type="text" id="item_name" placeholder="Nombre del item">
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Unidad</label>
+          <select id="item_unit" class="custom-select selectBuscar">
+
+          </select>
+        </div>
+        <div class="form-group" hidden>
+          <label class="small mb-1">Division de la cuadrilla</label>
+          <div class="row">
+            <div class="col">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">O.T.</span>
+                </div>
+                <input class="form-control" type="number" id="item_ot">
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">O.</span>
+                </div>
+                <input class="form-control" type="number" id="item_o">
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">A.</span>
+                </div>
+                <input class="form-control" type="number" id="item_a">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group" hidden>
+          <label class="small mb-1">Rendimiento</label>
+          <input class="form-control" type="number" id="item_perf" placeholder="Rendimiento">
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Costo</label>
+          <input class="form-control" type="text" id="item_cost" data-type="currency">
+        </div>
+        <input type="number" id="item_cont" value="1" hidden>
+      </div>
+      <div class="modal-footer">
+        <div class="card w-100 mt-2">
+            <button class="btn btn-primary btn-block" type="button" onclick="regItem()">
+              Guardar material
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal upd-->
+<div class="modal fade" id="updModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal2-title" id="exampleModalLongTitle">Actualizar un item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label for="select_filter_chp_grp_3">Grupo de procesos</label>
+          <select id="select_filter_chp_grp_3" class="custom-select selectBuscar">
+            
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="select_filter_act_grp_4">Grupo de actividades</label>
+          <select id="select_filter_act_grp_4" class="custom-select selectBuscar">
+            <option value="0">Ninguno</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Nombre</label>
+          <input class="form-control" type="text" id="upd_item_name" placeholder="Nombre del item">
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Unidad</label>
+          <select id="upd_item_unit" class="custom-select selectBuscar">
+
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Costo</label>
+          <input class="form-control" type="text" id="upd_item_cost" data-type="currency">
+        </div>
+
+        <input type="number" id="upd_item_id" hidden>
+      </div>
+      <div class="modal-footer">
+        <div class="card w-100 mt-2">
+          <button class="btn btn-primary btn-block" type="button" onclick="updItem()">
+            actualizar material
           </button>
-          </div>
-          <div class="modal-body">
-          ...
-          </div>
-          <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          </div>
+        </div>
       </div>
-      </div>
+    </div>
+    
   </div>
+</div>
+
+<%- include ("../partials/message-modal"); %>
 </main>
 
-<main>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-xl-12 mt-4">
-          <div class="card mb-4">
-              <div class="card-header">
-                  <i class="fas fa-table mr-1"></i>
-                  Materiales
-              </div>
-              <div class="card ml-2 mb-2 mt-2 mr-2">
-                  <div class="table-responsive">
-                      <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                          <thead class="table-secondary">
-                              <tr>
-                                <th>Nombre</th>
-                                <th>Unidad de Medida</th>
-                                <th>Valor Unitario</th>
-                              </tr>
-                          </thead>
-                          <tfoot>
-                              <tr>
-                                <th>Nombre</th>
-                                <th>Unidad de Medida</th>
-                                <th>Valor Unitario</th>
-                                <th></th>
-                              </tr>
-                          </tfoot>
-                          <tbody>
-                              <tr>
-                                <td>Explosivo</td>
-                                <td>20cm^2</td>
-                                <td>#</td>
-                              </tr>
-                              <tr>
-                                <td>Explosivo</td>
-                                <td>20cm^2</td>
-                                <td>#</td>
-                              </tr>
-                              <tr>
-                                <td>Explosivo</td>
-                                <td>20cm^2</td>
-                                <td>#</td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div>
-                  <div class="form-row">
-                    <div class="col-md-6">
-                      <div class="card ml-2 mb-2 mt-2">
-                        <a class="btn btn-primary btn-block" data-title="Edit" data-toggle="modal" data-target="#editar" href="#">Agregar Material</a>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="card mb-2 mt-2 mr-2">
-                        <a class="btn btn-primary btn-block" href="/index/mats" id="save">Guardar</a>
-                      </div>
-                    </div>
-                  </div>
-              </div>
-          </div>
-      </div>
-    </div>
-    <div class="modal" id="editar" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-    			<div class="modal-dialog">
-    				<div class="modal-content">
-    					<div class="modal-header">
-                <h4 class="modal-title custom_align" id="Heading">Agregar Material</h4>
-    						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
-    					</div>
-    					<div class="modal-body">
-                  <div class="form-row">
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label class="small mb-1">Nombre</label>
-          							<input class="form-control " type="text" placeholder="Nombre Material">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label class="small mb-1">Unidad de Medida</label>
-                        <input class="form-control " type="text" placeholder="Rendimiento">
-                      </div>
-                    </div>
-                    <div class="col-md-4">
-                      <div class="form-group">
-                        <label class="small mb-1">Valor Unitario</label>
-                        <input class="form-control " type="text" placeholder="Valor Unitario">
-                      </div>
-                    </div>
-                  </div>
-    					</div>
-    					<div class="modal-footer ">
-    						<button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
-    					</div>
-    				</div>
-    				<!-- /.modal-content -->
-    			</div>
-    			<!-- /.modal-dialog -->
-    </div>
-  </div>
-  <script>
-   $('#makeEditable').SetEditable({ $addButton: $('#agg')});
-  </script>
-  <script>
-  	$(document).ready(function() {
-  			$('.selectBuscar').select2();
-  	});
-  </script>
-  <!-- lmateriales_edit
-  <script>
-    $('#edit').on('click', function(){
-         $('#layoutSidenav_content').load('lmateriales_edit.html');
-    });
-  </script> -->
-  <script>
-    $('#save').on('click', function(){
-         $('#layoutSidenav_content').load('materiales.html');
-    });
-  </script>
-</main>
+

@@ -8,20 +8,44 @@
         <script src="/bootstable.min.js"></script>
 
         <% if(locals.selected){ -%>
-                <% if(selected == "salary"){ -%>
-                        <script src="/default/salary/s_salary.js"></script>
+                <% if(selected == "item"){ -%>
+                        <% if(user.SUPERUSER){ -%> 
+                                <script src="/default/item/s/s_utility.js"></script>
+                                <% if(type == "gangs"){ -%>
+                                        <script src="/default/item/s/s_gang.js"></script>
+                                <% }else if(type == "materials"){ -%>
+                                        <script src="/default/item/s/s_material.js"></script>
+                                <% }else if(type == "transports"){ -%>
+                                        <script src="/default/item/s/s_transport.js"></script>
+                                <% }else if(type == "machineries"){ -%>
+                                        <script src="/default/item/s/s_machinery.js"></script>
+                                <% }else if(type == "su_items"){ -%>
+                                        <script src="/default/item/s/s_all.js"></script> 
+                                <% }-%>
+                        <% } else {-%>     
+                                <script src="/default/item/u/u_utility.js"></script>
+                                <% if(type == "u_gangs"){ -%>
+                                        <script src="/default/item/u/u_gang.js"></script>
+                                <% }else if(type == "u_materials"){ -%>
+                                        <script src="/default/item/u/u_material.js"></script>
+                                <% }else if(type == "u_transports"){ -%>
+                                        <script src="/default/item/u/u_transport.js"></script>
+                                <% }else if(type == "u_machineries"){ -%>
+                                        <script src="/default/item/u/u_machinery.js"></script> 
+                                <% }-%>
+                        <% }-%>
+                <% }else if(selected == "salary"){ -%>
+                        <% if(user.SUPERUSER){ -%> 
+                                <script src="/default/salary/s_salary.js"></script>
+                        <% } else {-%>  
+                                <script src="/default/salary/u_salary.js"></script>
+                        <% }-%>
                 <% }else if(selected == "char"){ -%>
-                        <script src="/default/group/s_groups.js"></script>
-                <% }else if(selected == "gang"){ -%>
-                        <script src="/default/item/s_gang.js"></script>
-                <% }else if(selected == "material"){ -%>
-                        <script src="/default/item/s_material.js"></script>
-                <% }else if(selected == "transport"){ -%>
-                        <script src="/default/item/s_transport.js"></script>
-                <% }else if(selected == "machinery"){ -%>
-                        <script src="/default/item/s_machinery.js"></script>
-                <% }else if(selected == "su_items"){ -%>
-                        <script src="/default/item/s_all.js"></script>
+                        <% if(user.SUPERUSER){ -%> 
+                                <script src="/default/group/s_groups.js"></script>
+                        <% } else {-%>  
+                                <script src="/default/group/u_groups.js"></script>
+                        <% }-%>
                 <% }-%>
         <% }-%>
 

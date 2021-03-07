@@ -30,7 +30,9 @@ router.post('/chp_grp/', async(req, res) => {
 	}catch(err){
         if(err.name == "regError"){
             res.status(400).json({name: "Error", message: err.message});
-		}else {
+		} else if(err.name == "SequelizeUniqueConstraintError"){
+            res.status(400).json({name: "Error", message: "El prefijo ya ha sido utilizado"});
+		} else {
             res.status(500).json({name: "Error", message: "internal server error"});
 		}
 	}
@@ -288,7 +290,7 @@ router.patch('/chp_grp/:id', async(req, res) => {
         });
         
 		if(result == 0){
-			throw {name : "MatchError", message : "No se encontro"}; 
+			throw {name : "MatchError", message : "No se actualizo el grupo de procesos"}; 
         }
 
 		res.status(200).json({name: "Exito", message: "Se ha actualizado el grupo de procesos"});
@@ -323,7 +325,7 @@ router.patch('/act_grp/:id', async(req, res) => {
         });
         
 		if(result == 0){
-			throw {name : "MatchError", message : "No se encontro"}; 
+			throw {name : "MatchError", message : "No se actualizo el grupo de actividades"}; 
         }
 
 		res.status(200).json({name: "Exito", message: "Se ha actualizado el grupo de actividades"});

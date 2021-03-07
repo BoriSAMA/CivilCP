@@ -7,13 +7,19 @@ var initModels = require("../model/init-models");
 var models = initModels(sequelize);
 
 
-//submit an apu
+//submit an worker
 router.post('/', async(req, res) => {
 	try{
+        var { id, rank, name, cc, phone, skill } = req.body;
+
+        if ( !id || !rank || !name || !cc || !phone || !skill) {
+            throw {name : "regError", message : "Datos del material incompletos"};
+        }
+
         const result = await sequelize.transaction(async (t) => {
             const sal = await models.worker.create({
-                            ID_USER: req.body.idu,
-                            ID_RANK: req.body.rank,
+                            ID_USER: id,
+                            ID_RANK: rank,
                             NAME: req.body.name,
                             CC: req.body.cc,
                             PHONE:req.body.phone,
@@ -22,46 +28,70 @@ router.post('/', async(req, res) => {
             return sal;
         });
         
-		console.log("worker created: "+ result.ID);
-		res.status(200).json(result);
+		res.status(200).json({name: "Exito", message: "Se ha registrado el item"});
 	}catch(err){
-        if(err.name == "SequelizeValidationError"){
-			res.status(400).json({message:"Datos incompletos"});
-		}else{
-			res.status(500).json({message:"internal server error"});
+        if(err.name == "regError"){
+            res.status(400).json({name: "Error", message: err.message});
+		}else {
+            res.status(500).json({name: "Error " + err.name, message: "internal server error " + err.message});
 		}
 	}
 });
 
 //get all
-router.get('/', async(req, res) => {
+router.get('/all', async(req, res) => {
 	try{
+        var array = [];
 		const result = await sequelize.transaction(async (t) => {
-			const sal = await models.worker.findAll({where: {ID_USER: req.body.idu}},{ transaction: t });
+			const sal = await models.worker.findAll({where: {
+                                            ID_USER: req.session.user.ID
+                                        }},{ transaction: t });
 			return sal;
         });
 
-		if(result == ""){
-            throw {name : "EmptyError", message : "Empleados no encontrados"};
+        for (let i = 0; i < result.length; i++) {
+            array[i] = result[i].dataValues;
         }
-		res.status(200).json(result);
+
+        res.status(200).render('index',{
+            selected: 'workers',
+            user: req.session.user,
+            worker: array
+        });
 	}catch(err){
-		if(err.name == "EmptyError"){
-            res.status(404).json({message:err.message});
-        }else{
-            res.status(500).json({message:"internal server error"});
-        }
+        res.status(200).render('index',{
+            selected: 'workers',
+            user: req.session.user,
+            mt: array
+        });
 	}
 });
 
+//get one
+router.get('/:id', async(req, res) => {
+	try{
+		const result = await sequelize.transaction(async (t) => {
+			const sal = await models.worker.findAll({where: {
+                                            ID_USER: req.session.user.ID,
+                                            ID: req.params.id
+                                        }},{ transaction: t });
+			return sal;
+        });
+
+        res.status(200).json(result);
+	}catch(err){
+        res.status(500).json({name: "Error " + err.name, message: "internal server error " + err.message});
+	}
+});
 
 //Delete
-router.patch('/', async(req, res) => {
+router.patch('/:id', async(req, res) => {
     try{
 		const result = await sequelize.transaction(async (t) => {
             const sal = await models.worker.destroy({
                                 where: {
-                                    ID: req.body.id
+                                    ID_USER: req.session.ID,
+                                    ID: req.params.id
                                 }
                             },{ transaction: t });
             return sal;
@@ -70,13 +100,15 @@ router.patch('/', async(req, res) => {
 		if(result == 0){
 			throw {name : "MatchError", message : "No se elimino el trabajador"}; 
         }
-        console.log(result)
+
 		res.status(200).json(result);
 	}catch(err){
         if(err.name == "MatchError"){
-            res.status(400).json({message:err.message});
-        }else{
-            res.status(500).json({message:"internal server error"});
+            res.status(400).json({name: "Error", message: err.message});
+        }else if(err.name == "SequelizeForeignKeyConstraintError"){
+            res.status(400).json({name: "Error", message:"No se pueden eliminar trabajadores utilizados en presupuestos"});
+        }else {
+            res.status(500).json({name: "Error " + err.name, message:"internal server error" + err.message});
         }
 	}
 });

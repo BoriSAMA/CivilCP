@@ -27,6 +27,10 @@
                                         <div class="sb-nav-link-icon p-1"><i class="fas fa-tachometer-alt"></i></div>
                                         Caracterizaciones
                                     </a>
+                                    <a class="nav-link" href="/index/materials" id="lmat">
+                                        <div class="sb-nav-link-icon p-1"><i class="fas fa-toolbox"></i></div>
+                                        Materiales
+                                    </a>
                                     <a class="nav-link" href="/index/gangs" id="lcua">
                                         <div class="sb-nav-link-icon p-1"><i class="fas fa-users"></i></div>
                                         Cuadrillas
@@ -35,23 +39,46 @@
                                         <div class="sb-nav-link-icon p-1"><i class="fas fa-truck-pickup"></i></div>
                                         Maquinarias
                                     </a>
-                                    <a class="nav-link" href="/index/materials" id="lmat">
-                                        <div class="sb-nav-link-icon p-1"><i class="fas fa-toolbox"></i></div>
-                                        Materiales
-                                    </a>
                                     <a class="nav-link" href="/index/transports" id="lmat">
                                         <div class="sb-nav-link-icon p-1"><i class="fas fa-car-side"></i></div>
                                         Transporte
                                     </a>
-                                    <% if(user.SUPERUSER){ -%>
-                                        <a class="nav-link" href="/index/all-items" id="lmat">
-                                            <div class="sb-nav-link-icon p-1"><i class="fas fa-book-medical"></i></div>
-                                            Items guardados
-                                        </a>
-                                    <% }-%>
                                 </nav>
                             </div>
-
+                            <% if(user.SUPERUSER){ -%>
+                                <a class="nav-link" href="/index/all-items" id="lmat">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-book-medical"></i></div>
+                                    Items de usuarios
+                                </a>
+                            <% } else {-%>
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#mibd" aria-expanded="false" aria-controls="collapseDB">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-database"></i></div>
+                                        Mi base de datos
+                                    <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                </a>
+                                <div class="collapse" id="mibd" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                                    <nav class="sb-sidenav-menu-nested nav">
+                                        <a class="nav-link" href="/index/u_materials" id="lmat">
+                                            <div class="sb-nav-link-icon p-1"><i class="fas fa-toolbox"></i></div>
+                                            Materiales
+                                        </a>
+                                        <a class="nav-link" href="/index/u_gangs" id="lcua">
+                                            <div class="sb-nav-link-icon p-1"><i class="fas fa-users"></i></div>
+                                            Cuadrillas
+                                        </a>
+                                        <a class="nav-link" href="/index/u_machineries" id="lmaq">
+                                            <div class="sb-nav-link-icon p-1"><i class="fas fa-truck-pickup"></i></div>
+                                            Maquinarias
+                                        </a>
+                                        <a class="nav-link" href="/index/u_transports" id="lmat">
+                                            <div class="sb-nav-link-icon p-1"><i class="fas fa-car-side"></i></div>
+                                            Transporte
+                                        </a>
+                                    </nav>
+                                </div>
+                            <% }-%>
+                            
+                            <% if(!user.SUPERUSER){ -%>
                             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePresupuesto" aria-expanded="false" aria-controls="collapsePresupuesto">
                                 <div class="sb-nav-link-icon"><i class="fas fa-money-check-alt"></i></div>
                                 Presupuesto
@@ -86,62 +113,74 @@
                                   </a>
                                 </nav>
                             </div>
+                            <% }-%>
                         </div>
                     </div>
                 </nav>
             </div>
             <div id="layoutSidenav_content">
                 <% if(selected == "salary"){ -%>
-                    
                     <%- include('default/salary.ejs') %>
+
                 <% }else if(selected == "char"){ -%>
-
                     <%- include('default/char.ejs') %>
-                <% }else if(selected == "gangs"){ -%>
+                
+                <% }else if(selected == "item"){ -%>
+                    <% if(type == "materials"){ -%>
+                        <%- include('default/materials.ejs') %>
+    
+                    <% }else if(type == "gangs"){ -%>
+                        <%- include('default/gangs.ejs') %>
+    
+                    <% }else if(type == "machineries"){ -%>
+                        <%- include('default/machineries.ejs') %>
+    
+                    <% }else if(type == "transports"){ -%>
+                        <%- include('default/transports.ejs') %>
+    
+                    <% }else if(type == "su_items"){ -%>
+                        <%- include('default/items-all.ejs') %>
 
-                    <%- include('default/gangs.ejs') %>
-                <% }else if(selected == "machinery"){ -%>
-
-                    <%- include('default/machineries.ejs') %>
-                <% }else if(selected == "su_items"){ -%>
-
-                    <%- include('default/items-all.ejs') %>
-                <% } else if(selected == "machinaryL"){ -%>
-                    
-                    <%- include('default/machinaryL.ejs') %>
-                <% }else if(selected == "materials"){ -%>
-
-                    <%- include('default/materials.ejs') %>
-                <% }else if(selected == "materialsU"){ -%>
-
-                    <%- include('default/materialsUser.ejs') %>
-                <% }else if(selected == "budget"){ -%>
-
-                    <%- include('default/budget.ejs') %>
-                <% }else if(selected == "shoppinglist"){ -%>
-
-                    <%- include('default/shoppinglist.ejs') %>
-                <% }else if(selected == "gantt"){ -%>
-
-                    <%- include('default/gantt.ejs') %>
+                    <% }else if(type == "u_materials"){ -%>
+                        <%- include('default/materialsUser.ejs') %>
+    
+                    <% }else if(type == "u_gangs"){ -%>
+                        <%- include('default/gangsUser.ejs') %>
+    
+                    <% }else if(type == "u_machineries"){ -%>
+                        <%- include('default/machineriesUser.ejs') %>
+    
+                    <% }else if(type == "u_transports"){ -%>
+                        <%- include('default/transportsUser.ejs') %>
+    
+                    <% }-%>
                 <% }else if(selected == "workers"){ -%>
+                    <%- include('quote/workers.ejs') %>
 
-                    <%- include('default/workers.ejs') %>
+                <% }else if(selected == "budget"){ -%>
+                    <%- include('quote/budget.ejs') %>
+
+                <% }else if(selected == "shoppinglist"){ -%>
+                    <%- include('quote/shoppinglist.ejs') %>
+
+                <% }else if(selected == "gantt"){ -%>
+                    <%- include('default/gantt.ejs') %>
+                
                 <% }else if(selected == "apumachinary"){ -%>
-
                     <%- include('default/apumachinary.ejs') %>
+
                 <% }else if(selected == "apumats"){ -%>
-
                     <%- include('default/apumats.ejs') %>
+
                 <% }else if(selected == "apuworkers"){ -%>
-
                     <%- include('default/apuworkers.ejs') %>
-                <% }else if(selected == "aputrans"){ -%>
 
+                <% }else if(selected == "aputrans"){ -%>
                     <%- include('default/aputrans.ejs') %>
+
                 <% }else{ -%>
-                    
                     <%- include('default/normal.ejs') %>
+                    
                 <% } -%>
             </div>
           </div>

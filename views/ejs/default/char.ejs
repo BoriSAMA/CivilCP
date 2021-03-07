@@ -27,18 +27,24 @@
                 <table class="table table-bordered table-hover align-middle m-0" width="100%" height="100%" cellspacing="0">
                     <thead class="table-secondary">
                         <tr class="h-50">
-                          <th class="align-middle text-center" colspan="4">Grupos de procesos</th>
+                          <% if(user.SUPERUSER){ -%>
+                            <th class="align-middle text-center" colspan="4">Grupos de procesos</th> 
+                          <% } else { -%>
+                            <th class="align-middle text-center" colspan="3">Grupos de procesos</th> 
+                          <% }-%>
                         </tr>
                         <tr>
                           <th class="align-middle" width="5%">#</th>
                           <th class="align-middle" width="15%">Prefijo</th>
                           <th class="align-middle">Nombre</th>
+                          <% if(user.SUPERUSER){ -%> 
                           <th class="text-center" width="20%">
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
                               <i class="fa fa-plus" aria-hidden="true"></i>
                               Añadir
                             </button>
                           </th>
+                          <% }-%>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,24 +54,30 @@
                             <td class="align-middle"><%= i + 1 %></td>
                             <td class="align-middle"><%= groups.cg[i].PREFIX %></td>
                             <td class="align-middle"><%= groups.cg[i].NAME %></td>
-                            <td>
-                              <div class="row mw-100 m-0">
-                                <div class="col">
-                                  <button class="w-100 btn btn-primary" onclick="initGroup('1', '<%=groups.cg[i].ID %>')">
-                                    <i class="fa fa-pen" aria-hidden="true"></i>
-                                  </button>
+                            <% if(user.SUPERUSER){ -%> 
+                              <td>
+                                <div class="row mw-100 m-0">
+                                  <div class="col">
+                                    <button class="w-100 btn btn-primary" onclick="initGroup('1', '<%=groups.cg[i].ID %>')">
+                                      <i class="fa fa-pen" aria-hidden="true"></i>
+                                    </button>
+                                  </div>
+                                  <div class="col">
+                                    <button class="w-100 btn btn-danger" onclick="delGroup('1', '<%=groups.cg[i].ID %>')">
+                                      <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </div>      
                                 </div>
-                                <div class="col">
-                                  <button class="w-100 btn btn-danger" onclick="delGroup('1', '<%=groups.cg[i].ID %>')">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                  </button>
-                                </div>      
-                              </div>
-                            </td>
+                              </td>
+                            <% }-%>
                           </tr>
                         <%}%>
                       <%} else{%>
-                        <td colspan="4"><h4 class="text-center Normal weight text">Aun no se han añadido grupos de procesos</h4></td>
+                        <% if(user.SUPERUSER){ -%> 
+                          <td colspan="4"><h4 class="text-center Normal weight text">Aun no se han añadido grupos de procesos</h4></td>
+                        <% }else{-%> 
+                          <td colspan="3"><h4 class="text-center Normal weight text">Aun no se han añadido grupos de procesos</h4></td>
+                        <% }-%>
                       <%}%>
                     </tbody>
                 </table>
@@ -75,19 +87,25 @@
                 <table class="table table-bordered table-hover align-middle m-0" width="100%" height="100%" cellspacing="0">
                     <thead class="table-secondary">
                         <tr class="h-50">
-                          <th class="align-middle text-center" colspan="5">Grupos de actividades</th>
+                          <% if(user.SUPERUSER){ -%> 
+                            <th class="align-middle text-center" colspan="5">Grupos de actividades</th>
+                          <% } else {-%>  
+                            <th class="align-middle text-center" colspan="4">Grupos de actividades</th>
+                          <% }-%>
                         </tr>
                         <tr>
                           <th class="align-middle" width="5%">#</th>
                           <th class="align-middle" width="20%">Grupo de procesos</th>
                           <th class="align-middle" width="15%">Prefijo</th>
                           <th class="align-middle">Nombre</th>
-                          <th class="text-center" width="20%">
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
-                              <i class="fa fa-plus" aria-hidden="true"></i>
-                              Añadir
-                            </button>
-                          </th>
+                          <% if(user.SUPERUSER){ -%> 
+                            <th class="text-center" width="20%">
+                              <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                Añadir
+                              </button>
+                            </th>
+                          <% }-%>
                         </tr>
                     </thead>
                     <tbody>
@@ -98,24 +116,30 @@
                             <td class="align-middle" cg_id="<%= groups.ag[i].chapter_group.ID %>"><%= groups.ag[i].chapter_group.NAME %></td>
                             <td class="align-middle"><%= groups.ag[i].PREFIX %></td>
                             <td class="align-middle"><%= groups.ag[i].NAME %></td>
-                            <td>
-                              <div class="row mw-100 m-0">
-                                <div class="col">
-                                  <button class="w-100 btn btn-primary" onclick="initGroup('2', '<%=groups.ag[i].ID %>')">
-                                    <i class="fa fa-pen" aria-hidden="true"></i>
-                                  </button>
-                                </div>
-                                <div class="col">
-                                  <button class="w-100 btn btn-danger" onclick="delGroup('2', '<%=groups.ag[i].ID %>')">
-                                    <i class="fa fa-trash" aria-hidden="true"></i>
-                                  </button>
-                                </div>      
-                              </div>  
-                            </td>
+                            <% if(user.SUPERUSER){ -%> 
+                              <td>
+                                <div class="row mw-100 m-0">
+                                  <div class="col">
+                                    <button class="w-100 btn btn-primary" onclick="initGroup('2', '<%=groups.ag[i].ID %>')">
+                                      <i class="fa fa-pen" aria-hidden="true"></i>
+                                    </button>
+                                  </div>
+                                  <div class="col">
+                                    <button class="w-100 btn btn-danger" onclick="delGroup('2', '<%=groups.ag[i].ID %>')">
+                                      <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </div>      
+                                </div>  
+                              </td>
+                            <% }-%>
                           </tr>
                         <%}%>
                       <%}else{%>
-                        <td colspan="5"><h4 class="text-center Normal weight text">Aun no se han añadido grupos de actividades</h4></td>
+                        <% if(user.SUPERUSER){ -%>
+                          <td colspan="5"><h4 class="text-center Normal weight text">Aun no se han añadido grupos de actividades</h4></td>
+                        <% } else {-%> 
+                          <td colspan="4"><h4 class="text-center Normal weight text">Aun no se han añadido grupos de actividades</h4></td>
+                        <% }-%>
                       <%}%>
                     </tbody>
                 </table>
@@ -173,23 +197,5 @@
     </div>
   </div>
   
-  <!-- Modal msg-->
-  <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <%- include ("../partials/message-modal"); %>
 </main>

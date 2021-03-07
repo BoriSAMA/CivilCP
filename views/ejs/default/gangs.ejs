@@ -3,201 +3,287 @@
     <div class="row">
       <div class="col-xl-12 mt-4">
           <div class="card mb-4">
-              <div class="card-header">
-                  <i class="fas fa-table mr-1"></i>
-                  Cuadrillas
-              </div>
-              <div class="card ml-2 mb-2 mt-2 mr-2">
-                  <div class="table-responsive">
-                      <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                          <thead class="table-secondary">
-                              <tr>
-                                  <th>Grupo de Procesos</th>
-                                  <th>Grupo de Actividades</th>
-                                  <th colspan="3">Cuadrilla</th>
-                                  <th>Rendimiento</th>
-                                  <th>Descripción</th>
-                                  <th>Unidad</th>
-                                  <th>Precio</th>
-                              </tr>
-                          </thead>
-                          <tfoot>
-                              <tr>
-                                  <th>Grupo de Procesos</th>
-                                  <th>Grupo de Actividades</th>
-                                  <th colspan="3">Cuadrilla</th>
-                                  <th>Rendimiento</th>
-                                  <th>Descripción</th>
-                                  <th>Unidad</th>
-                                  <th>Precio</th>
-                                  <th></th>
-                              </tr>
-                          </tfoot>
-                          <tbody>
-                              <tr>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Procesos</option>
-                                    <option value="A1">GP 1</option>
-                                    <option value="A2">GP 2</option>
-                                    <option value="A3">GP 3</option>
-                                  </select></td>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Actividades</option>
-                                    <option value="A1">GA 1</option>
-                                    <option value="A2">GA 2</option>
-                                    <option value="A3">GA 3</option>
-                                  </select></td>
-                                  <td>OT</td>
-                                  <td>O</td>
-                                  <td>A</td>
-                                  <td>-</td>
-                                  <td>Descripción</td>
-                                  <td>Dia</td>
-                                  <td>#</td>
-                              </tr>
-                              <tr>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Procesos</option>
-                                    <option value="A1">GP 1</option>
-                                    <option value="A2">GP 2</option>
-                                    <option value="A3">GP 3</option>
-                                  </select></td>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Actividades</option>
-                                    <option value="A1">GA 1</option>
-                                    <option value="A2">GA 2</option>
-                                    <option value="A3">GA 3</option>
-                                  </select></td>
-                                  <td>OT</td>
-                                  <td>O</td>
-                                  <td>A</td>
-                                  <td>-</td>
-                                  <td>Descripción</td>
-                                  <td>Dia</td>
-                                  <td>#</td>
-                              </tr>
-                              <tr>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Procesos</option>
-                                    <option value="A1">GP 1</option>
-                                    <option value="A2">GP 2</option>
-                                    <option value="A3">GP 3</option>
-                                  </select></td>
-                                  <td><select class="selectBuscar" disabled>
-                                    <option selected>Grupo de Actividades</option>
-                                    <option value="A1">GA 1</option>
-                                    <option value="A2">GA 2</option>
-                                    <option value="A3">GA 3</option>
-                                  </select></td>
-                                  <td>OT</td>
-                                  <td>O</td>
-                                  <td>A</td>
-                                  <td>-</td>
-                                  <td>Descripción</td>
-                                  <td>Dia</td>
-                                  <td>#</td>
-                              </tr>
-                          </tbody>
-                      </table>
+            <div class="card-header">
+              <div class="row">
+                  <div class="col">
+                      <i class="fas fa-table h-100 align-middle"></i>
+                      <span class="align-middle">
+                          Cuadrillas
+                      </span>
                   </div>
-                  <div class="form-row">
-                    <div class="col-md-6">
-                      <div class="card ml-2 mb-2 mt-2">
-                        <a class="btn btn-primary btn-block" data-title="Edit" data-toggle="modal" data-target="#editar" href="#">Agregar Cuadrilla</a>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="card mb-2 mt-2 mr-2">
-                        <a class="btn btn-primary btn-block">Guardar</a>
-                      </div>
-                    </div>
+                  <div class="col-2">
+                      <button class="btn btn-info align-middle w-100" type="button" onclick="showfilters()">
+                          <i class="fa fa-filter h-100 align-middle" aria-hidden="true"></i>
+                          Filtros
+                      </button>
                   </div>
-              </div>
+                </div>
+                <div class="row filters mt-1 pt-2" style="background-color: #D4E0E3;" hidden>
+                  <div class="col">
+                      <div class="form-group">
+                          <label for="select_filter_chp_grp">Grupo de procesos:</label>
+                          <select id="select_filter_chp_grp" class="custom-select selectBuscar">
+                              <option value="0">Ninguno</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="col">
+                      <div class="form-group">
+                          <label for="select_filter_act_grp">Grupo de actividades:</label>
+                          <select id="select_filter_act_grp_2" class="custom-select selectBuscar">
+                              <option value="0">Ninguno</option>
+                          </select>
+                          <div id="select_act_grp" hidden>
+                              <select id="select_filter_act_grp" class="custom-select">
+                                  <option value="0">Ninguno</option>
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <div class="card ml-2 mb-2 mt-2 mr-2">
+              <div id="item_gang" class="table-responsive">
+                <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th class="align-middle" width="5%">#</th>
+                            <th class="align-middle" width="8%">G.A.</th>
+                            <th class="align-middle" colspan="2">Nombre</th>
+                            <th class="align-middle" width="7%">Rendimiento</th>
+                            <th class="align-middle" width="6%">Unidad</th>
+                            <th class="align-middle" width="15%">Costo</th>
+                            <% if(user.SUPERUSER){ -%> 
+                              <th class="text-center" width="20%">
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                                  <i class="fa fa-plus" aria-hidden="true"></i>
+                                  Añadir
+                                </button>
+                              </th>
+                            <% }-%>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <%if(locals.ga) { -%>
+                        <%if(ga.length > 0) { -%>
+                            <%for(var i = 0; i < ga.length; i++) { -%>
+                                <tr id="<%= ga[i].ID %>" act_grp="<%= ga[i].ID_ACT_GRP %>" chp_grp="<%= ga[i].activity_group.ID_CHP_GRP %>">
+                                    <td class="align-middle"><%= i + 1 %></td>
+                                    <td class="align-middle"><%= ga[i].activity_group.PREFIX %></td>
+                                    <td class="align-middle"><%= ga[i].NAME %></td>
+                                    <td class="align-middle"><%= ga[i].DESCRIPTION %></td>
+                                    <td class="align-middle"><%= ga[i].PERFORMANCE %></td>
+                                    <td class="align-middle"><%= ga[i].MEASSURE_UNIT %></td>
+                                    <td class="align-middle"><%= ga[i].COST %></td>
+                                    <% if(user.SUPERUSER){ -%> 
+                                      <td>
+                                        <div class="row mw-100 m-0">
+                                          <div class="col">
+                                            <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#updModal" onclick="initItem('<%= ga[i].ID %>')">
+                                              <i class="fa fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                          </div>
+                                          <div class="col">
+                                            <button class="w-100 btn btn-danger" onclick="delItem('<%=ga[i].ID %>')">
+                                              <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                          </div>      
+                                        </div>
+                                      </td>
+                                    <% }-%>
+                                </tr>
+                            <%}%>
+                        <%} else{%>
+                          <% if(user.SUPERUSER){ -%>
+                            <td colspan="8"><h4 class="text-center Normal weight text">No se han añadido cuadrillas</h4></td>
+                          <% } else {-%>
+                            <td colspan="7"><h4 class="text-center Normal weight text">No se han añadido cuadrillas</h4></td>
+                          <% }-%>
+                        <%}%>
+                      <%}%>
+                    </tbody>
+                </table>
+            </div>
+            </div>
           </div>
       </div>
     </div>
-    <div class="modal" id="editar" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-    			<div class="modal-dialog">
-    				<div class="modal-content">
-    					<div class="modal-header">
-                <h4 class="modal-title custom_align" id="Heading">Agregar Cuadrilla</h4>
-    						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
-    					</div>
-    					<div class="modal-body">
-                  <div class="form-row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="small mb-1">Grupo de Procesos</label>
-                        <select class="selectBuscar">
-                          <option selected>Seleccionar</option>
-                          <option value="A1">GP 1</option>
-                          <option value="A2">GP 2</option>
-                          <option value="A3">GP 3</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="small mb-1">Grupo de Actividades</label>
-                        <select class="selectBuscar">
-                          <option selected>Seleccionar</option>
-                          <option value="A1">GA 1</option>
-                          <option value="A2">GA 2</option>
-                          <option value="A3">GA 3</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                <div class="form-group">
-                  <label class="small mb-1">Cuadrilla</label>
-                  <div class="form-row">
-                    <div class="col-md-4">
-                      <input class="form-control " type="text" placeholder="Oficiales Técnicos">
-                    </div>
-                    <div class="col-md-4">
-                      <input class="form-control " type="text" placeholder="Oficiales">
-                    </div>
-                    <div class="col-md-4">
-                      <input class="form-control " type="text" placeholder="Ayudantes">
-                    </div>
-                  </div>
-    						</div>
-                <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="small mb-1">Rendimiento</label>
-                      <input class="form-control " type="text" placeholder="Rendimiento">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="small mb-1">Descripción</label>
-                      <input class="form-control " type="text" placeholder="Descripción">
-                    </div>
-                  </div>
+  </div>
+
+<!-- Modal add-->
+<div class="modal fade" id="addModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal2-title" id="exampleModalLongTitle">Añadir Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="select_filter_chp_grp_2">Grupo de procesos</label>
+          <select id="select_filter_chp_grp_2" class="custom-select selectBuscar">
+            
+          </select>
+        </div>
+        <div class="form-group" id="add_act_grp">
+          <label for="select_filter_act_grp_3">Grupo de actividades</label>
+          <select id="select_filter_act_grp_3" class="custom-select selectBuscar" disabled>
+            <option value="0">Ninguno</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Nombre</label>
+          <input class="form-control" type="text" id="item_name" placeholder="Nombre del item">
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Unidad</label>
+          <select id="item_unit" class="custom-select selectBuscar">
+
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="small mb-1">Division de la cuadrilla</label>
+          <div class="row">
+            <div class="col">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">O.T.</span>
                 </div>
-                <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="small mb-1">Unidad</label>
-                      <input class="form-control " type="text" placeholder="Unidad">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="small mb-1">Precio</label>
-                      <input class="form-control " type="text" placeholder="Precio">
-                    </div>
-                  </div>
+                <input class="form-control" type="number" id="item_ot">
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">O.</span>
                 </div>
-    					</div>
-    					<div class="modal-footer ">
-    						<button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
-    					</div>
-    				</div>
-    				<!-- /.modal-content -->
-    			</div>
-    			<!-- /.modal-dialog -->
+                <input class="form-control" type="number" id="item_o">
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">A.</span>
+                </div>
+                <input class="form-control" type="number" id="item_a">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="small mb-1">Rendimiento</label>
+          <input class="form-control" type="number" id="item_perf" placeholder="Rendimiento">
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Costo</label>
+          <input class="form-control" type="text" id="item_cost" data-type="currency">
+        </div>
+        <input type="number" id="item_cont" value="2" hidden>
+      </div>
+      <div class="modal-footer">
+        <div class="card w-100 mt-2">
+            <button class="btn btn-primary btn-block" type="button" onclick="regItem()">
+              Guardar material
+            </button>
+        </div>
+      </div>
     </div>
   </div>
+</div>
+
+<!-- Modal upd-->
+<div class="modal fade" id="updModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal2-title" id="exampleModalLongTitle">Actualizar un item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="form-group">
+          <label for="select_filter_chp_grp_3">Grupo de procesos</label>
+          <select id="select_filter_chp_grp_3" class="custom-select selectBuscar">
+            
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="select_filter_act_grp_4">Grupo de actividades</label>
+          <select id="select_filter_act_grp_4" class="custom-select selectBuscar">
+            <option value="0">Ninguno</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Nombre</label>
+          <input class="form-control" type="text" id="upd_item_name" placeholder="Nombre del item">
+        </div>
+        <div class="form-group">
+          <label class="small mb-1">Unidad</label>
+          <select id="upd_item_unit" class="custom-select selectBuscar">
+
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="small mb-1">Division de la cuadrilla</label>
+          <div class="row">
+            <div class="col">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">O.T.</span>
+                </div>
+                <input class="form-control" type="number" id="upd_item_ot">
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">O.</span>
+                </div>
+                <input class="form-control" type="number" id="upd_item_o">
+              </div>
+            </div>
+            <div class="col">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">A.</span>
+                </div>
+                <input class="form-control" type="number" id="upd_item_a">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="small mb-1">Rendimiento</label>
+          <input class="form-control" type="number" id="upd_item_perf" placeholder="Rendimiento">
+        </div>
+
+        <div class="form-group">
+          <label class="small mb-1">Costo</label>
+          <input class="form-control" type="text" id="upd_item_cost" data-type="currency">
+        </div>
+
+        <input type="number" id="upd_item_id" hidden>
+      </div>
+      <div class="modal-footer">
+        <div class="card w-100 mt-2">
+          <button class="btn btn-primary btn-block" type="button" onclick="updItem()">
+            actualizar material
+          </button>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<%- include ("../partials/message-modal"); %>
 </main>
+

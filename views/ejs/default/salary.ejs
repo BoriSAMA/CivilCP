@@ -12,7 +12,6 @@
               </div>
               <div class="card ml-2 mb-2 mt-2 mr-2">
                 <div class="table-responsive">
-                  <!--id="makeEditable"-->
                     <table id="all-salaries" class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
                         <thead class="table-secondary">
                               <tr>
@@ -20,12 +19,16 @@
                                   <th class="align-middle" width="15%">Multiplicador</th>
                                   <th class="align-middle" width="30%">Valor</th>
                                   <th class="align-middle" width="30%">Valor Hora Efectiva</th>
-                                  <th class="text-center" width="20%">
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
-                                      <i class="fa fa-plus" aria-hidden="true"></i>
-                                      Añadir salario
-                                    </button>
-                                  </th>
+                                  <% if(user.SUPERUSER){ -%>
+                                    <th class="text-center" width="20%">
+                                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                        Añadir salario
+                                      </button>
+                                    </th>
+                                  <% } else { -%> 
+                                    <th class="text-center" width="10%"></th>
+                                  <% }-%>
                               </tr>
                           </thead>
                           <tbody>
@@ -40,20 +43,28 @@
                                     <%}else{%>
                                       <td class="align-middle">Por definir</td>
                                     <%}%>
-                                    <td>
-                                      <div class="row mw-100 m-0">
-                                        <div class="col">
-                                          <button class="w-100 btn btn-primary" onclick="initSalary('<%=salaries[i].ID %>')">
-                                            <i class="fa fa-pen" aria-hidden="true"></i>
-                                          </button>
-                                        </div>
-                                        <div class="col">
-                                          <button class="w-100 btn btn-danger" onclick="delSalary('<%=salaries[i].ID %>')">
-                                            <i class="fa fa-trash" aria-hidden="true"></i>
-                                          </button>
-                                        </div>      
-                                      </div>                         
-                                    </td>
+                                    <% if(user.SUPERUSER){ -%> 
+                                      <td>
+                                        <div class="row mw-100 m-0">
+                                          <div class="col">
+                                            <button class="w-100 btn btn-primary" onclick="initSalary('<%=salaries[i].ID %>')">
+                                              <i class="fa fa-pen" aria-hidden="true"></i>
+                                            </button>
+                                          </div>
+                                          <div class="col">
+                                            <button class="w-100 btn btn-danger" onclick="delSalary('<%=salaries[i].ID %>')">
+                                              <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                          </div>      
+                                        </div>                         
+                                      </td>
+                                    <% } else { -%> 
+                                      <td>
+                                        <button class="w-100 btn btn-info" onclick="initSalary('<%=salaries[i].ID %>')">
+                                          <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </button>
+                                      </td>
+                                    <% }-%>
                                 </tr>
                               <%}%>
                             <%}else{%>
@@ -259,9 +270,11 @@
                       </div>
                     </div>
                   </div>
-                  <div class="card ml-2 mb-2 mt-2 mr-2">
-                    <button class="btn btn-primary btn-block" type="button" id="agg">Actualizar salario</button>
-                  </div>
+                  <% if(user.SUPERUSER){ -%> 
+                    <div class="card ml-2 mb-2 mt-2 mr-2">
+                      <button class="btn btn-primary btn-block" type="button" id="agg">Actualizar salario</button>
+                    </div>
+                  <% }-%>
               </div>
           </div>
             <div class="col-xl-6 mt-4">
@@ -366,86 +379,70 @@
                         </div>
                       </div>
                     </div>
-                    <div class="card ml-2 mb-2 mt-2 mr-2">
-                      <button class="btn btn-primary btn-block" type="button" id="sav">Guardar Horas Efectivas</button>
-                    </div>
+                    <% if(user.SUPERUSER){ -%> 
+                      <div class="card ml-2 mb-2 mt-2 mr-2">
+                        <button class="btn btn-primary btn-block" type="button" id="sav">Guardar Horas Efectivas</button>
+                      </div>
+                    <% }-%>
                 </div>
             </div>
         </div>
       </div>
     </div>
-
-     <!-- Modal add-->
-  <div class="modal fade" id="addModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal2-title" id="exampleModalLongTitle">Añadir salario</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="form-row">
-            <div class="col-md-6">
-              <label class="py-2" for="mul">Multiplicador</label>
+    <% if(user.SUPERUSER){ -%> 
+      <!-- Modal add-->
+      <div class="modal fade" id="addModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal2-title" id="exampleModalLongTitle">Añadir salario</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div class="col-md-6">
-              <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">x</span>
+            <div class="modal-body">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <label class="py-2" for="mul">Multiplicador</label>
                 </div>
-                <input class="form-control py-2" id="mul" type="number" name="mult" aria-describedby="basic-addon1">
+                <div class="col-md-6">
+                  <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="basic-addon1">x</span>
+                    </div>
+                    <input class="form-control py-2" id="mul" type="number" name="mult" aria-describedby="basic-addon1">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="py-2" for="vsm" data-toggle="tooltip" data-placement="right" title="Valor del salario mensual">
+                    <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                    V.S.M.
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control py-2" id="vsm" type="text" data-type="currency"/>
+                </div>
+                <div class="col-md-6">
+                  <label class="py-2" for="stp" data-toggle="tooltip" data-placement="right" title="Subsidio de transporte">
+                    <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                    S.T.P.
+                  </label>
+                </div>
+                <div class="col-md-6">
+                  <input class="form-control py-2" id="stp" type="text" data-type="currency"/>
+                </div>
               </div>
             </div>
-            <div class="col-md-6">
-              <label class="py-2" for="vsm" data-toggle="tooltip" data-placement="right" title="Valor del salario mensual">
-                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
-                V.S.M.
-              </label>
-            </div>
-            <div class="col-md-6">
-              <input class="form-control py-2" id="vsm" type="text" data-type="currency"/>
-            </div>
-            <div class="col-md-6">
-              <label class="py-2" for="stp" data-toggle="tooltip" data-placement="right" title="Subsidio de transporte">
-                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
-                S.T.P.
-              </label>
-            </div>
-            <div class="col-md-6">
-              <input class="form-control py-2" id="stp" type="text" data-type="currency"/>
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <div class="card w-100 mt-2">
-              <button class="btn btn-primary btn-block" type="button" onclick="regSalary()">
-                Guardar Salario
-              </button>
+              <div class="modal-footer">
+                <div class="card w-100 mt-2">
+                    <button class="btn btn-primary btn-block" type="button" onclick="regSalary()">
+                      Guardar Salario
+                    </button>
+                </div>
+              </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-    <!-- Modal -->
-  <div class="modal fade" id="msgModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          ...
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
+    <% }-%>
+  <%- include ("../partials/message-modal"); %>
 </main>

@@ -6,7 +6,9 @@ $(async function() {
 });
 
 $('#msgModal').on('hidden.bs.modal', function () {
-  window.location = '/index/salary';
+  if ($('#msgModal .modal-title').html() == "Exito") {
+    window.location = '/index/salary';
+  }
 })
 
 $('#addModal').on('hidden.bs.modal', function () {
@@ -31,15 +33,6 @@ $('#hea').on('keyup', function() {
 
 $("#mul").on('blur', function() { 
     calculateSal();
-});
-
-$("input[data-type='currency']").on({
-  keyup: function() {
-    formatCurrency($(this));
-  },
-  blur: function() { 
-    formatCurrency($(this), "blur");
-  }
 });
 
 if ($('#all-salaries tbody tr td:nth-child(1)').html() === "1") {
@@ -191,6 +184,9 @@ async function chargeSalary(salAux){
         }
         translateTxt($('#fic'), (smmlv.VALUE * 12) * 0.025);
     }else{
+      $('#hca').val(salAux.ANNUAL_CALENDAR_HOURS);
+      $('#hl').val(salAux.ANNUAL_WORKING_HOURS);
+      $('#hea').val(salAux.TOTAL_ANNUAL_EFFECTIVE_HOURS);
       translateTxt($('#fic'), anu_val * 0.025);
     }
   } 

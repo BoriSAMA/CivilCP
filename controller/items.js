@@ -14,17 +14,41 @@ var models = initModels(sequelize);
 //submit an item
 router.post('/', async(req, res) => {
 	try{
-        var {name, mesu, perf, desc, cost, actg, cont} = req.body;
 
+        var {name, mesu, perf, desc, cost, actg, cont} = req.body;
+        switch (cont) {
+            case '1':
+                if (!name || !mesu || !cost || actg == '0') {
+                    throw {name : "regError", message : "Datos del material incompletos"};
+                }
+                break;
+            case '2':
+                if (!desc || !mesu || !perf || !cost || actg == '0') {
+                    throw {name : "regError", message : "Datos incompletos"};
+                }
+                break;
+            case '3':
+                if (!name || !mesu || !cost || actg == '0') {
+                    throw {name : "regError", message : "Datos incompletos"};
+                }
+                break;
+            case '4':
+                if (!name || !mesu || !cost || actg == '0') {
+                    throw {name : "regError", message : "Datos incompletos"};
+                }
+                break;
+            default:
+                break;
+        }
         await sequelize.transaction(async (t) => {
             const item = await models.item_list.create({
-                            NAME: req.body.name,
-                            MEASSURE_UNIT: req.body.mesu,
-                            PERFORMANCE: req.body.perf,
-                            DESCRIPTION: req.body.desc,
-                            COST: req.body.cost,
-                            ID_ACT_GRP: req.body.actg,
-                            ID_CONTENT: req.body.cont,
+                            NAME: name,
+                            MEASSURE_UNIT: mesu,
+                            PERFORMANCE: parseInt(perf),
+                            DESCRIPTION: desc,
+                            COST: cost,
+                            ID_ACT_GRP: actg,
+                            ID_CONTENT: cont,
                             ID_USER: req.session.user.ID
                         }, { transaction: t });
             return item;
@@ -35,7 +59,7 @@ router.post('/', async(req, res) => {
         if(err.name == "regError"){
             res.status(400).json({name: "Error", message: err.message});
 		}else {
-            res.status(500).json({name: "Error", message: "internal server error"});
+            res.status(500).json({name: "Error " + err.name, message: "internal server error" + err.message});
 		}
 	}
 });
@@ -45,130 +69,7 @@ router.post('/', async(req, res) => {
  */
 //------------------------------------------------------------------------------------------------
 //get all materials for the user
-router.get('/materials', async(req, res) => {
-	try{
-        var array = [];
-		const result = await sequelize.transaction(async (t) => {
-			const item = await models.item_list.findAll({
-                                                where: {
-                                                    ID_CONTENT: 1,
-                                                    ID_USER: req.session.user.ID
-                                                },include: [{   
-                                                    model: models.activity_group,
-                                                    include: {
-                                                        model: models.chapter_group
-                                                    }
-                                                }]
-                                            },{ transaction: t });
-			return item;
-        });
-
-        for (let i = 0; i < result.length; i++) {
-            array[i] = result[i].dataValues;
-            array[i].activity_group = array[i].activity_group.dataValues;
-            array[i].activity_group.chapter_group = array[i].activity_group.chapter_group.dataValues;
-        }
-
-        res.status(200).render('index',{
-            selected: 'materials',
-            user: req.session.user,
-            materials: array
-        });
-	}catch(err){
-		res.status(200).render('index',{
-            selected: 'materials',
-            user: req.session.user,
-            error: "internal server error",
-            materials: array
-        });
-	}
-});
-
-//get all gangs for the user
-router.get('/gangs', async(req, res) => {
-	try{
-        var array = [];
-		const result = await sequelize.transaction(async (t) => {
-			const item = await models.item_list.findAll({
-                                                where: {
-                                                    ID_CONTENT: 2,
-                                                    ID_USER: req.session.user.ID
-                                                },include: [{   
-                                                    model: models.activity_group,
-                                                    include: {
-                                                        model: models.chapter_group
-                                                    }
-                                                }]
-                                            },{ transaction: t });
-			return item;
-        });
-
-        for (let i = 0; i < result.length; i++) {
-            array[i] = result[i].dataValues;
-            array[i].activity_group = array[i].activity_group.dataValues;
-            array[i].activity_group.chapter_group = array[i].activity_group.chapter_group.dataValues;
-        }
-
-        res.status(200).render('index',{
-            selected: 'gangs',
-            user: req.session.user,
-            gangs: array
-        });
-	}catch(err){
-		res.status(200).render('index',{
-            selected: 'gangs',
-            user: req.session.user,
-            error: "internal server error",
-            gangs: array
-        });
-	}
-});
-
-//get all machinery for the user
-router.get('/machineries', async(req, res) => {
-	try{
-        var array = [];
-		const result = await sequelize.transaction(async (t) => {
-			const item = await models.item_list.findAll({
-                                                where: {
-                                                    ID_CONTENT: 3,
-                                                    ID_USER: req.session.user.ID
-                                                },include: [{   
-                                                    model: models.activity_group,
-                                                    include: {
-                                                        model: models.chapter_group
-                                                    }
-                                                }]
-                                            },{ transaction: t });
-			return item;
-        });
-
-        for (let i = 0; i < result.length; i++) {
-            array[i] = result[i].dataValues;
-            array[i].activity_group = array[i].activity_group.dataValues;
-            array[i].activity_group.chapter_group = array[i].activity_group.chapter_group.dataValues;
-        }
-
-        res.status(200).render('index',{
-            selected: 'machinery',
-            user: req.session.user,
-            machineries: array
-        });
-	}catch(err){
-		res.status(200).render('index',{
-            selected: 'machinery',
-            user: req.session.user,
-            error: "internal server error",
-            machineries: array
-        });
-	}
-});
-
-//get all tranports for the user
-//TODO
-
-//get all materials from the Superuser
-router.get('/materials', async(req, res) => {
+router.get('/user/materials', async(req, res) => {
 	try{
         var array = [];
 		const result = await sequelize.transaction(async (t) => {
@@ -176,7 +77,7 @@ router.get('/materials', async(req, res) => {
                                                 where: {
                                                     [Op.and]: [
                                                         { ID_CONTENT: 1 },
-                                                        { SUPERUSER: 1 }
+                                                        { ID_USER: req.session.user.ID }
                                                     ]
                                                 },include: [{   
                                                     model: models.activity_group,
@@ -195,16 +96,196 @@ router.get('/materials', async(req, res) => {
         }
 
         res.status(200).render('index',{
-            selected: 'materials',
+            selected: 'item',
+            type: 'u_materials',
             user: req.session.user,
-            materials: array
+            mt: array
         });
 	}catch(err){
 		res.status(200).render('index',{
-            selected: 'materials',
+            selected: 'item',
+            type: 'u_materials',
             user: req.session.user,
-            error: "internal server error",
-            materials: array
+            error: "internal server error"
+        });
+	}
+});
+
+//get all gangs for the user
+router.get('/user/gangs', async(req, res) => {
+	try{
+        var array = [];
+		const result = await sequelize.transaction(async (t) => {
+			const item = await models.item_list.findAll({
+                                                where: {
+                                                    [Op.and]: [
+                                                        { ID_CONTENT: 2 },
+                                                        { ID_USER: req.session.user.ID }
+                                                    ]
+                                                },include: [{   
+                                                    model: models.activity_group,
+                                                    include: {
+                                                        model: models.chapter_group
+                                                    }
+                                                }]
+                                            },{ transaction: t });
+			return item;
+        });
+
+        for (let i = 0; i < result.length; i++) {
+            array[i] = result[i].dataValues;
+            array[i].activity_group = array[i].activity_group.dataValues;
+            array[i].activity_group.chapter_group = array[i].activity_group.chapter_group.dataValues;
+        }
+
+        res.status(200).render('index',{
+            selected: 'item',
+            type: 'u_gangs',
+            user: req.session.user,
+            ga: array
+        });
+	}catch(err){
+		res.status(200).render('index',{
+            selected: 'item',
+            type: 'u_gangs',
+            user: req.session.user,
+            error: "internal server error"
+        });
+	}
+});
+
+//get all machinery for the user
+router.get('/user/machineries', async(req, res) => {
+	try{
+        var array = [];
+		const result = await sequelize.transaction(async (t) => {
+			const item = await models.item_list.findAll({
+                                                where: {
+                                                    [Op.and]: [
+                                                        { ID_CONTENT: 3 },
+                                                        { ID_USER: req.session.user.ID }
+                                                    ]
+                                                },include: [{   
+                                                    model: models.activity_group,
+                                                    include: {
+                                                        model: models.chapter_group
+                                                    }
+                                                }]
+                                            },{ transaction: t });
+			return item;
+        });
+
+        for (let i = 0; i < result.length; i++) {
+            array[i] = result[i].dataValues;
+            array[i].activity_group = array[i].activity_group.dataValues;
+            array[i].activity_group.chapter_group = array[i].activity_group.chapter_group.dataValues;
+        }
+
+        res.status(200).render('index',{
+            selected: 'item',
+            type: 'u_machineries',
+            user: req.session.user,
+            mc: array
+        });
+	}catch(err){
+		res.status(200).render('index',{
+            selected: 'item',
+            type: 'u_machineries',
+            user: req.session.user,
+            error: "internal server error"
+        });
+	}
+});
+
+//get all tranports for the user
+router.get('/user/transports', async(req, res) => {
+	try{
+        var array = [];
+		const result = await sequelize.transaction(async (t) => {
+			const item = await models.item_list.findAll({
+                                                where: {
+                                                    [Op.and]: [
+                                                        { ID_CONTENT: 4 },
+                                                        { ID_USER: req.session.user.ID }
+                                                    ]
+                                                },include: [{   
+                                                    model: models.activity_group,
+                                                    include: {
+                                                        model: models.chapter_group
+                                                    }
+                                                }]
+                                            },{ transaction: t });
+			return item;
+        });
+
+        for (let i = 0; i < result.length; i++) {
+            array[i] = result[i].dataValues;
+            array[i].activity_group = array[i].activity_group.dataValues;
+            array[i].activity_group.chapter_group = array[i].activity_group.chapter_group.dataValues;
+        }
+
+        res.status(200).render('index',{
+            selected: 'item',
+            type: 'u_transports',
+            user: req.session.user,
+            tr: array
+        });
+	}catch(err){
+		res.status(200).render('index',{
+            selected: 'item',
+            type: 'u_transports',
+            user: req.session.user,
+            error: "internal server error"
+        });
+	}
+});
+//------------------------------------------------------------------------------------------------
+
+
+//------------------------------------------------------------------------------------------------
+//get all materials from the Superuser
+router.get('/materials', async(req, res) => {
+	try{
+        var array = [];
+		const result = await sequelize.transaction(async (t) => {
+			const item = await models.item_list.findAll({
+                                                where: {
+                                                    [Op.and]: [
+                                                        { ID_CONTENT: 1 },
+                                                        { '$user.SUPERUSER$' : 1 }
+                                                    ]
+                                                },include: [{   
+                                                    model: models.activity_group,
+                                                    include: {
+                                                        model: models.chapter_group
+                                                    }
+                                                },{
+                                                    model: models.user,
+                                                    attributes: ['SUPERUSER']
+                                                }]
+                                            },{ transaction: t });
+			return item;
+        });
+
+        for (let i = 0; i < result.length; i++) {
+            array[i] = result[i].dataValues;
+            array[i].activity_group = array[i].activity_group.dataValues;
+            array[i].activity_group.chapter_group = array[i].activity_group.chapter_group.dataValues;
+            array[i].user = array[i].user.dataValues;
+        }
+
+        res.status(200).render('index',{
+            selected: 'item',
+            type: 'materials',
+            user: req.session.user,
+            mt: array
+        });
+	}catch(err){
+		res.status(200).render('index',{
+            selected: 'item',
+            type: 'materials',
+            user: req.session.user,
+            error: "internal server error"
         });
 	}
 });
@@ -216,13 +297,18 @@ router.get('/gangs', async(req, res) => {
 		const result = await sequelize.transaction(async (t) => {
 			const item = await models.item_list.findAll({
                                                 where: {
-                                                    ID_CONTENT: 2,
-                                                    ID_USER: req.session.user.ID
+                                                    [Op.and]: [
+                                                        { ID_CONTENT: 2 },
+                                                        { '$user.SUPERUSER$' : 1 }
+                                                    ]
                                                 },include: [{   
                                                     model: models.activity_group,
                                                     include: {
                                                         model: models.chapter_group
                                                     }
+                                                },{
+                                                    model: models.user,
+                                                    attributes: ['SUPERUSER']
                                                 }]
                                             },{ transaction: t });
 			return item;
@@ -232,19 +318,21 @@ router.get('/gangs', async(req, res) => {
             array[i] = result[i].dataValues;
             array[i].activity_group = array[i].activity_group.dataValues;
             array[i].activity_group.chapter_group = array[i].activity_group.chapter_group.dataValues;
+            array[i].user = array[i].user.dataValues;
         }
 
         res.status(200).render('index',{
-            selected: 'gangs',
+            selected: 'item',
+            type: 'gangs',
             user: req.session.user,
-            gangs: array
+            ga: array
         });
 	}catch(err){
 		res.status(200).render('index',{
-            selected: 'gangs',
+            selected: 'item',
+            type: 'gangs',
             user: req.session.user,
-            error: "internal server error",
-            gangs: array
+            error: "internal server error"
         });
 	}
 });
@@ -256,13 +344,18 @@ router.get('/machineries', async(req, res) => {
 		const result = await sequelize.transaction(async (t) => {
 			const item = await models.item_list.findAll({
                                                 where: {
-                                                    ID_CONTENT: 3,
-                                                    ID_USER: req.session.user.ID
+                                                    [Op.and]: [
+                                                        { ID_CONTENT: 3 },
+                                                        { '$user.SUPERUSER$' : 1 }
+                                                    ]
                                                 },include: [{   
                                                     model: models.activity_group,
                                                     include: {
                                                         model: models.chapter_group
                                                     }
+                                                },{
+                                                    model: models.user,
+                                                    attributes: ['SUPERUSER']
                                                 }]
                                             },{ transaction: t });
 			return item;
@@ -272,25 +365,71 @@ router.get('/machineries', async(req, res) => {
             array[i] = result[i].dataValues;
             array[i].activity_group = array[i].activity_group.dataValues;
             array[i].activity_group.chapter_group = array[i].activity_group.chapter_group.dataValues;
+            array[i].user = array[i].user.dataValues;
         }
 
         res.status(200).render('index',{
-            selected: 'machinery',
+            selected: 'item',
+            type: 'machineries',
             user: req.session.user,
-            machineries: array
+            mc: array
         });
 	}catch(err){
 		res.status(200).render('index',{
-            selected: 'machinery',
+            selected: 'item',
+            type: 'machineries',
             user: req.session.user,
-            error: "internal server error",
-            machineries: array
+            error: "internal server error"
         });
 	}
 });
 
 //get all tranports from the Superuser
-//TODO
+router.get('/transports', async(req, res) => {
+	try{
+        var array = [];
+		const result = await sequelize.transaction(async (t) => {
+			const item = await models.item_list.findAll({
+                                                where: {
+                                                    [Op.and]: [
+                                                        { ID_CONTENT: 4 },
+                                                        { '$user.SUPERUSER$' : 1 }
+                                                    ]
+                                                },include: [{   
+                                                    model: models.activity_group,
+                                                    include: {
+                                                        model: models.chapter_group
+                                                    }
+                                                },{
+                                                    model: models.user,
+                                                    attributes: ['SUPERUSER']
+                                                }]
+                                            },{ transaction: t });
+			return item;
+        });
+
+        for (let i = 0; i < result.length; i++) {
+            array[i] = result[i].dataValues;
+            array[i].activity_group = array[i].activity_group.dataValues;
+            array[i].activity_group.chapter_group = array[i].activity_group.chapter_group.dataValues;
+            array[i].user = array[i].user.dataValues;
+        }
+
+        res.status(200).render('index',{
+            selected: 'item',
+            type: 'transports',
+            user: req.session.user,
+            tr: array
+        });
+	}catch(err){
+		res.status(200).render('index',{
+            selected: 'item',
+            type: 'transports',
+            user: req.session.user,
+            error: "internal server error"
+        });
+	}
+});
 
 //get copy for superuser
 router.get('/copy/:id', async(req, res) => {
@@ -341,7 +480,7 @@ router.get('/copy/:id', async(req, res) => {
 
         res.status(200).json({name: "Exito", message: "Item " + copy.NAME + " copiado"});
 	}catch(err){
-		res.status(500).json({name: "Error", message: err.message});
+		res.status(500).json({name: "Error " + err.name, message:"internal server error" + err.message});
 	}
 });
 
@@ -390,13 +529,15 @@ router.get('/all', async(req, res) => {
         var response = {mt: array[0], ga: array[1], mc: array[2], tr: array[3]};
 
         res.status(200).render('index',{
-            selected: 'su_items',
+            selected: 'item',
+            type: 'su_items',
             user: req.session.user,
             items: response
         });
 	}catch(err){
 		res.status(200).render('index',{
-            selected: 'su_items',
+            selected: 'item',
+            type: 'su_item',
             user: req.session.user,
             error: "internal server error"
         });
@@ -409,69 +550,79 @@ router.get('/:id', async(req, res) => {
 		const result = await sequelize.transaction(async (t) => {
 			const item = await models.item_list.findAll({
                                                 where: {
-                                                    ID: req.params.ID
-                                                }
+                                                    ID: req.params.id
+                                                }, include: [{
+                                                    model: models.activity_group
+                                                }] 
                                             },{ transaction: t });
 			return item;
         });
 
         res.status(200).json(result);
 	}catch(err){
-		res.status(500).json({name: "Error", message: "internal server error"});
+		res.status(500).json({name: "Error " + err.name, message:"internal server error" + err.message});
 	}
 });
 //------------------------------------------------------------------------------------------------
 
 
 //Delete
-router.delete('/', async(req, res) => {
+router.delete('/:id', async(req, res) => {
 	try{
+        var id_item = parseInt(req.params.id);
+        var where = {where: {ID: id_item}};
+
+        if (req.session.SUPERUSER == 0) {
+            where = {where: {
+                        [Op.and]: [{
+                            ID: id_item
+                        },{
+                            ID_USER: req.session.ID
+                        }]
+                    }}
+        }
+
 		const result = await sequelize.transaction(async (t) => {
-            const item = await models.item_list.destroy({
-                            where: {
-                                [Op.and]: [{
-                                    ID: req.body.id
-                                },{
-                                    ID_USER: req.body.idusr
-                                }]
-                            }
-                        }, { transaction: t });
+            const item = await models.item_list.destroy(where, { transaction: t });
             return item;
         });
 
-		if(result == ""){
-			throw {name : "MatchError", message : "No se encontro el objeto en la lista del usuario"}; 
+		if(result == 0){
+			throw {name : "MatchError", message : "No cuenta con los permisos para eliminar este item"}; 
         }
-		console.log("pg deleted: "+ result.ID + " name: " + result.NAME);
-		res.status(200).json(result);
+
+		res.status(200).json({name: "Exito", message: "Se ha eliminado el item"});
 	}catch(err){
         if(err.name == "MatchError"){
-            res.status(400).json({message:err.message});
-        }else{
-            res.status(500).json({message:"internal server error"});
+            res.status(400).json({name: "Error", message: err.message});
+        }else if(err.name == "SequelizeForeignKeyConstraintError"){
+            res.status(400).json({name: "Error", message:"No se pueden eliminar items utilizados en presupuestos"});
+        }else {
+            res.status(500).json({name: "Error " + err.name, message:"internal server error" + err.message});
         }
 	}
 });
 
 //Update
-router.patch('/', async(req, res) => {
+router.patch('/:id', async(req, res) => {
     try{
+        var {name, unit, perf, desc, cost, actg} = req.body;
+
+        if (!name || !unit || !cost || !desc || actg == '0') {
+            throw {name : "regError", message : "Datos del material incompletos"};
+        }
+
 		const result = await sequelize.transaction(async (t) => {
             const item = await models.item_list.update({ 
-                                NAME: req.body.name,
-                                MEASSURE_UNIT: req.body.pref,
-                                PERFORMANCE: req.body.pref,
-                                DESCRIPTION: req.body.desc,
-                                COST: req.body.cost,
-                                ID_ACT_GRP: req.body.actg,
-                                ID_CONTENT: req.body.cont
+                                NAME: name,
+                                MEASSURE_UNIT: unit,
+                                PERFORMANCE: perf,
+                                DESCRIPTION: desc,
+                                COST: cost,
+                                ID_ACT_GRP: actg
                             },{
                                 where: {
-                                    [Op.and]: [{
-                                        ID: req.body.id
-                                    },{
-                                        ID_USER: req.body.idusr
-                                    }]
+                                    ID: req.params.id
                                 }
                             },{ transaction: t });
             return item;
@@ -480,16 +631,17 @@ router.patch('/', async(req, res) => {
 		if(result == ""){
 			throw {name : "MatchError", message : "No se encontro el objeto en la lista del usuario"}; 
         }
-		console.log("pg deleted: "+ result.ID + " name: " + result.NAME);
-		res.status(200).json(result);
+
+        res.status(200).json({name: "Exito", message: "Se ha actualizado el item"});
 	}catch(err){
-        if(err.name == "MatchError"){
-            res.status(400).json({message:err.message});
-        }else{
-            res.status(500).json({message:"internal server error"});
+        if(err.name == "MatchError" || err.name == "regError"){
+            res.status(400).json({name: "Error", message: err.message});
+        }else {
+            res.status(500).json({name: "Error: " + err.name, message:"internal server error " + err.message});
         }
 	}
 });
 
 //export module
 module.exports = router;
+

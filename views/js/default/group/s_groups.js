@@ -2,14 +2,14 @@ var edit_bool = false;
 var edit_obj = [];
 var char_type = ['char_chp_grp', 'char_act_grp'];
 
-console.log(host);
-
 $("#char_type").on('change', function() {
     changeModal();
 });
 
 $('#msgModal').on('hidden.bs.modal', function () {
-    window.location = '/index/char';
+    if ($('#msgModal .modal-title').html() == "Exito") {
+        window.location = '/index/char';
+    }
 })
   
 $('#addModal').on('hidden.bs.modal', function () {
@@ -59,7 +59,6 @@ async function delGroup(num, id) {
 async function updGroup(num, id) {
     var aux = getUdpData();
     var char = getUrl(num);
-    console.log("as: " + aux);
 
     let response = await fetch(host + group + char + id, {
         method: 'PATCH',
@@ -86,7 +85,6 @@ function initGroup(num, id) {
         edit_bool = true;
         var first = parseInt(num);
         $( "#" + char_type[num-1] + ' #' + id ).addClass('editing');
-        $( "#" + char_type[num-1] + ' #' + id ).attr('type', char_type[num-1]);
         $( "#" + char_type[num-1] + ' #' + id ).find('td').each (function(ind) {
             if (ind >= num) {
                 if (ind < first+2) {
@@ -154,7 +152,6 @@ function getAddData() {
     
     return [type, name, prefix, pg];
 }
-
 
 function getUdpData() {
     var name = $("#upd_data_2").val();
