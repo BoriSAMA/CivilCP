@@ -10,25 +10,25 @@ var models = initModels(sequelize);
 //submit an worker
 router.post('/', async(req, res) => {
 	try{
-        var { id, rank, name, cc, phone, skill } = req.body;
+        var { rank, name, cc, phone, skill } = req.body;
 
-        if ( !id || !rank || !name || !cc || !phone || !skill) {
-            throw {name : "regError", message : "Datos del material incompletos"};
+        if ( !rank || !name || !cc || !phone || !skill) {
+            throw {name : "regError", message : "Datos del trabajador incompletos"};
         }
 
-        const result = await sequelize.transaction(async (t) => {
+        await sequelize.transaction(async (t) => {
             const sal = await models.worker.create({
-                            ID_USER: id,
-                            ID_RANK: rank,
-                            NAME: req.body.name,
-                            CC: req.body.cc,
-                            PHONE:req.body.phone,
-                            SKILL: req.body.skill
-                        }, { transaction: t });
+                                            ID_USER: req.session.user.ID,
+                                            ID_RANK: rank,
+                                            NAME: name,
+                                            CC: cc,
+                                            PHONE: phone,
+                                            SKILL: skill
+                                        }, { transaction: t });
             return sal;
         });
         
-		res.status(200).json({name: "Exito", message: "Se ha registrado el item"});
+		res.status(200).json({name: "Exito", message: "Se ha registrado el trabajador"});
 	}catch(err){
         if(err.name == "regError"){
             res.status(400).json({name: "Error", message: err.message});
@@ -43,14 +43,20 @@ router.get('/all', async(req, res) => {
 	try{
         var array = [];
 		const result = await sequelize.transaction(async (t) => {
-			const sal = await models.worker.findAll({where: {
+			const sal = await models.worker.findAll({
+                                        where: {
                                             ID_USER: req.session.user.ID
-                                        }},{ transaction: t });
+                                        }, 
+                                        include: [{   
+                                            model: models.rank
+                                        }]
+                                    },{ transaction: t });
 			return sal;
         });
 
         for (let i = 0; i < result.length; i++) {
             array[i] = result[i].dataValues;
+            array[i].rank = array[i].rank.dataValues;
         }
 
         res.status(200).render('index',{
@@ -85,7 +91,7 @@ router.get('/:id', async(req, res) => {
 });
 
 //Delete
-router.patch('/:id', async(req, res) => {
+router.delete('/:id', async(req, res) => {
     try{
 		const result = await sequelize.transaction(async (t) => {
             const sal = await models.worker.destroy({
@@ -101,7 +107,7 @@ router.patch('/:id', async(req, res) => {
 			throw {name : "MatchError", message : "No se elimino el trabajador"}; 
         }
 
-		res.status(200).json(result);
+		res.status(200).json({name: "Exito", message: "Se ha eliminado el trabajador"});
 	}catch(err){
         if(err.name == "MatchError"){
             res.status(400).json({name: "Error", message: err.message});
@@ -114,8 +120,14 @@ router.patch('/:id', async(req, res) => {
 });
 
 //Update
-router.patch('/', async(req, res) => {
+router.patch('/:id', async(req, res) => {
     try{
+        var { rank, name, cc, phone, skill } = req.body;
+
+        if ( !rank || !name || !cc || !phone || !skill) {
+            throw {name : "regError", message : "Datos del trabajador incompletos"};
+        }
+
 		const result = await sequelize.transaction(async (t) => {
             const sal = await models.worker.update({
                                 ID_RANK: req.body.rank,
@@ -125,7 +137,7 @@ router.patch('/', async(req, res) => {
                                 SKILL: req.body.skill
                             },{
                                 where: {
-                                    ID: req.body.id
+                                    ID: req.params.id
                                 }
                             },{ transaction: t });
             return sal;
@@ -134,10 +146,10 @@ router.patch('/', async(req, res) => {
 		if(result == 0){
 			throw {name : "MatchError", message : "No se actualizo el trabajador"}; 
         }
-        console.log(result)
-		res.status(200).json(result);
+
+        res.status(200).json({name: "Exito", message: "Se ha actualizado el trabajador"});
 	}catch(err){
-        if(err.name == "MatchError"){
+        if(err.name == "MatchError" || err.name == "regError"){
             res.status(400).json({message:err.message});
         }else{
             res.status(500).json({message:"internal server error"});

@@ -7,77 +7,46 @@
                   <i class="fas fa-table mr-1"></i>
                   Presupuestos
               </div>
-              <div class="card ml-2 mb-2 mt-2 mr-2">
-                  <div class="table-responsive">
-                      <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                          <thead class="table-secondary">
-                              <tr>
-                                  <th colspan="7" style="text-align:center">Nombre Presupuesto</th>
-                              </tr>
-                              <tr>
-                                <th>GP</th>
-                                <th>ID</th>
-                                <th colspan="5">Capítulo</th>
-                              </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                <td><select class="selectBuscar" disabled>
-                                  <option selected>GP</option>
-                                  <option value="A1">GP 1</option>
-                                  <option value="A2">GP 2</option>
-                                  <option value="A3">GP 3</option>
-                                </select></td>
-                                <td>ID</td>
-                                <td colspan="5">Nombre</td>
-                              </tr>
-                          </tbody>
-                          <thead class="table-secondary">
-                            <tr>
-                              <th>GA</th>
-                              <th>ID</th>
-                              <th>Actividad</th>
-                              <th>Medida</th>
-                              <th>Cantidad</th>
-                              <th>A.P.U</th>
-                              <th>Total</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                              <tr>
-                                <td><select class="selectBuscar" disabled>
-                                  <option selected>GA</option>
-                                  <option value="A1">GA 1</option>
-                                  <option value="A2">GA 2</option>
-                                  <option value="A3">GA 3</option>
-                                </select></td>
-                                <td>ID</td>
-                                <td>Actividad</td>
-                                <td>Medida</td>
-                                <td>Cantidad</td>
-                                <td><button type="button" class="btn btn-primary"><span class="fas fa-pen"></span></button></td>
-                                <td>Total</td>
-                              </tr>
-                          </tbody>
-                      </table>
-                  </div>
-                  <div class="form-row">
-                    <div class="col-md-6">
-                      <div class="card ml-2 mb-2 mt-2">
-                        <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#editar" href="#">Agregar</a>
+                  <div class="card ml-2 mb-2 mt-2 mr-2">
+                      <div class="table-responsive">
+                          <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                              <thead class="table-secondary">
+                                  <tr>
+                                      <th>Lista</th>
+                                      <th>Total</th>
+                                      <th width="10%">Editar</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                    <td>Nombre Presupuesto</td>
+                                    <td>#####</td>
+                                    <td>
+                                      <button type="button" class="w-100 btn btn-primary">
+                                        <span class="fas fa-eye"></span>
+                                      </button>
+                                    </td>
+                                  </tr>
+                              </tbody>
+                          </table>
                       </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="card mb-2 mt-2 mr-2">
-                        <a class="btn btn-primary btn-block">Guardar</a>
+                      <div class="form-row">
+                        <div class="col-md-6">
+                          <div class="card ml-2 mb-2 mt-2">
+                            <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#editarP" href="#">Agregar Presupuesto</a>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="card mb-2 mt-2 mr-2">
+                            <a class="btn btn-primary btn-block">Guardar</a>
+                          </div>
+                        </div>
                       </div>
-                    </div>
                   </div>
-              </div>
           </div>
       </div>
     </div>
-    <div class="modal" id="editar" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal" id="editarP" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
     			<div class="modal-dialog">
     				<div class="modal-content">
     					<div class="modal-header">
@@ -85,32 +54,8 @@
     						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
     					</div>
     					<div class="modal-body">
-                <div class="form-row">
-                    <div class="col-md-6">
-                      <label class="small mb-1">G.P</label>
-                      <div class="form-group">
-                        <select class="selectBuscar">
-                          <option selected>Seleccionar</option>
-                          <option value="A1">GP 1</option>
-                          <option value="A2">GP 2</option>
-                          <option value="A3">GP 3</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="small mb-1">G.A</label>
-                      <div class="form-group">
-                        <select class="selectBuscar">
-                          <option selected>Seleccionar</option>
-                          <option value="A1">GA 1</option>
-                          <option value="A2">GA 2</option>
-                          <option value="A3">GA 3</option>
-                        </select>
-                      </div>
-                    </div>
-                </div>
                 <div class="form-group">
-                  <label class="small mb-1">Nombre de la Actividad</label>
+                  <label class="small mb-1">Nombre del Presupuesto</label>
     							<input class="form-control " type="text" placeholder="Nombre">
     						</div>
     					<div class="modal-footer ">
@@ -122,4 +67,49 @@
     			<!-- /.modal-dialog -->
     </div>
   </div>
+  <div class="modal" id="editarA" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title custom_align" id="Heading">Agregar Actividad</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
+            </div>
+            <div class="modal-body">
+              <div class="form-row">
+                  <div class="col-md-6">
+                    <label class="small mb-1">G.P</label>
+                    <div class="form-group">
+                      <select class="selectBuscar">
+                        <option selected>Seleccionar</option>
+                        <option value="A1">GP 1</option>
+                        <option value="A2">GP 2</option>
+                        <option value="A3">GP 3</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="small mb-1">G.A</label>
+                    <div class="form-group">
+                      <select class="selectBuscar">
+                        <option selected>Seleccionar</option>
+                        <option value="A1">GA 1</option>
+                        <option value="A2">GA 2</option>
+                        <option value="A3">GA 3</option>
+                      </select>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-group">
+                <label class="small mb-1">Nombre de la Actividad</label>
+                <input class="form-control " type="text" placeholder="Nombre">
+              </div>
+            <div class="modal-footer ">
+              <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+  </div>
+</div>
 </main>
