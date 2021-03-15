@@ -27,7 +27,8 @@ const host = "http://127.0.0.1:1337/";
 const salary = "salary";
 const group = "group";
 const item = "item";
-
+const budgets = "budgets";
+const budget = "budget";
 
 $("input[data-type='currency']").on({
   keyup: function() {

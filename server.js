@@ -59,11 +59,11 @@ app.use('/item', itemRoute);
 const salaryRoute = require('./controller/salaries');
 app.use('/salary', salaryRoute);
 
-const quotesRoute = require('./controller/quotations');
-app.use('/quotations', quotesRoute);
+const quotesRoute = require('./controller/budgets');
+app.use('/budgets', quotesRoute);
 
-const quoteRoute = require('./controller/quotationGroups');
-app.use('/quotation', quoteRoute);
+const quoteRoute = require('./controller/budget');
+app.use('/budget', quoteRoute);
 
 const apuRoute = require('./controller/apu');
 app.use('/apu', apuRoute);

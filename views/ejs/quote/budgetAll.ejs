@@ -1,0 +1,265 @@
+<main>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-12 mt-4">
+          <div class="card mb-4">
+              <div class="card-header">
+                  <i class="fas fa-table mr-1"></i>
+                  Presupuestos
+              </div>
+              <div class="card ml-2 mb-2 mt-2 mr-2">
+                  <div class="table-responsive">
+                      <div id="message">
+                        <%- include ("../partials/messages"); %>
+                      </div>
+                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                          <thead class="table-secondary">
+                              <tr>
+                                  <th class="align-middle" width="5%">#</th>
+                                  <th class="align-middle">Nombre</th>
+                                  <th class="align-middle" width="15%">Costo directo</th>
+                                  <th class="align-middle" width="15%">Costo obra</th>
+                                  <th class="text-center" width="20%">
+                                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                        Añadir
+                                      </button>
+                                  </th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            <% if(locals.quotes) { -%>
+                              <% if(quotes.length > 0) { -%>
+                                <% for(var i = 0; i < quotes.length; i++) { -%>
+                                    <tr>
+                                        <td class="align-middle"><%= i + 1 %></td>
+                                        <td class="align-middle"><%= quotes[i].NAME %></td>
+
+                                        <% if(quotes[i].TOTAL_DIRECT > 0) { -%>
+                                          <td class="align-middle"><%= quotes[i].TOTAL_DIRECT %></td>
+                                        <% } else { %>
+                                          <td class="align-middle"> Por definir </td>
+                                        <% } %>
+
+                                        <% if(quotes[i].TOTAL > 0) { -%>
+                                          <td class="align-middle"><%= quotes[i].TOTAL %></td>
+                                        <% } else { %>
+                                          <td class="align-middle"> Por definir </td>
+                                        <% } %>
+                                      <td>
+                                        <div class="row mw-100 m-0">
+                                          <div class="col">
+                                            <button type="button" class="w-100 btn btn-primary" data-toggle="modal" data-target="#updModal" onclick="initQuote('<%= quotes[i].ID %>')">
+                                              <span class="fas fa-eye"></span>
+                                              Ver
+                                            </button>
+                                          </div>
+                                          <div class="col">
+                                            <button type="button" class="w-100 btn btn-danger" onclick="delQuote('<%= quotes[i].ID %>')">
+                                              <span class="fas fa-trash"></span>
+                                            </button>
+                                          </div>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                <%}%>
+                              <% } else { %>
+                                  <td colspan="5"><h4 class="text-center Normal weight text">No se han añadido presupuestos</h4></td>
+                              <% } %>
+                            <% } %>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+    
+  <!-- Modal add-->
+<div class="modal fade" id="addModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal2-title" id="exampleModalLongTitle">Añadir presupuesto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="small mb-1">Nombre</label>
+          <input class="form-control" type="text" id="budget_name" placeholder="Nombre del presupueto">
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label">Administracion:</label>
+          <div class="col-sm-7">
+            <div class="input-group mb-3">
+              <input class="form-control" type="number" id="budget_admn" value="31">
+              <div class="input-group-prepend">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label">Inprevistos:</label>
+          <div class="col-sm-7">
+            <div class="input-group mb-3">
+              <input class="form-control" type="number" id="budget_unex" value="1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label">Utilidad:</label>
+          <div class="col-sm-7">
+            <div class="input-group mb-3">
+              <input class="form-control" type="number" id="budget_util" value="5">
+              <div class="input-group-prepend">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label class="col-sm-5 col-form-label">IVA:</label>
+          <div class="col-sm-7">
+            <div class="input-group mb-3">
+              <input class="form-control" type="number" id="budget_iva" value="19">
+              <div class="input-group-prepend">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div class="card w-100 mt-2">
+            <button class="btn btn-primary btn-block" type="button" onclick="regQuote()">
+              Guardar presupuesto
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal upd-->
+<div class="modal fade" id="updModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal2-title" id="exampleModalLongTitle">Ver un presupuesto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="small mb-1">Nombre</label>
+          <input class="form-control" type="text" id="upd_budget_name" placeholder="Nombre del presupueto" disabled>
+        </div>
+
+        <div class="form-group">
+          <label class="small mb-1">Total directo</label>
+          <input class="form-control" type="text" id="upd_budget_tdir" data-type="currency" disabled>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Administracion:</label>
+          <div class="col-sm-3">
+            <div class="input-group mb-3">
+              <input class="form-control" type="number" id="upd_budget_admn" disabled>
+              <div class="input-group-prepend">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <input class="form-control" type="text" id="upd_budget_admn_val" data-type="currency" disabled>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Inprevistos:</label>
+          <div class="col-sm-3">
+            <div class="input-group mb-3">
+              <input class="form-control" type="number" id="upd_budget_unex" disabled>
+              <div class="input-group-prepend">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <input class="form-control" type="text" id="upd_budget_unex_val" data-type="currency" disabled>
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">Utilidad:</label>
+          <div class="col-sm-3">
+            <div class="input-group mb-3">
+              <input class="form-control" type="number" id="upd_budget_util" disabled>
+              <div class="input-group-prepend">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <input class="form-control" type="text" id="upd_budget_util_val" data-type="currency" disabled>
+          </div>
+        </div>
+        
+        <div class="form-group row">
+          <label class="col-sm-4 col-form-label">IVA:</label>
+          <div class="col-sm-3">
+            <div class="input-group mb-3">
+              <input class="form-control" type="number" id="upd_budget_iva" disabled>
+              <div class="input-group-prepend">
+                <span class="input-group-text">%</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-5">
+            <input class="form-control" type="text" id="upd_budget_iva_val" data-type="currency" disabled>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="small mb-1">Total del presupuestos</label>
+          <input class="form-control" type="text" id="upd_budget_total" data-type="currency" disabled>
+        </div>
+
+        <input type="number" id="upd_budget_id" hidden>
+      </div>
+
+      <div class="modal-footer">
+        <div class="card w-100 mt-2">
+          <div class="row">
+            <div class="col" id="button1">
+              <button class="btn btn-primary btn-block"  type="button" onclick="enableUpd()">
+                Actualizar porcentajes
+              </button>
+            </div>
+            <div class="col" id="button2">
+              <a class="btn btn-primary btn-block"type="button" id="go_budget" href="">
+                Editar presupuesto
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<%- include ("../partials/message-modal"); %>
+</main>

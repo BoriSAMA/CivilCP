@@ -1,0 +1,389 @@
+<main>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-12 mt-4">
+          <div class="card mb-4">
+              <div class="card-header">
+                  <i class="fas fa-table mr-1"></i>
+                  Presupuesto
+              </div>
+                <% if(locals.error){ %> 
+                  <div id="message">
+                    <%- include ("../partials/messages"); %>
+                  </div>
+                <% } else { %> 
+                  <div class="card ml-2 mb-2 mt-2 mr-2">
+                      <div class="table-responsive">
+                          <table class="table table-bordered align-middle" width="100%" height="100%" cellspacing="0">
+                              <thead class="table-secondary">
+                                  <tr>
+                                      <th id="quote_info" qid="<%= quote.ID %>" class="align-middle text-center" colspan="9"><%= quote.NAME %></th>
+                                      <th colspan="2">
+                                        <div class="row mw-100 m-0">
+                                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCGModal">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                            Grupo de procesos
+                                          </button>
+                                        </div>
+                                      </th>
+                                  </tr>
+                              </thead>
+                                <% if(cg.length > 0) { -%>
+                                  <% for(var i = 0; i < cg.length; i++) { -%>
+                                      <thead class="table-secondary thead-dark">
+                                        <tr>
+                                            <th class="align-middle" width="5%"> <%= cg[i].QUOTE_NUMBER %> </th>
+                                            <th class="align-middle" colspan="8"> 
+                                              <div class="d-flex justify-content-between align-items-center">
+                                                <%= cg[i].chapter_group.PREFIX %> - <%= cg[i].chapter_group.NAME %> 
+                                            </th>
+                                            <th class="align-middle" width="13%">
+                                              <div class="row mw-100 m-0">
+                                                <button type="button" 
+                                                class="btn btn-success" 
+                                                data-toggle="modal" 
+                                                data-target="#addCHModal" 
+                                                onclick="prefijoCh('<%= cg[i].QUOTE_NUMBER %>','<%= cg[i].ch.length + 1 %>','<%= cg[i].ID %>')">
+                                                  <i class="fa fa-plus" aria-hidden="true"></i>
+                                                  Capitulo
+                                                </button>
+                                              </div>
+                                            </th>
+                                            <th class="align-middle" width="5%">
+                                              <button class="w-100 btn btn-danger" onclick="delCg('<%= cg[i].ID %>')">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                              </button>
+                                            </th>
+                                        </tr>
+                                      </thead>
+                                        <% if(cg[i].ch.length > 0) { -%>
+                                          <% var ch = cg[i].ch -%>
+                                          <% for(var j = 0; j < ch.length; j++) { -%>
+                                          <thead class="table-secondary">
+                                            <tr>
+                                              <th></th>
+                                              <th class="align-middle" width="5%"><%= ch[j].QUOTE_NUMBER %></th>
+                                              <th class="align-middle" colspan="2"><%= ch[j].CUSTOM_NAME %></th>
+                                              <th class="align-middle" width="8%">Unidad</th>
+                                              <th class="align-middle" width="8%">Cantidad</th>
+                                              <th class="align-middle text-center" width="15%" colspan="2">A.P.U</th>
+                                              <th class="align-middle" width="15%">Total</th>
+                                              <th class="align-middle">
+                                                <div class="row mw-100 m-0">
+                                                  <button type="button" 
+                                                  class="btn btn-success" 
+                                                  data-toggle="modal" 
+                                                  data-target="#addACModal"
+                                                  onclick="prefijoAc('<%= ch[j].QUOTE_NUMBER %>','<%= ch[j].ac.length + 1 %>',
+                                                                      '<%= ch[j].ID %>','<%= cg[i].ID_CHP_GRP %>')">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                    Actividad
+                                                  </button>
+                                                </div>
+                                              </th>
+                                              <th class="align-middle" width="5%">
+                                                <div class="row mw-100 m-0">
+                                                  <div class="col">
+                                                    <button class="w-100 btn btn-primary" data-toggle="modal" 
+                                                    data-target="#updCHModal" onclick="initCh('<%= ch[j].ID %>')">
+                                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                                    </button>
+                                                  </div>
+                                                </div>
+                                              </th>
+                                            </tr>
+                                          </thead>
+                                          <tbody class="table-striped">
+                                            <% if(ch[j].ac.length > 0) { -%>
+                                              <% var ac = ch[j].ac -%>
+                                              <% for(var k = 0; k < ac.length; k++) { -%>
+                                                <tr>
+                                                  <td></td>
+                                                  <td class="align-middle"><%= ac[k].QUOTE_NUMBER %></td>
+                                                  <td class="align-middle" colspan="2"><%= ac[k].CUSTOM_NAME %></td>
+                                                  <td class="align-middle"><%= ac[k].MEASSURE_UNIT %></td>
+                                                  <td class="align-middle"><%= ac[k].QUANTITY %></td>
+                                                  <td class="align-middle"><%= ac[k].apu.TOTAL %></td>
+                                                  <td class="align-middle">
+                                                    <a type="button" class="btn btn-primary" href="">
+                                                      <span class="fas fa-book-open"></span>
+                                                    </a>
+                                                  </td>
+                                                  <td class="align-middle"><%= ac[k].TOTAL %></td>
+                                                  <td colspan="2">
+                                                    <div class="row mw-100 m-0">
+                                                      <div class="col">
+                                                        <button class="w-100 btn btn-primary"
+                                                                data-toggle="modal" 
+                                                                data-target="#updACModal" onclick="initAc('<%= ac[k].ID %>')">
+                                                          <i class="fa fa-pen" aria-hidden="true"></i>
+                                                        </button>
+                                                      </div>
+                                                      <div class="col">
+                                                        <button class="w-100 btn btn-danger" onclick="delAc('<%= ac[k].ID %>')">
+                                                          <i class="fa fa-trash" aria-hidden="true"></i>
+                                                        </button>
+                                                      </div>      
+                                                    </div>  
+                                                  </td>
+                                                </tr>
+                                              <% } -%>
+                                            <% } -%>
+                                          </tbody>
+                                          <% } -%>
+                                        <% } else { -%>
+                                          <tr>
+                                            <td colspan="11"><h5 class="text-center Normal weight text">No se han añadido capitulos</h5></td>
+                                          </tr>
+                                        <% } -%>
+                                  <%}%>
+                                <% } else { %> 
+                                  <tr>
+                                    <td colspan="11"><h5 class="text-center Normal weight text">No se han añadido caracterizaciones</h5></td>
+                                  </tr>
+                                <% } %>
+                          </table>
+                      </div>
+                  </div>
+                <% } %> 
+          </div>
+      </div>
+    </div>
+  
+    <div id="sample_groups" hidden>
+      <select id="select_chp_grp">
+        <option value="0">Ninguno</option>
+      </select>
+      <select id="select_act_grp">
+        <option value="0">Ninguno</option>
+      </select>
+    </div>
+<% if(!locals.error){ %> 
+
+  <!-- Modal add cg-->
+  <div class="modal fade" id="addCGModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal2-title" id="exampleModalLongTitle">Añadir grupo de procesos</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+          <div class="form-group">
+            <label for="cg_select_chp_grp">Grupo de procesos:</label>
+            <select id="cg_select_chp_grp" class="custom-select selectBuscar">
+                <option value="0">Ninguno</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-4">
+              <label for="cg_pref"> Identificador: </label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control" id="cg_pref" type="text" value=" C.<%= cg.length + 1 %>." disabled/>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="card w-100 mt-2">
+              <button class="btn btn-primary btn-block" type="button" onclick="regCg()">
+               Agregar grupo de procesos
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Modal add ch-->
+  <div class="modal fade" id="addCHModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal2-title" id="exampleModalLongTitle">Añadir Capitulo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-row">
+            <div class="col-md-4">
+              <label class="py-2"> Nombre: </label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control py-2" id="ch_name" type="text"/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-md-4">
+              <label class="py-2"> Identificador: </label>
+            </div>
+            <div class="col-md-8">
+                <input class="form-control py-2" id="ch_pref" type="text" disabled/>
+            </div>
+          </div>
+          <input class="form-control py-2" id="ch_idcg" type="text" hidden/>
+        </div>
+        <div class="modal-footer">
+          <div class="card w-100 mt-2">
+              <button class="btn btn-primary btn-block" type="button" onclick="regCh()">
+               Agregar capitulo
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal add ac-->
+  <div class="modal fade" id="addACModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal2-title" id="exampleModalLongTitle">Añadir actividades</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+          <div class="form-group">
+              <label for="ac_name"> Nombre: </label>
+              <input class="form-control" id="ac_name" type="text"/>
+          </div>
+
+          <div class="form-group py-2">
+            <label for="ac_select_act_grp">Grupo de actividades (importante para el filtrado):</label>
+            <select id="ac_select_act_grp" class="custom-select selectBuscar">
+                <option value="0">Ninguno</option>
+            </select>
+          </div>
+
+          <div class="form-group py-2">
+            <label for="ac_select_act_grp">Unidad de mediad:</label>
+            <select id="ac_item_unit" class="custom-select selectBuscar">
+            </select>
+          </div>
+
+          <div class="form-group py-2">
+              <label for="ac_pref"> Identificador: </label>
+              <input class="form-control" id="ac_pref" type="text" disabled/>
+          </div>
+          <input id="ac_idch" type="text" hidden/>
+        </div>
+        <div class="modal-footer">
+          <div class="card w-100 mt-2">
+              <button class="btn btn-primary btn-block" type="button" onclick="regAc()">
+               Agregar actividad
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Modal upd ch-->
+  <div class="modal fade" id="updCHModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal2-title" id="exampleModalLongTitle">Ver capitulo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-group">
+              <label for="upd_ch_name"> Nombre: </label>
+              <input class="form-control" id="upd_ch_name" type="text" disabled/>
+          </div>
+
+          <div class="form-group">
+              <label for="upd_ch_pref"> Identificador: </label>
+              <input class="form-control" id="upd_ch_pref" type="text" disabled/>
+          </div>
+
+          <input id="upd_ch_id" type="text" hidden/>
+        </div>
+        <div class="modal-footer">
+          <div class="card w-100 mt-2">
+            <div class="row">
+              <div class="col" id="button1">
+                <button class="btn btn-primary btn-block" type="button" onclick="enableUpd()">
+                  Actualizar capitulo
+                </button>
+              </div>
+              <div class="col" id="button2">
+                <button class="btn btn-danger btn-block"type="button" onclick="delCh()">
+                  Eliminar capitulo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal upd ac-->
+  <div class="modal fade" id="updACModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal2-title" id="exampleModalLongTitle">Editar actividad</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+          <div class="form-group">
+              <label for="upd_ac_name"> Nombre: </label>
+              <input class="form-control" id="upd_ac_name" type="text" />
+          </div>
+
+          <div class="form-group py-2">
+            <label for="upd_ac_select_act_grp">Grupo de actividades (importante para el filtrado):</label>
+            <select id="upd_ac_select_act_grp" class="custom-select selectBuscar" >
+                <option value="0">Ninguno</option>
+            </select>
+          </div>
+
+          <div class="form-group py-2">
+            <label for="upd_ac_select_act_grp">Unidad de medida:</label>
+            <select id="upd_ac_item_unit" class="custom-select selectBuscar" >
+            </select>
+          </div>
+
+          <div class="form-group py-2">
+              <label for="upd_ac_pref"> Identificador: </label>
+              <input class="form-control" id="upd_ac_pref" type="text" />
+          </div>
+
+          <div class="form-group">
+            <label for="upd_ac_quan"> Cantidad: </label>
+            <input class="form-control" id="upd_ac_quan" type="text" />
+          </div>
+          <input id="upd_ac_id" type="text" hidden/>
+        </div>        
+        <div class="modal-footer">
+          <div class="card w-100 mt-2">
+              <button class="btn btn-primary btn-block" type="button" onclick="updAc()">
+               Actualizar actividad
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <% } %> 
+  <%- include ("../partials/message-modal"); %>
+</main>

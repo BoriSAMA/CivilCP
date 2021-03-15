@@ -48,7 +48,7 @@ function initModels(sequelize) {
 
   activity_group.belongsTo(chapter_group, { foreignKey: "ID_CHP_GRP"});
   chapter_group.hasMany(activity_group, { as: "activity_groups", foreignKey: "ID_CHP_GRP"});
-  apu.belongsTo(quote_activity, {foreignKey: "ID_QUO_ACT"});
+  apu.belongsTo(quote_activity, { foreignKey: "ID_QUO_ACT"});
   quote_activity.hasMany(apu, { as: "apus", foreignKey: "ID_QUO_ACT"});
   apu_content.belongsTo(apu, { foreignKey: "ID_APU"});
   apu.hasMany(apu_content, { as: "apu_contents", foreignKey: "ID_APU"});
@@ -66,7 +66,7 @@ function initModels(sequelize) {
   gang.hasMany(gang_worker, { as: "gang_workers", foreignKey: "ID_GANG"});
   gang_worker.belongsTo(worker, { foreignKey: "ID_WORKER"});
   worker.hasMany(gang_worker, { as: "gang_workers", foreignKey: "ID_WORKER"});
-  gang_worker.belongsTo(salary, {foreignKey: "ID_SALARY"});
+  gang_worker.belongsTo(salary, { foreignKey: "ID_SALARY"});
   salary.hasMany(gang_worker, { as: "gang_workers", foreignKey: "ID_SALARY"});
   item_list.belongsTo(activity_group, { foreignKey: "ID_ACT_GRP"});
   activity_group.hasMany(item_list, { as: "item_lists", foreignKey: "ID_ACT_GRP"});
@@ -76,8 +76,10 @@ function initModels(sequelize) {
   user.hasMany(item_list, { as: "item_lists", foreignKey: "ID_USER"});
   quotation.belongsTo(user, { foreignKey: "ID_USER"});
   user.hasMany(quotation, { as: "quotations", foreignKey: "ID_USER"});
-  quote_activity.belongsTo(quote_chapter, { foreignKey: "IC_QUO_CHP"});
-  quote_chapter.hasMany(quote_activity, { as: "quote_activities", foreignKey: "IC_QUO_CHP"});
+  quote_activity.belongsTo(quote_chapter, { foreignKey: "ID_QUO_CHP"});
+  quote_chapter.hasMany(quote_activity, { as: "quote_activities", foreignKey: "ID_QUO_CHP"});
+  quote_activity.belongsTo(activity_group, { foreignKey: "ID_ACT_GRP"});
+  activity_group.hasMany(quote_activity, { as: "quote_activities", foreignKey: "ID_ACT_GRP"});
   quote_chapter.belongsTo(quote_chp_grp, { foreignKey: "ID_QUO_CHP_GRP"});
   quote_chp_grp.hasMany(quote_chapter, { as: "quote_chapters", foreignKey: "ID_QUO_CHP_GRP"});
   quote_chp_grp.belongsTo(chapter_group, { foreignKey: "ID_CHP_GRP"});

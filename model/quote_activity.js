@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     QUOTE_NUMBER: {
-      type: DataTypes.STRING(10),
+      type: DataTypes.STRING(20),
       allowNull: false
     },
     MEASSURE_UNIT: {
@@ -27,11 +27,19 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.BIGINT,
       allowNull: true
     },
-    IC_QUO_CHP: {
+    ID_QUO_CHP: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
         model: 'quote_chapter',
+        key: 'ID'
+      }
+    },
+    ID_ACT_GRP: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'activity_group',
         key: 'ID'
       }
     }
@@ -52,7 +60,14 @@ module.exports = function(sequelize, DataTypes) {
         name: "IC_QUO_CHP",
         using: "BTREE",
         fields: [
-          { name: "IC_QUO_CHP" },
+          { name: "ID_QUO_CHP" },
+        ]
+      },
+      {
+        name: "ID_ACT_GRP",
+        using: "BTREE",
+        fields: [
+          { name: "ID_ACT_GRP" },
         ]
       },
     ]

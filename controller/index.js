@@ -52,18 +52,16 @@ router.get('/u_transports', function(req, res){
 	res.redirect("/item/user/transports");
 });
 
-router.get('/budget', function(req, res){
-	res.status(200).render('index',{
-        selected: 'budget',
-        user: req.session.user
-    });
+router.get('/budgets', function(req, res){
+    res.redirect("/budgets");
 });
 
-router.get('/budget/:id', function(req, res){
-	res.status(200).render('index',{
-        selected: 'budget',
-        user: req.session.user
-    });
+router.get('/budget', function(req, res){
+	res.redirect("/budget?bid=" + req.query.bid);
+});
+
+router.get('/apu', function(req, res){
+	res.redirect("/apu");
 });
 
 router.get('/gantt', function(req, res){

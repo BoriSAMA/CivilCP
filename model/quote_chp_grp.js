@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     QUOTE_NUMBER: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING(20),
       allowNull: true
     },
     CUSTOM_NAME: {

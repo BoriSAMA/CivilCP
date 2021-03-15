@@ -49,7 +49,11 @@
                         <% } else {-%>  
                                 <script src="/default/group/u_groups.js"></script>
                         <% }-%>
-                <% }-%>
+                <% } else if(selected == "budget-all"){ -%>
+                        <script src="/quote/budgets.js"></script>
+                <% } else if(selected == "budget-one"){ -%>
+                        <script src="/quote/budget.js"></script>
+                <% }-%>-%>
         <% }-%>
 
         <script>
