@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const url = require('url');
 
 router.get('/', function(req, res){
     res.status(200).render('index',{
@@ -61,7 +62,11 @@ router.get('/budget', function(req, res){
 });
 
 router.get('/apu', function(req, res){
-	res.redirect("/apu");
+    console.log(req.query);
+    res.redirect(url.format({
+        pathname:"/apu",
+        query:req.query,
+    }));
 });
 
 router.get('/gantt', function(req, res){

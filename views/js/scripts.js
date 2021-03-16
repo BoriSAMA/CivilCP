@@ -29,6 +29,7 @@ const group = "group";
 const item = "item";
 const budgets = "budgets";
 const budget = "budget";
+const apu = "apu";
 
 $("input[data-type='currency']").on({
   keyup: function() {

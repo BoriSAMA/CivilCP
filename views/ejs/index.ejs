@@ -163,11 +163,14 @@
                 <% }else if(selected == "budget-one"){ -%>
                     <%- include('quote/budgetOne.ejs') %>
 
+                <% }else if(selected == "apu"){ -%>
+                    <%- include('quote/apu.ejs') %>
+    
                 <% }else if(selected == "shoppinglist"){ -%>
                     <%- include('quote/shoppinglist.ejs') %>
-
+                    
                 <% }else if(selected == "gantt"){ -%>
-                    <%- include('default/gantt.ejs') %>
+                    <%- include('quote/gantt.ejs') %>
 
                 <% }else{ -%>
                     <%- include('default/normal.ejs') %>

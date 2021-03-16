@@ -98,18 +98,20 @@
                                               <% var ac = ch[j].ac -%>
                                               <% for(var k = 0; k < ac.length; k++) { -%>
                                                 <tr>
-                                                  <td></td>
+                                                  <% if(k == 0) { -%>
+                                                    <td rowspan="<%= ac.length %>"></td>
+                                                  <% } -%>
                                                   <td class="align-middle"><%= ac[k].QUOTE_NUMBER %></td>
-                                                  <td class="align-middle" colspan="2"><%= ac[k].CUSTOM_NAME %></td>
+                                                  <td class="align-middle" colspan="2"><%= ac[k].activity_group.PREFIX %> - <%= ac[k].CUSTOM_NAME %></td>
                                                   <td class="align-middle"><%= ac[k].MEASSURE_UNIT %></td>
                                                   <td class="align-middle"><%= ac[k].QUANTITY %></td>
-                                                  <td class="align-middle"><%= ac[k].apu.TOTAL %></td>
+                                                  <td class="align-middle curr"><%= ac[k].apu.TOTAL %></td>
                                                   <td class="align-middle">
-                                                    <a type="button" class="btn btn-primary" href="">
+                                                    <a type="button" class="btn btn-primary" href="/index/apu?aid=<%= ac[k].ID %>&bid=<%= quote.ID %>">
                                                       <span class="fas fa-book-open"></span>
                                                     </a>
                                                   </td>
-                                                  <td class="align-middle"><%= ac[k].TOTAL %></td>
+                                                  <td class="align-middle curr"><%= ac[k].TOTAL %></td>
                                                   <td colspan="2">
                                                     <div class="row mw-100 m-0">
                                                       <div class="col">

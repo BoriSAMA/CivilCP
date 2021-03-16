@@ -196,7 +196,7 @@ router.get('/', async(req, res) => {
             cg: cg
         });
 	}catch(err){
-		res.status(200).render('index',{
+		res.status(500).render('index',{
             selected: 'budget-one',
             user: req.session.user,
             error: "Internal server error " + err.name + " " + err.message

@@ -4,361 +4,318 @@
       <div class="col-xl-12 mt-4">
           <div class="card mb-4">
               <div class="card-header">
-                  <i class="fas fa-table mr-1"></i>
-                  A.P.U Nombre Presupuesto
+                <div class="row">
+                  <div class="col">
+                    <i class="fas fa-table h-100 align-middle"></i>
+                      A.P.U de
+                      <% if(!locals.error){ %> 
+                        <%= activity.CUSTOM_NAME %>
+                        <input id="id_apu" type="text" value="<%= apu.ID %>" hidden>
+                      <% } %> 
+                  </div>
+                  <div id="btnSection" class="col-3">
+                    <div class="card ml-2 mb-2 mt-2">
+                      <button class="btn btn-success btn-block" data-toggle="modal" data-target="#addSectionModal">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Agregar Sección
+                      </button>
+                    </div>
+                </div>
+                </div>
               </div>
-                  <div id="mat" style="display:none" class="card ml-2 mb-2 mt-2 mr-2">
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                              <thead class="table-secondary">
-                                  <tr>
-                                      <th colspan="7">Materiales</th>
-                                  </tr>
-                                  <tr>
-                                      <th>Nombre de Actividad</th>
-                                      <th>G.P</th>
-                                      <th>G.A</th>
-                                      <th>Descripción</th>
-                                      <th>Unidad</th>
-                                      <th>Cantidad</th>
-                                      <th>Precio</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                      <div class="form-row">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4">
-                          <div class="card ml-2 mb-2 mt-2">
-                            <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
+              <% if(locals.error){ %> 
+                <div id="message">
+                  <%- include ("../partials/messages"); %>
+                </div>
+              <% } else { %> 
+                <% if(apu.apu_c.length > 0) { -%>
+                  <% var apu_c = apu.apu_c -%>
+                  <% var contents = [] -%>
+                  <% for(var i = 0; i < apu_c.length; i++) { -%>
+                    <% contents.push(apu_c[i].ID_CONTENT) -%>
+                    <% if(apu_c[i].ID_CONTENT == 1) { -%>
+                    <div id="mat" class="card ml-2 mb-2 mt-2 mr-2">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th colspan="7">Materiales</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Nombre de Actividad</th>
+                                        <th>G.P</th>
+                                        <th>G.A</th>
+                                        <th>Descripción</th>
+                                        <th>Unidad</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-row">
+                          <div class="col-md-4"></div>
+                          <div class="col-md-4">
+                            <div class="card ml-2 mb-2 mt-2">
+                              <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                  </div>
-                  <div id="mob" style="display:none" class="card ml-2 mb-2 mt-2 mr-2">
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                              <thead class="table-secondary">
-                                  <tr>
-                                      <th colspan="7">Mano de Obra</th>
-                                  </tr>
-                                  <tr>
-                                      <th>Nombre de Actividad</th>
-                                      <th>G.P</th>
-                                      <th>G.A</th>
-                                      <th>Descripción</th>
-                                      <th>Unidad</th>
-                                      <th>Cantidad</th>
-                                      <th>Precio</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                      <div class="form-row">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4">
-                          <div class="card ml-2 mb-2 mt-2">
-                            <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                  <div id="equ" style="display:none" class="card ml-2 mb-2 mt-2 mr-2">
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                              <thead class="table-secondary">
-                                  <tr>
-                                      <th colspan="7">Equipos</th>
-                                  </tr>
-                                  <tr>
-                                      <th>Nombre de Actividad</th>
-                                      <th>G.P</th>
-                                      <th>G.A</th>
-                                      <th>Descripción</th>
-                                      <th>Unidad</th>
-                                      <th>Cantidad</th>
-                                      <th>Precio</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                      <div class="form-row">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4">
-                          <div class="card ml-2 mb-2 mt-2">
-                            <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                  <div id="tra" style="display:none" class="card ml-2 mb-2 mt-2 mr-2">
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                              <thead class="table-secondary">
-                                  <tr>
-                                      <th colspan="7">Transporte</th>
-                                  </tr>
-                                  <tr>
-                                      <th>Nombre de Actividad</th>
-                                      <th>G.P</th>
-                                      <th>G.A</th>
-                                      <th>Descripción</th>
-                                      <th>Unidad</th>
-                                      <th>Cantidad</th>
-                                      <th>Precio</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Nombre</td>
-                                      <td>G.P</td>
-                                      <td>G.A</td>
-                                      <td>Descripción</td>
-                                      <td>Unid</td>
-                                      <td>#</td>
-                                      <td>#$</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
-                      <div class="form-row">
-                        <div class="col-md-4"></div>
-                        <div class="col-md-4">
-                          <div class="card ml-2 mb-2 mt-2">
-                            <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
-                          </div>
-                        </div>
-                      </div>
-                  </div>
-                  <div class="form-row">
-                    <div class="col-md-6">
-                      <div class="card ml-2 mb-2 mt-2">
-                        <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarS" href="#">Agregar Sección</a>
-                      </div>
                     </div>
-                    <div class="col-md-6">
-                      <div class="card mb-2 mt-2 mr-2">
-                        <a id="save" class="btn btn-primary btn-block">Guardar</a>
-                      </div>
+                    <% }else if(apu_c[i].ID_CONTENT == 2) { -%>
+                    <div id="mob" class="card ml-2 mb-2 mt-2 mr-2">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th colspan="7">Mano de Obra</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Nombre de Actividad</th>
+                                        <th>G.P</th>
+                                        <th>G.A</th>
+                                        <th>Descripción</th>
+                                        <th>Unidad</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-row">
+                          <div class="col-md-4"></div>
+                          <div class="col-md-4">
+                            <div class="card ml-2 mb-2 mt-2">
+                              <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
+                            </div>
+                          </div>
+                        </div>
                     </div>
-                  </div>
+                    <% }else if(apu_c[i].ID_CONTENT == 3) { -%>
+                    <div id="equ" class="card ml-2 mb-2 mt-2 mr-2">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th colspan="7">Equipos</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Nombre de Actividad</th>
+                                        <th>G.P</th>
+                                        <th>G.A</th>
+                                        <th>Descripción</th>
+                                        <th>Unidad</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-row">
+                          <div class="col-md-4"></div>
+                          <div class="col-md-4">
+                            <div class="card ml-2 mb-2 mt-2">
+                              <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <% } else { -%>
+                    <div id="tra" class="card ml-2 mb-2 mt-2 mr-2">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
+                                <thead class="table-secondary">
+                                    <tr>
+                                        <th colspan="7">Transporte</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Nombre de Actividad</th>
+                                        <th>G.P</th>
+                                        <th>G.A</th>
+                                        <th>Descripción</th>
+                                        <th>Unidad</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>G.P</td>
+                                        <td>G.A</td>
+                                        <td>Descripción</td>
+                                        <td>Unid</td>
+                                        <td>#</td>
+                                        <td>#$</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-row">
+                          <div class="col-md-4"></div>
+                          <div class="col-md-4">
+                            <div class="card ml-2 mb-2 mt-2">
+                              <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <% } -%>
+                  <% } -%>
+                  <input id="contents" type="text" value="<%= contents %>" hidden>
+                <% } else { %>
+                  <table class="table">
+                    <tr>
+                      <td><h5 class="text-center Normal weight text">No se han añadido secciones</h5></td>
+                    </tr>
+                  </table>
+                <% } -%>
+              <% } %>
           </div>
       </div>
     </div>
-    <div class="modal" id="editarP" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-    			<div class="modal-dialog">
-    				<div class="modal-content">
-    					<div class="modal-header">
-                <h4 class="modal-title custom_align" id="Heading">Agregar Presupuesto</h4>
-    						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
-    					</div>
-    					<div class="modal-body">
-                <div class="form-group">
-                  <label class="small mb-1">Nombre del Presupuesto</label>
-    							<input class="form-control " type="text" placeholder="Nombre">
-    						</div>
-    					<div class="modal-footer ">
-    						<button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
-    					</div>
-    				</div>
-    				<!-- /.modal-content -->
-    			</div>
-    			<!-- /.modal-dialog -->
-    </div>
-  </div>
-  <div class="modal" id="agregarS" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title custom_align" id="Heading">Agregar Sección</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                    <label class="small mb-1">Sección</label>
-                    <div class="form-group">
-                      <select class="selectBuscar">
-                        <option selected>Seleccionar</option>
-                        <option value="A1">Materiales</option>
-                        <option value="A2">Mano de Obra</option>
-                        <option value="A3">Equipos</option>
-                        <option value="A4">Transporte</option>
-                      </select>
-                    </div>
-              </div>
-            <div class="modal-footer ">
-              <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
-            </div>
-          </div>
-          <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-  </div>
-</div>
-<div class="modal" id="agregarI" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-      <div class="modal-dialog">
+ 
+<div class="modal fade" id="addSectionModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title custom_align" id="Heading">Agregar Item</h4>
+            <h4 class="modal-title custom_align" id="Heading">Agregar Sección</h4>
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
           </div>
           <div class="modal-body">
-              <div class="form-group">
-                <label class="small mb-1">Nombre</label>
-                <input class="form-control " type="text" placeholder="Nombre">
-              </div>
-              <div class="form-row">
-                <div class="col-md-6">
-                  <label class="small mb-1">G.P</label>
+            <div class="form-group">
+                  <label class="small mb-1">Sección</label>
                   <div class="form-group">
-                    <select class="selectBuscar">
-                      <option selected>Seleccionar</option>
-                      <option value="A1">GP 1</option>
-                      <option value="A2">GP 2</option>
-                      <option value="A3">GP 3</option>
+                    <select id="select_apu_content" class="selectBuscar">
                     </select>
                   </div>
-                </div>
-                  <div class="col-md-6">
-                    <label class="small mb-1">G.A</label>
-                    <div class="form-group">
-                      <select class="selectBuscar">
-                        <option selected>Seleccionar</option>
-                        <option value="A1">GA 1</option>
-                        <option value="A2">GA 2</option>
-                        <option value="A3">GA 3</option>
-                      </select>
-                    </div>
-                  </div>
-              </div>
-              <div class="form-group">
-                <label class="small mb-1">Descripción</label>
-                <input class="form-control " type="text" placeholder="Descripción">
-              </div>
-            <div class="form-row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label class="small mb-1">Unidad</label>
-                  <input class="form-control " type="text" placeholder="Und">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label class="small mb-1">Cantidad</label>
-                  <input class="form-control " type="text" placeholder="#">
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label class="small mb-1">Precio</label>
-                  <input class="form-control " type="text" placeholder="#">
-                </div>
-              </div>
+            </div>
+          <div class="modal-footer ">
+            <button type="button" class="btn btn-primary btn-block" onclick="regContent()">Aceptar</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+  </div>
+  </div>
+
+<div class="modal" id="editarP" tabindex="-2" role="dialog" aria-labelledby="edit" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title custom_align" id="Heading">Agregar Presupuesto</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="small mb-1">Nombre del Presupuesto</label>
+              <input class="form-control " type="text" placeholder="Nombre">
             </div>
           <div class="modal-footer ">
             <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
@@ -369,4 +326,76 @@
       <!-- /.modal-dialog -->
 </div>
 </div>
+
+<div class="modal" id="agregarI" tabindex="-2" role="dialog" aria-labelledby="edit" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title custom_align" id="Heading">Agregar Item</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label class="small mb-1">Nombre</label>
+            <input class="form-control " type="text" placeholder="Nombre">
+          </div>
+          <div class="form-row">
+            <div class="col-md-6">
+              <label class="small mb-1">G.P</label>
+              <div class="form-group">
+                <select class="selectBuscar">
+                  <option selected>Seleccionar</option>
+                  <option value="A1">GP 1</option>
+                  <option value="A2">GP 2</option>
+                  <option value="A3">GP 3</option>
+                </select>
+              </div>
+            </div>
+              <div class="col-md-6">
+                <label class="small mb-1">G.A</label>
+                <div class="form-group">
+                  <select class="selectBuscar">
+                    <option selected>Seleccionar</option>
+                    <option value="A1">GA 1</option>
+                    <option value="A2">GA 2</option>
+                    <option value="A3">GA 3</option>
+                  </select>
+                </div>
+              </div>
+          </div>
+          <div class="form-group">
+            <label class="small mb-1">Descripción</label>
+            <input class="form-control " type="text" placeholder="Descripción">
+          </div>
+        <div class="form-row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="small mb-1">Unidad</label>
+              <input class="form-control " type="text" placeholder="Und">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="small mb-1">Cantidad</label>
+              <input class="form-control " type="text" placeholder="#">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="small mb-1">Precio</label>
+              <input class="form-control " type="text" placeholder="#">
+            </div>
+          </div>
+        </div>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+</div>
+
+<%- include ("../partials/message-modal"); %>
 </main>

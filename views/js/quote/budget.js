@@ -2,12 +2,9 @@ const item_unit = ['ML', 'M2', 'M3', 'UND', 'GB', 'PT'];
 var upd_aux;
 
 $(function() {
-        $('tbody tr td:nth-child(6)').each( function(){
-            translateTxt($(this), $(this).html());  
-        });
-        $('tbody tr td:nth-child(8)').each( function(){
-            translateTxt($(this), $(this).html());  
-        });
+    $('.curr').each(function(){
+        translateTxt($(this), $(this).html());  
+    });
 });
 
 $(function() {
@@ -102,7 +99,8 @@ async function delCg(id) {
       manageModals(json);
 }
 
-async function delCh(id) {
+async function delCh() {
+    var id = $("#upd_ch_id").val();
     let response = await fetch(host + budget + "/ch/" + id, {
         method: 'DELETE',
         headers: {
