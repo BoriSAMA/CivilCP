@@ -33,6 +33,12 @@ router.post('/', async(req, res) => {
                         }, { transaction: t });
             return item;
         });
+
+        await sequelize.transaction(async (t) => {
+            await models.schedule.create({
+                            ID_QUOTE: result.dataValues.ID
+                        }, { transaction: t });
+        });
         
 		res.status(200).json({name: "Exito", message: "Se ha registrado el presupuesto"});
 	}catch(err){
@@ -59,6 +65,21 @@ router.get('/', async(req, res) => {
 
 		for (let i = 0; i < result.length; i++) {
             array[i] = result[i].dataValues;
+
+            let cal = await sequelize.transaction(async (t) => {
+                const item = await models.schedule.findAll({
+                                                    where: {
+                                                        ID_QUOTE: array[i].ID
+                                                    }
+                                                    },{ transaction: t });
+                return item;
+            });
+
+            if (cal.length > 0) {
+                array[i].schedule = cal[0].dataValues;
+            } else { 
+                array[i].schedule = [];
+            }
         }
 
         res.status(200).render('index',{

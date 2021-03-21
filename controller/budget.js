@@ -67,7 +67,7 @@ router.post('/ch', async(req, res) => {
 //submit an activity to the budget
 router.post('/ac', async(req, res) => {
 	try{
-        var { numb, name, mesu, idch, idac } = req.body;
+        var { numb, name, mesu, idch, idac, idqu } = req.body;
 
         if (!numb || !name || !mesu || idch == 0 || idac == 0) {
             throw {name : "regError", message : "Datos de la actividad incompletos"};
@@ -90,6 +90,14 @@ router.post('/ac', async(req, res) => {
             const item = await models.apu.create({
                             TOTAL: 0,
                             ID_QUO_ACT: result.dataValues.ID
+                        }, { transaction: t });
+            return item;
+        });
+
+        await sequelize.transaction(async (t) => {
+            const item = await models.schedule_activity.create({
+                            ID_QUO_ACT: result.dataValues.ID,
+                            ID_SCHEDULE: idqu
                         }, { transaction: t });
             return item;
         });

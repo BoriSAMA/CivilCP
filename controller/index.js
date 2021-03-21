@@ -68,14 +68,18 @@ router.get('/apu', function(req, res){
     }));
 });
 
-router.get('/gantt', function(req, res){
+router.get('/workers', function(req, res){
+	res.redirect("/worker/all");
+});
+
+router.get('/schedule', function(req, res){
+	res.redirect("/worker/all");
+});
+
+router.get('/schedule', function(req, res){
 	res.status(200).render('index',{
         selected: 'gantt'
     });
-});
-
-router.get('/workers', function(req, res){
-	res.redirect("/worker/all");
 });
 
 router.get('/shoppinglist', function(req, res){

@@ -48,10 +48,7 @@ async function regQuote(){
     
     var json = await response.json();
     
-    $('#addModal').modal('hide');
-    $('#msgModal .modal-title').html(json.name);
-    $('#msgModal .modal-body').html(json.message);
-    $("#msgModal").modal();
+    manageModals(json);
 }
 
 async function delQuote(id) {
@@ -64,9 +61,7 @@ async function delQuote(id) {
       
       var json = await response.json();
     
-      $('#msgModal .modal-title').html(json.name);
-      $('#msgModal .modal-body').html(json.message);
-      $("#msgModal").modal();
+      manageModals(json);
 }
 
 async function updQuote() {
@@ -94,13 +89,10 @@ async function updQuote() {
     
     var json = await response.json();
     
-    $('#addModal').modal('hide');
-    $('#msgModal .modal-title').html(json.name);
-    $('#msgModal .modal-body').html(json.message);
-    $("#msgModal").modal();
+    manageModals(json);
 }
 
-async function initQuote(id) {
+async function initQuote(id, ids) {
     let response = await fetch(host + budgets + "/" + id, {
         method: 'GET',
         headers: {
@@ -109,10 +101,16 @@ async function initQuote(id) {
     });
     var json = await response.json();
     upd_aux = json[0];
-    initQuoteEdit();
+    initQuoteEdit(ids);
 }
 
-function initQuoteEdit() {
+function initQuoteEdit(ids) {
+    $("#btn_budget_delete").on("click", function(){
+        delQuote(upd_aux.ID)
+    });
+    $("#btn_go_budget").attr("href", "index/budget?bid=" + upd_aux.ID);
+    $("#btn_go_gantt").attr("href", "index/schedule?sid=" + ids);
+
     $("#upd_budget_id").val(upd_aux.ID)
     $("#upd_budget_name").val(upd_aux.NAME);   
     $("#upd_budget_tdir").val(upd_aux.TOTAL_DIRECT).trigger('blur');
@@ -125,7 +123,7 @@ function initQuoteEdit() {
     $("#upd_budget_iva").val(upd_aux.PRC_IVA);
     $("#upd_budget_iva_val").val(upd_aux.IVA).trigger('blur');  
     $("#upd_budget_total").val(upd_aux.TOTAL).trigger('blur');
-    $("#go_budget").attr("href", "index/budget?bid=" + upd_aux.ID);
+    
 }
 
 function cancelUpd() {
@@ -144,11 +142,7 @@ function cancelUpd() {
             Actualizar porcentajes
         </button>`
     );
-    $("#button2").html(
-        `<a class="btn btn-primary btn-block"type="button" id="go_budget" href="index/budget?bid="${upd_aux.ID}">
-            Editar presupuesto
-        </a>`
-    );
+    $("#button2").prop('hidden',true);
 }
 
 function enableUpd() {
@@ -162,11 +156,7 @@ function enableUpd() {
             Aceptar
         </button>`
     );
-    $("#button2").html(
-        `<button class="btn btn-warning btn-block" type="button" onclick="cancelUpd()">
-            Cancelar
-        </button>`
-    );
+    $("#button2").prop('hidden',false);
 }
 
 function getUpdData() {
@@ -201,4 +191,18 @@ function calculateTotal() {
     translateNum($("#upd_budget_iva_val").val());
 
     $("#upd_budget_total").val(aux).trigger('blur');
+}
+
+function manageModals(json) {
+    $('#addModal').modal('hide');
+    $('#updModal').modal('hide');
+    $('#detailModal').modal('hide');
+    $('#msgModal .modal-title').html(json.name);
+    $('#msgModal .modal-body').html(json.message);
+    $("#msgModal").modal();
+}
+
+function openUpdModal(){
+    $('#updModal').modal('show');
+    $('#detailModal').modal('hide');
 }

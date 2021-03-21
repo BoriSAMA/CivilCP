@@ -17,7 +17,7 @@ $(function () {
 
 $('#msgModal').on('hidden.bs.modal', function () {
     if ($('#msgModal .modal-title').html() == "Exito") {
-        window.location = '/index/budget?bid=' + $("#quote_info").attr("qid");;
+        window.location = '/index/budget?bid=' + $("#quote_info").attr("qid");
     }
 })
 
@@ -71,7 +71,8 @@ async function regAc(){
                     name: aux[1],
                     idch: aux[2],
                     idac: aux[3],
-                    mesu: aux[4],      
+                    mesu: aux[4],
+                    idqu: aux[5]      
         })
     });
     
@@ -214,6 +215,7 @@ function getAddAcData() {
     aux[2] = $("#ac_idch").val();
     aux[3] = $("#ac_select_act_grp").val();
     aux[4] = $("#ac_item_unit").val();
+    aux[5] = $("#quote_info").attr("qid");
     return aux;
 }
 
