@@ -13,7 +13,7 @@
             if (par != '' && typeof par != 'undefined') {
               $( `.${par}`).addClass("active");
             }
-            
+
         }
     });
 
@@ -31,31 +31,34 @@ const item = "item";
 const budgets = "budgets";
 const budget = "budget";
 const apu = "apu";
+const worker = "worker";
 
 const item_unit = ['ML', 'M2', 'M3', 'UND', 'GB', 'PT', 'KG'];
+
+const workers_type = ['Oficial Técnico', 'Oficial', 'Ayudante'];
 
 $("input[data-type='currency']").on({
   keyup: function() {
     formatCurrency($(this));
   },
-  blur: function() { 
+  blur: function() {
     formatCurrency($(this), "blur");
   }
 });
 
 $(function() {
     $('.curr').each(function(){
-        translateTxt($(this), $(this).html());  
+        translateTxt($(this), $(this).html());
     });
 });
 
 function formatNumber(n) {
     return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
-    
+
 function formatCurrency(input, blur) {
     var input_val = input.val();
-    if (input_val === "") { 
+    if (input_val === "") {
       return;
     }
     var original_len = input_val.length;
@@ -71,22 +74,22 @@ function formatCurrency(input, blur) {
       }
       right_side = right_side.substring(0, 2);
       input_val = "$" + left_side + "." + right_side;
-  
+
     } else {
       input_val = formatNumber(input_val);
       input_val = "$" + input_val;
-      
+
       if (blur === "blur") {
         input_val += ".00";
       }
     }
-  
+
     input.val(input_val);
     var updated_len = input_val.length;
     caret_pos = updated_len - original_len + caret_pos;
     input[0].setSelectionRange(caret_pos, caret_pos);
 }
-    
+
 function translateNum(text){
     var aux, ret = "";
     aux = text.substring(1);
@@ -96,13 +99,13 @@ function translateNum(text){
     }
     return ret;
 }
-  
+
 function translateTxt(input, num){
     input.attr("value",num);
     var right_side = "", left_side = "", ret = "";
     var aux = num.toString();
     var decimal_pos = aux.indexOf(".");
-    
+
     if (decimal_pos !== -1) {
       right_side = aux.substring(decimal_pos + 1);
       left_side = aux.substring(0, decimal_pos);

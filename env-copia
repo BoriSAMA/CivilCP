@@ -1,5 +1,0 @@
-DB_USER = 'database user name'
-DB_PASS = 'database user password'
-DB_NAME = 'database name'
-DB_HOST = 'Database host'
-DB_PORT = 'Database port'

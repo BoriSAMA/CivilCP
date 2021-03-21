@@ -8,138 +8,153 @@
                   Trabajadores
               </div>
               <div class="card ml-2 mb-2 mt-2 mr-2">
-                  <div class="table-responsive">
-                      <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
+                  <div id="workers" class="table-responsive">
+                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
                           <thead class="table-secondary">
                               <tr>
-                                <th>Nombre</th>
-                                <th>Cédula</th>
-                                <th>Celular</th>
-                                <th>Tipo</th>
-                                <th>Especialidad</th>
+                                <th class="align-middle" width="5%">#</th>
+                                <th class="align-middle" width="15%">Nombre</th>
+                                <th class="align-middle" width="15%">Cédula</th>
+                                <th class="align-middle" width="15%">Celular</th>
+                                <th class="align-middle" width="10%">Tipo</th>
+                                <th class="align-middle" width="10%">Especialidad</th>
+                                <th class="text-center" width="20%">
+                                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addWkModal">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                    Añadir
+                                  </button>
+                                </th>
                               </tr>
                           </thead>
-                          <tfoot>
-                              <tr>
-                                <th>Nombre</th>
-                                <th>Cédula</th>
-                                <th>Celular</th>
-                                <th>Tipo</th>
-                                <th>Especialidad</th>
-                                <th></th>
-                              </tr>
-                          </tfoot>
                           <tbody>
-                              <tr>
-                                <td>Erick Guevara</td>
-                                <td>1090500000</td>
-                                <td>3170000000</td>
-                                <td><select class="selectBuscar" disabled>
-                                  <option selected>Tipo</option>
-                                  <option value="A1">OT</option>
-                                  <option value="A2">O</option>
-                                  <option value="A3">A</option>
-                                </select></td>
-                                <td>Lustrador</td>
-                              </tr>
-                              <tr>
-                                <td>Jesus Cubillos</td>
-                                <td>1090500001</td>
-                                <td>3170000001</td>
-                                <td><select class="selectBuscar" disabled>
-                                  <option selected>Tipo</option>
-                                  <option value="A1">OT</option>
-                                  <option value="A2">O</option>
-                                  <option value="A3">A</option>
-                                </select></td>
-                                <td>Lustrador</td>
-                              </tr>
-                              <tr>
-                                <td>Sarquiat</td>
-                                <td>1090500002</td>
-                                <td>3170000002</td>
-                                <td><select class="selectBuscar" disabled>
-                                  <option selected>Tipo</option>
-                                  <option value="A1">OT</option>
-                                  <option value="A2">O</option>
-                                  <option value="A3">A</option>
-                                </select></td>
-                                <td>Lustrador</td>
-                              </tr>
+                            <%if(locals.worker) { -%>
+                              <%if(worker.length > 0) { -%>
+                                  <%for(var i = 0; i < worker.length; i++) { -%>
+                                      <tr>
+                                          <td class="align-middle"><%= i + 1 %></td>
+                                          <td class="align-middle"><%= worker[i].NAME %></td>
+                                          <td class="align-middle"><%= worker[i].CC %></td>
+                                          <td class="align-middle"><%= worker[i].PHONE %></td>
+                                          <td class="align-middle"><%= worker[i].rank.NAME %></td>
+                                          <td class="align-middle"><%= worker[i].SKILL %></td>
+                                          <td>
+                                            <div class="row mw-100 m-0">
+                                              <div class="col">
+                                                <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#updWkModal" onclick="initWk('<%= worker[i].ID %>')">
+                                                  <i class="fa fa-pen" aria-hidden="true"></i>
+                                                </button>
+                                              </div>
+                                              <div class="col">
+                                                <button class="w-100 btn btn-danger" onclick="delWk('<%=worker[i].ID %>')">
+                                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </td>
+                                      </tr>
+                                  <%}%>
+                              <%} else{%>
+                                  <td colspan="6"><h4 class="text-center Normal weight text">No se han añadido trabajadores</h4></td>
+                              <%}%>
+                            <%}%>
                           </tbody>
                       </table>
-                  </div>
-                  <div class="form-row">
-                    <div class="col-md-6">
-                      <div class="card ml-2 mb-2 mt-2">
-                        <a class="btn btn-primary btn-block" data-title="Edit" data-toggle="modal" data-target="#editar" href="#">Agregar Trabajador</a>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="card mb-2 mt-2 mr-2">
-                        <a class="btn btn-primary btn-block" href="#">Guardar</a>
-                      </div>
-                    </div>
                   </div>
               </div>
           </div>
       </div>
     </div>
-    <div class="modal" id="editar" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-    			<div class="modal-dialog">
-    				<div class="modal-content">
-    					<div class="modal-header">
-                <h4 class="modal-title custom_align" id="Heading">Agregar Trabajdor</h4>
-    						<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
-    					</div>
-    					<div class="modal-body">
-                <div class="form-row">
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label class="small mb-1">Nombre</label>
-                      <input class="form-control " type="text" placeholder="Nombre Trabajador">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label class="small mb-1">Cédula</label>
-                      <input class="form-control " type="text" placeholder="Cédula">
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label class="small mb-1">Celular</label>
-                      <input class="form-control " type="text" placeholder="Celular">
-                    </div>
-                  </div>
-                </div>
-                <div class="form-row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="small mb-1">Tipo</label>
-                      <select class="selectBuscar">
-                        <option selected>Seleccionar Tipo</option>
-                        <option value="A1">OT</option>
-                        <option value="A2">O</option>
-                        <option value="A3">A</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="small mb-1">Especialidad</label>
-                      <input class="form-control" type="text" placeholder="Especialidad">
-                    </div>
-                  </div>
-                </div>
-    					</div>
-    					<div class="modal-footer ">
-    						<button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
-    					</div>
-    				</div>
-    				<!-- /.modal-content -->
-    			</div>
-    			<!-- /.modal-dialog -->
+  </div>
+  <!-- Modal add-->
+  <div class="modal fade" id="addWkModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal2-title" id="exampleModalLongTitle">Añadir Trabajador</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="small mb-1">Nombre</label>
+            <input class="form-control" type="text" id="wk_name" placeholder="Nombre del Trabajador">
+          </div>
+          <div class="form-group">
+            <label class="small mb-1">Cédula de Ciudadania</label>
+            <input class="form-control" type="number" id="wk_cc" placeholder="Número de Cédula">
+          </div>
+          <div class="form-group">
+            <label class="small mb-1">Celular</label>
+            <input class="form-control" type="number" id="wk_phone" placeholder="Número de Celular">
+          </div>
+          <div class="form-group">
+            <label for="worker_rank">Tipo</label>
+            <select id="wk_rank" class="custom-select selectBuscar">
+
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="small mb-1">Especialidad</label>
+            <input class="form-control" type="text" id="wk_skill" placeholder="Especialidad">
+          </div>
+          <input type="number" id="wk_id" hidden>
+        </div>
+        <div class="modal-footer">
+          <div class="card w-100 mt-2">
+              <button class="btn btn-primary btn-block" type="button" onclick="regWk()">
+                Guardar trabajador
+              </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <!-- Modal upd-->
+  <div class="modal fade" id="updWkModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal2-title" id="exampleModalLongTitle">Editar Trabajador</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="small mb-1">Nombre</label>
+            <input class="form-control" type="text" id="upd_wk_name" placeholder="Nombre del Trabajador">
+          </div>
+          <div class="form-group">
+            <label class="small mb-1">Cédula de Ciudadania</label>
+            <input class="form-control" type="number" id="upd_wk_cc" placeholder="Número de Cédula">
+          </div>
+          <div class="form-group">
+            <label class="small mb-1">Celular</label>
+            <input class="form-control" type="number" id="upd_wk_phone" placeholder="Número de Celular">
+          </div>
+          <div class="form-group">
+            <label for="worker_rank">Tipo</label>
+            <select id="upd_wk_rank" class="custom-select selectBuscar">
+
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="small mb-1">Especialidad</label>
+            <input class="form-control" type="text" id="upd_wk_skill" placeholder="Especialidad">
+          </div>
+          <input type="number" id="upd_wk_id" hidden>
+        </div>
+        <div class="modal-footer">
+          <div class="card w-100 mt-2">
+              <button class="btn btn-primary btn-block" type="button" onclick="updWk()">
+                Guardar trabajador
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%- include ("../partials/message-modal"); %>
 </main>
