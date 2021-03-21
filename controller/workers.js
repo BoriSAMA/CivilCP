@@ -27,7 +27,7 @@ router.post('/', async(req, res) => {
                                         }, { transaction: t });
             return sal;
         });
-        
+
 		res.status(200).json({name: "Exito", message: "Se ha registrado el trabajador"});
 	}catch(err){
         if(err.name == "regError"){
@@ -42,16 +42,16 @@ router.post('/', async(req, res) => {
 router.get('/all', async(req, res) => {
 	try{
         var array = [];
-		const result = await sequelize.transaction(async (t) => {
-			const sal = await models.worker.findAll({
-                                        where: {
-                                            ID_USER: req.session.user.ID
-                                        }, 
-                                        include: [{   
-                                            model: models.rank
-                                        }]
-                                    },{ transaction: t });
-			return sal;
+				const result = await sequelize.transaction(async (t) => {
+					const sal = await models.worker.findAll({
+		                                        where: {
+		                                            ID_USER: req.session.user.ID
+		                                        },
+		                                        include: [{
+		                                            model: models.rank
+		                                        }]
+		                                    },{ transaction: t });
+					return sal;
         });
 
         for (let i = 0; i < result.length; i++) {
@@ -68,7 +68,7 @@ router.get('/all', async(req, res) => {
         res.status(200).render('index',{
             selected: 'workers',
             user: req.session.user,
-            mt: array
+						error: "yo"
         });
 	}
 });
@@ -96,7 +96,7 @@ router.delete('/:id', async(req, res) => {
 		const result = await sequelize.transaction(async (t) => {
             const sal = await models.worker.destroy({
                                 where: {
-                                    ID_USER: req.session.ID,
+                                    ID_USER: req.session.user.ID,
                                     ID: req.params.id
                                 }
                             },{ transaction: t });
@@ -104,7 +104,7 @@ router.delete('/:id', async(req, res) => {
         });
 
 		if(result == 0){
-			throw {name : "MatchError", message : "No se elimino el trabajador"}; 
+			throw {name : "MatchError", message : "No se elimino el trabajador"};
         }
 
 		res.status(200).json({name: "Exito", message: "Se ha eliminado el trabajador"});
@@ -122,6 +122,7 @@ router.delete('/:id', async(req, res) => {
 //Update
 router.patch('/:id', async(req, res) => {
     try{
+
         var { rank, name, cc, phone, skill } = req.body;
 
         if ( !rank || !name || !cc || !phone || !skill) {
@@ -144,7 +145,7 @@ router.patch('/:id', async(req, res) => {
         });
 
 		if(result == 0){
-			throw {name : "MatchError", message : "No se actualizo el trabajador"}; 
+			throw {name : "MatchError", message : "No se actualizo el trabajador"};
         }
 
         res.status(200).json({name: "Exito", message: "Se ha actualizado el trabajador"});
