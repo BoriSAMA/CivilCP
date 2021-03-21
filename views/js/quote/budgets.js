@@ -108,11 +108,12 @@ function initQuoteEdit(ids) {
     $("#btn_budget_delete").on("click", function(){
         delQuote(upd_aux.ID)
     });
+    
     $("#btn_go_budget").attr("href", "index/budget?bid=" + upd_aux.ID);
     $("#btn_go_gantt").attr("href", "index/schedule?sid=" + ids);
 
-    $("#upd_budget_id").val(upd_aux.ID)
-    $("#upd_budget_name").val(upd_aux.NAME);   
+    $("#upd_budget_id").val(upd_aux.ID);
+    $("#upd_budget_name").val(upd_aux.NAME);
     $("#upd_budget_tdir").val(upd_aux.TOTAL_DIRECT).trigger('blur');
     $("#upd_budget_admn").val(upd_aux.PRC_ADMIN);
     $("#upd_budget_admn_val").val(upd_aux.ADMIN).trigger('blur');
@@ -121,9 +122,8 @@ function initQuoteEdit(ids) {
     $("#upd_budget_util").val(upd_aux.PRC_UTILITY);
     $("#upd_budget_util_val").val(upd_aux.UTILITY).trigger('blur');
     $("#upd_budget_iva").val(upd_aux.PRC_IVA);
-    $("#upd_budget_iva_val").val(upd_aux.IVA).trigger('blur');  
+    $("#upd_budget_iva_val").val(upd_aux.IVA).trigger('blur');
     $("#upd_budget_total").val(upd_aux.TOTAL).trigger('blur');
-    
 }
 
 function cancelUpd() {

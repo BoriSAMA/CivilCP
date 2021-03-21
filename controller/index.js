@@ -73,13 +73,10 @@ router.get('/workers', function(req, res){
 });
 
 router.get('/schedule', function(req, res){
-	res.redirect("/worker/all");
-});
-
-router.get('/schedule', function(req, res){
-	res.status(200).render('index',{
-        selected: 'gantt'
-    });
+	res.redirect(url.format({
+        pathname: "/schedule",
+        query: req.query
+    }));
 });
 
 router.get('/shoppinglist', function(req, res){

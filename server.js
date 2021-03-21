@@ -74,6 +74,9 @@ app.use('/apuItems', apuItemsRoute);
 const workerRoute = require('./controller/workers');
 app.use('/worker', workerRoute);
 
+const scheduleRoute = require('./controller/schedule');
+app.use('/schedule', scheduleRoute);
+
 const indexRoute = require('./controller/index');
 app.use('/index', indexRoute);
 //routes finish
