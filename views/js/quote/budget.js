@@ -1,11 +1,4 @@
-const item_unit = ['ML', 'M2', 'M3', 'UND', 'GB', 'PT'];
 var upd_aux;
-
-$(function() {
-    $('.curr').each(function(){
-        translateTxt($(this), $(this).html());  
-    });
-});
 
 $(function() {
     chargeSelects();

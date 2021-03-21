@@ -36,13 +36,13 @@
                                         <td class="align-middle"><%= quotes[i].NAME %></td>
 
                                         <% if(quotes[i].TOTAL_DIRECT > 0) { -%>
-                                          <td class="align-middle"><%= quotes[i].TOTAL_DIRECT %></td>
+                                          <td class="align-middle curr"><%= quotes[i].TOTAL_DIRECT %></td>
                                         <% } else { %>
                                           <td class="align-middle"> Por definir </td>
                                         <% } %>
 
                                         <% if(quotes[i].TOTAL > 0) { -%>
-                                          <td class="align-middle"><%= quotes[i].TOTAL %></td>
+                                          <td class="align-middle curr"><%= quotes[i].TOTAL %></td>
                                         <% } else { %>
                                           <td class="align-middle"> Por definir </td>
                                         <% } %>
@@ -251,6 +251,7 @@
             <div class="col" id="button2">
               <a class="btn btn-primary btn-block"type="button" id="go_budget" href="">
                 Editar presupuesto
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
               </a>
             </div>
           </div>

@@ -1,32 +1,5 @@
-const item_unit = ['ML', 'M2', 'M3', 'UND', 'GB', 'PT'];
 var filter_chap = 0;
 var filter_act = 0;
-
-console.log(window.location.href);
-
-if ($("#item_material tbody tr td:nth-child(1)").html() === "1") {
-  $("#item_material tbody tr td:nth-child(5)").each(function () {
-    translateTxt($(this), $(this).html());
-  });
-}
-
-if ($("#item_gang tbody tr td:nth-child(1)").html() === "1") {
-  $("#item_gang tbody tr td:nth-child(7)").each(function () {
-    translateTxt($(this), $(this).html());
-  });
-}
-
-if ($("#item_machinery tbody tr td:nth-child(1)").html() === "1") {
-  $("#item_machinery tbody tr td:nth-child(6)").each(function () {
-    translateTxt($(this), $(this).html());
-  });
-}
-
-if ($("#item_transport tbody tr td:nth-child(1)").html() === "1") {
-  $("#item_transport tbody tr td:nth-child(5)").each(function () {
-    translateTxt($(this), $(this).html());
-  });
-}
 
 $(function() {
     chargeFilters();

@@ -1,4 +1,3 @@
-const item_unit = ['ML', 'M2', 'M3', 'UND', 'GB', 'PT'];
 var filter_chap = 0;
 var filter_act = 0;
 

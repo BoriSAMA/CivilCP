@@ -1,9 +1,3 @@
-if ($("#item_material tbody tr td:nth-child(1)").html() === "1") {
-  $("#item_material tbody tr td:nth-child(5)").each(function () {
-    translateTxt($(this), $(this).html());
-  });
-}
-
 $(function () {
   for (var i = 0; i < item_unit.length; i++) {
     jQuery("<option/>", {

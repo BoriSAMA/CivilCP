@@ -4,8 +4,16 @@
       <div class="col-xl-12 mt-4">
           <div class="card mb-4">
               <div class="card-header">
-                  <i class="fas fa-table mr-1"></i>
-                  Presupuesto
+                <div class="row">
+                  <div class="col-1 pr-0">
+                    <a class="btn-sm btn-info" href="/index/budgets">
+                      <i class="fa fa-reply" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                  <div class="col p-0">
+                    Presupuesto
+                  </div>
+                </div>
               </div>
                 <% if(locals.error){ %> 
                   <div id="message">
@@ -63,10 +71,10 @@
                                             <tr>
                                               <th></th>
                                               <th class="align-middle" width="5%"><%= ch[j].QUOTE_NUMBER %></th>
-                                              <th class="align-middle" colspan="2"><%= ch[j].CUSTOM_NAME %></th>
+                                              <th class="align-middle" colspan="3"><%= ch[j].CUSTOM_NAME %></th>
                                               <th class="align-middle" width="8%">Unidad</th>
                                               <th class="align-middle" width="8%">Cantidad</th>
-                                              <th class="align-middle text-center" width="15%" colspan="2">A.P.U</th>
+                                              <th class="align-middle text-center" width="15%">A.P.U</th>
                                               <th class="align-middle" width="15%">Total</th>
                                               <th class="align-middle">
                                                 <div class="row mw-100 m-0">
@@ -102,14 +110,19 @@
                                                     <td rowspan="<%= ac.length %>"></td>
                                                   <% } -%>
                                                   <td class="align-middle"><%= ac[k].QUOTE_NUMBER %></td>
-                                                  <td class="align-middle" colspan="2"><%= ac[k].activity_group.PREFIX %> - <%= ac[k].CUSTOM_NAME %></td>
+                                                  <td class="align-middle" colspan="3"><%= ac[k].activity_group.PREFIX %> - <%= ac[k].CUSTOM_NAME %></td>
                                                   <td class="align-middle"><%= ac[k].MEASSURE_UNIT %></td>
                                                   <td class="align-middle"><%= ac[k].QUANTITY %></td>
-                                                  <td class="align-middle curr"><%= ac[k].apu.TOTAL %></td>
                                                   <td class="align-middle">
-                                                    <a type="button" class="btn btn-primary" href="/index/apu?aid=<%= ac[k].ID %>&bid=<%= quote.ID %>">
-                                                      <span class="fas fa-book-open"></span>
-                                                    </a>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                      <div class="curr">
+                                                        <%= ac[k].apu.TOTAL %>
+                                                      </div>
+                                                      
+                                                      <a type="button" class="btn-sm btn-primary" href="/index/apu?aid=<%= ac[k].ID %>&bid=<%= quote.ID %>">
+                                                        <span class="fas fa-book-open"></span>
+                                                      </a>
+                                                    </div>
                                                   </td>
                                                   <td class="align-middle curr"><%= ac[k].TOTAL %></td>
                                                   <td colspan="2">
@@ -261,7 +274,7 @@
           </div>
 
           <div class="form-group py-2">
-            <label for="ac_select_act_grp">Grupo de actividades (importante para el filtrado):</label>
+            <label for="ac_select_act_grp">Grupo de actividades (importante para el filtrado de items):</label>
             <select id="ac_select_act_grp" class="custom-select selectBuscar">
                 <option value="0">Ninguno</option>
             </select>

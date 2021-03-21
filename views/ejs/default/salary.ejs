@@ -37,9 +37,9 @@
                                 <tr>
                                     <td class="align-middle"><%= i + 1%></td>
                                     <td class="align-middle">x<%=salaries[i].MULTIPLIER %></td>
-                                    <td class="align-middle"><%=salaries[i].VALUE %></td>
+                                    <td class="align-middle curr"><%=salaries[i].VALUE %></td>
                                     <%if(salaries[i].HOURLY_VALUE !== 0) { -%>
-                                      <td class="align-middle"><%=salaries[i].HOURLY_VALUE %></td>
+                                      <td class="align-middle curr"><%=salaries[i].HOURLY_VALUE %></td>
                                     <%}else{%>
                                       <td class="align-middle">Por definir</td>
                                     <%}%>

@@ -12,65 +12,65 @@
                     <div class="sb-sidenav-menu">
                         <div class="nav">
                             <div class="sb-sidenav-menu-heading">Utilidades</div>
-                            <a class="nav-link" href="/salary/all" id="sal">
+                            <a class="nav-link" href="/index/salary" path="/salary/all"  id="sal">
                                 <div class="sb-nav-link-icon"><i class="fas fa-money-bill-wave"></i></div>
                                 Salarios
                             </a>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDB" aria-expanded="false" aria-controls="collapseDB">
+                            <a class="nav-link collapsed default" data-toggle="collapse" data-target="#collapseDB" aria-expanded="false" aria-controls="collapseDB">
                                 <div class="sb-nav-link-icon"><i class="fas fa-database"></i></div>
                                 Bases de datos
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapseDB" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/index/char" id="lren">
+                                <nav class="sb-sidenav-menu-nested nav" parent="default">
+                                    <a class="nav-link" href="/index/group" path="/group/all" id="lren">
                                         <div class="sb-nav-link-icon p-1"><i class="fas fa-tachometer-alt"></i></div>
                                         Caracterizaciones
                                     </a>
-                                    <a class="nav-link" href="/index/materials" id="lmat">
+                                    <a class="nav-link" href="/index/materials" path="/item/materials" id="lmat">
                                         <div class="sb-nav-link-icon p-1"><i class="fas fa-toolbox"></i></div>
                                         Materiales
                                     </a>
-                                    <a class="nav-link" href="/index/gangs" id="lcua">
+                                    <a class="nav-link" href="/index/gangs" path="/item/gangs" id="lcua">
                                         <div class="sb-nav-link-icon p-1"><i class="fas fa-users"></i></div>
                                         Cuadrillas
                                     </a>
-                                    <a class="nav-link" href="/index/machineries" id="lmaq">
+                                    <a class="nav-link" href="/index/machineries" path="/item/machineries" id="lmaq">
                                         <div class="sb-nav-link-icon p-1"><i class="fas fa-truck-pickup"></i></div>
                                         Maquinarias
                                     </a>
-                                    <a class="nav-link" href="/index/transports" id="lmat">
+                                    <a class="nav-link" href="/index/transports" path="/item/transports" id="lmat">
                                         <div class="sb-nav-link-icon p-1"><i class="fas fa-car-side"></i></div>
                                         Transporte
                                     </a>
                                 </nav>
                             </div>
                             <% if(user.SUPERUSER){ -%>
-                                <a class="nav-link" href="/index/all-items" id="lmat">
+                                <a class="nav-link" href="/index/all-items" path="/item/all" id="lmat">
                                     <div class="sb-nav-link-icon"><i class="fas fa-book-medical"></i></div>
                                     Items de usuarios
                                 </a>
                             <% } else {-%>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#mibd" aria-expanded="false" aria-controls="collapseDB">
+                                <a class="nav-link collapsed default_user" data-toggle="collapse" data-target="#mibd" aria-expanded="false" aria-controls="collapseDB">
                                     <div class="sb-nav-link-icon"><i class="fas fa-database"></i></div>
                                         Mi base de datos
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
                                 <div class="collapse" id="mibd" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                    <nav class="sb-sidenav-menu-nested nav">
-                                        <a class="nav-link" href="/index/u_materials" id="lmat">
+                                    <nav class="sb-sidenav-menu-nested nav" parent="default_user">
+                                        <a class="nav-link" href="/index/u_materials" path="/item/user/materials" id="lmat">
                                             <div class="sb-nav-link-icon p-1"><i class="fas fa-toolbox"></i></div>
                                             Materiales
                                         </a>
-                                        <a class="nav-link" href="/index/u_gangs" id="lcua">
+                                        <a class="nav-link" href="/index/u_gangs" path="/item/user/gangs" id="lcua">
                                             <div class="sb-nav-link-icon p-1"><i class="fas fa-users"></i></div>
                                             Cuadrillas
                                         </a>
-                                        <a class="nav-link" href="/index/u_machineries" id="lmaq">
+                                        <a class="nav-link" href="/index/u_machineries" path="/item/user/machineries" id="lmaq">
                                             <div class="sb-nav-link-icon p-1"><i class="fas fa-truck-pickup"></i></div>
                                             Maquinarias
                                         </a>
-                                        <a class="nav-link" href="/index/u_transports" id="lmat">
+                                        <a class="nav-link" href="/index/u_transports" path="/item/user/transports" id="lmat">
                                             <div class="sb-nav-link-icon p-1"><i class="fas fa-car-side"></i></div>
                                             Transporte
                                         </a>
@@ -79,16 +79,16 @@
                             <% }-%>
                             
                             <% if(!user.SUPERUSER){ -%>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePresupuesto" aria-expanded="false" aria-controls="collapsePresupuesto">
+                            <a class="nav-link collapsed budget" data-toggle="collapse" data-target="#collapsePresupuesto" aria-expanded="false" aria-controls="collapsePresupuesto">
                                 <div class="sb-nav-link-icon"><i class="fas fa-money-check-alt"></i></div>
                                 Presupuesto
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapsePresupuesto" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                                <nav class="sb-sidenav-menu-nested nav">
-                                  <a class="nav-link" href="/index/budgets" id="pre">
+                                <nav class="sb-sidenav-menu-nested nav" parent="budget">
+                                  <a class="nav-link" href="/index/budgets" path="/budgets" id="pre">
                                       <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                                      Lista de Presupuestos
+                                      Mis Presupuestos
                                   </a>
                                   <a class="nav-link" href="/index/shoppinglist" id="lcomp">
                                     <div class="sb-nav-link-icon"><i class="fas fa-shopping-cart"></i></div>
@@ -96,7 +96,7 @@
                                   </a>
                                 </nav>
                             </div>
-                            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProgramacion" aria-expanded="false" aria-controls="collapseProgramacion">
+                            <a class="nav-link collapsed" href="/schedule" data-toggle="collapse" data-target="#collapseProgramacion" aria-expanded="false" aria-controls="collapseProgramacion">
                                 <div class="sb-nav-link-icon"><i class="fas fa-calendar-alt"></i></div>
                                 Programación
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>

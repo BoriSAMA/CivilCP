@@ -1,18 +1,21 @@
-/*!
-    * Start Bootstrap - SB Admin v6.0.2 (https://startbootstrap.com/template/sb-admin)
-    * Copyright 2013-2020 Start Bootstrap
-    * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-sb-admin/blob/master/LICENSE)
-    */
-    (function($) {
+(function($) {
     "use strict";
-
     // Add active state to sidbar nav links
-    var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
-        $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function() {
-            if (this.href === path) {
-                $(this).addClass("active");
+    // because the 'href' property of the DOM element is the absolute path
+
+    var path = window.location.pathname;
+
+    $("#layoutSidenav_nav .sb-sidenav a.nav-link").each(function() {
+      let aux = $(this).attr('path');
+        if (path.includes(aux)) {
+            $(this).addClass("active");
+            let par = $(this).closest('nav').attr('parent');
+            if (par != '' && typeof par != 'undefined') {
+              $( `.${par}`).addClass("active");
             }
-        });
+            
+        }
+    });
 
     // Toggle the side navigation
     $("#sidebarToggle").on("click", function(e) {
@@ -20,8 +23,6 @@
         $("body").toggleClass("sb-sidenav-toggled");
     });
 })(jQuery);
-
-// TODO loading screen
 
 const host = "http://127.0.0.1:1337/";
 const salary = "salary";
@@ -31,6 +32,8 @@ const budgets = "budgets";
 const budget = "budget";
 const apu = "apu";
 
+const item_unit = ['ML', 'M2', 'M3', 'UND', 'GB', 'PT', 'KG'];
+
 $("input[data-type='currency']").on({
   keyup: function() {
     formatCurrency($(this));
@@ -38,6 +41,12 @@ $("input[data-type='currency']").on({
   blur: function() { 
     formatCurrency($(this), "blur");
   }
+});
+
+$(function() {
+    $('.curr').each(function(){
+        translateTxt($(this), $(this).html());  
+    });
 });
 
 function formatNumber(n) {

@@ -4,14 +4,20 @@
       <div class="col-xl-12 mt-4">
           <div class="card mb-4">
               <div class="card-header">
-                <div class="row">
+                <div class="row  d-flex align-items-center">
+                  <div class="col-1">
+                    <a class="btn btn-info" href="index/budget?bid=<%= budget %>">
+                      <i class="fa fa-reply" aria-hidden="true"></i>
+                    </a>
+                  </div>
                   <div class="col">
-                    <i class="fas fa-table h-100 align-middle"></i>
-                      A.P.U de
-                      <% if(!locals.error){ %> 
-                        <%= activity.CUSTOM_NAME %>
-                        <input id="id_apu" type="text" value="<%= apu.ID %>" hidden>
-                      <% } %> 
+                    <% if(!locals.error){ %> 
+                    <h5> A.P.U de la Actividad <%= activity.CUSTOM_NAME %></h5>
+                    <h6>  <%= activity.activity_group.PREFIX %> - <%= activity.activity_group.NAME %></h6>
+                      <input id="id_apu" type="text" value="<%= apu.ID %>" hidden>
+                      <input id="id_budget" type="text" value="<%= budget %>" hidden>
+                      <input id="id_activity" type="text" value="<%= apu.ID_QUO_ACT %>" hidden>
+                    <% } %> 
                   </div>
                   <div id="btnSection" class="col-3">
                     <div class="card ml-2 mb-2 mt-2">
@@ -36,68 +42,86 @@
                     <% if(apu_c[i].ID_CONTENT == 1) { -%>
                     <div id="mat" class="card ml-2 mb-2 mt-2 mr-2">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
+                            <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
                                 <thead class="table-secondary">
                                     <tr>
-                                        <th colspan="7">Materiales</th>
+                                      <th class="text-center" colspan="6">
+                                        <div class="d-flex justify-content-between">
+                                          Materiales
+                                          <button class="btn-sm btn-danger" onclick="delContent('<%= apu_c[i].ID %>')">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                          </button>
+                                        </div>
+                                      </th>
                                     </tr>
                                     <tr>
-                                        <th>Nombre de Actividad</th>
-                                        <th>G.P</th>
-                                        <th>G.A</th>
-                                        <th>Descripción</th>
-                                        <th>Unidad</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio</th>
+                                        <th class="align-middle">Nombre</th>
+                                        <th class="align-middle" width="7%">Unidad</th>
+                                        <th class="align-middle" width="8%">Cantidad</th>
+                                        <th class="align-middle" width="10%">Precio</th>
+                                        <th class="align-middle" width="15%">Total</th>
+                                        <th class="align-middle" width="15%"> 
+                                          <button class="btn btn-success btn-block" data-toggle="modal" 
+                                                  data-target="#addItemModal" onclick="resetModal('1', '<%= apu_c[i].ID %>')">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                            Agregar item
+                                          </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>Nombre</td>
-                                        <td>G.P</td>
-                                        <td>G.A</td>
-                                        <td>Descripción</td>
-                                        <td>Unid</td>
-                                        <td>#</td>
-                                        <td>#$</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre</td>
-                                        <td>G.P</td>
-                                        <td>G.A</td>
-                                        <td>Descripción</td>
-                                        <td>Unid</td>
-                                        <td>#</td>
-                                        <td>#$</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre</td>
-                                        <td>G.P</td>
-                                        <td>G.A</td>
-                                        <td>Descripción</td>
-                                        <td>Unid</td>
-                                        <td>#</td>
-                                        <td>#$</td>
-                                    </tr>
+                                  <% if(apu_c[i].apu_i.length > 0) { -%>
+                                    <% var apu_i = apu_c[i].apu_i -%>
+                                    <% for(let j = 0; j < apu_i.length; j++) { -%>
+                                        <tr>
+                                            <td class="align-middle"><%= apu_i[j].item_list.NAME %></td>
+                                            <td class="align-middle"><%= apu_i[j].item_list.MEASSURE_UNIT %></td>
+                                            <td class="align-middle"><%= apu_i[j].QUANTITY %></td>
+                                            <td class="align-middle curr"><%= apu_i[j].item_list.COST %></td>
+                                            <td class="align-middle curr"><%= apu_i[j].TOTAL %></td>
+                                            <td class="align-middle">
+                                              <div class="row mw-100 m-0">
+                                                <div class="col">
+                                                  <button class="w-100 btn btn-primary"
+                                                          data-toggle="modal" 
+                                                          data-target="#updACModal" onclick="initItem('1','<%= apu_i[j].ID %>')">
+                                                    <i class="fa fa-pen" aria-hidden="true"></i>
+                                                  </button>
+                                                </div>
+                                                <div class="col">
+                                                  <button class="w-100 btn btn-danger" onclick="delItem('1','<%= apu_i[j].ID %>')">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                  </button>
+                                                </div>      
+                                              </div>  
+                                            </td>
+                                        </tr>
+                                      <% } -%>
+                                    <% } else { -%>
+                                      <tr>
+                                        <td colspan="7">
+                                          <h5 class="text-center Normal weight text">No se han añadido items</h5>
+                                        </td>
+                                      </tr>
+                                    <% } -%> 
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="form-row">
-                          <div class="col-md-4"></div>
-                          <div class="col-md-4">
-                            <div class="card ml-2 mb-2 mt-2">
-                              <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
-                            </div>
-                          </div>
                         </div>
                     </div>
                     <% }else if(apu_c[i].ID_CONTENT == 2) { -%>
                     <div id="mob" class="card ml-2 mb-2 mt-2 mr-2">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
+                            <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
                                 <thead class="table-secondary">
                                     <tr>
-                                        <th colspan="7">Mano de Obra</th>
+                                      <th colspan="7">
+                                        <div class="d-flex justify-content-between">
+                                          Mano de Obra
+                                          <button class="btn-sm btn-danger" onclick="delContent('<%= apu_c[i].ID %>')">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                          </button>
+                                        </div>
+                                      </th>
                                     </tr>
                                     <tr>
                                         <th>Nombre de Actividad</th>
@@ -119,43 +143,24 @@
                                         <td>#</td>
                                         <td>#$</td>
                                     </tr>
-                                    <tr>
-                                        <td>Nombre</td>
-                                        <td>G.P</td>
-                                        <td>G.A</td>
-                                        <td>Descripción</td>
-                                        <td>Unid</td>
-                                        <td>#</td>
-                                        <td>#$</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre</td>
-                                        <td>G.P</td>
-                                        <td>G.A</td>
-                                        <td>Descripción</td>
-                                        <td>Unid</td>
-                                        <td>#</td>
-                                        <td>#$</td>
-                                    </tr>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="form-row">
-                          <div class="col-md-4"></div>
-                          <div class="col-md-4">
-                            <div class="card ml-2 mb-2 mt-2">
-                              <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
-                            </div>
-                          </div>
                         </div>
                     </div>
                     <% }else if(apu_c[i].ID_CONTENT == 3) { -%>
                     <div id="equ" class="card ml-2 mb-2 mt-2 mr-2">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
+                            <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
                                 <thead class="table-secondary">
                                     <tr>
-                                        <th colspan="7">Equipos</th>
+                                      <th colspan="7">
+                                        <div class="d-flex justify-content-between">
+                                          Maquinaria
+                                          <button class="btn-sm btn-danger" onclick="delContent('<%= apu_c[i].ID %>')">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                          </button>
+                                        </div>
+                                      </th>
                                     </tr>
                                     <tr>
                                         <th>Nombre de Actividad</th>
@@ -177,92 +182,77 @@
                                         <td>#</td>
                                         <td>#$</td>
                                     </tr>
-                                    <tr>
-                                        <td>Nombre</td>
-                                        <td>G.P</td>
-                                        <td>G.A</td>
-                                        <td>Descripción</td>
-                                        <td>Unid</td>
-                                        <td>#</td>
-                                        <td>#$</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre</td>
-                                        <td>G.P</td>
-                                        <td>G.A</td>
-                                        <td>Descripción</td>
-                                        <td>Unid</td>
-                                        <td>#</td>
-                                        <td>#$</td>
-                                    </tr>
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="form-row">
-                          <div class="col-md-4"></div>
-                          <div class="col-md-4">
-                            <div class="card ml-2 mb-2 mt-2">
-                              <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
-                            </div>
-                          </div>
                         </div>
                     </div>
                     <% } else { -%>
                     <div id="tra" class="card ml-2 mb-2 mt-2 mr-2">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
+                            <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
                                 <thead class="table-secondary">
                                     <tr>
-                                        <th colspan="7">Transporte</th>
+                                      <th class="text-center" colspan="6">
+                                        <div class="d-flex justify-content-between">
+                                          Transporte
+                                          <button class="btn-sm btn-danger" onclick="delContent('<%= apu_c[i].ID %>')">
+                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                          </button>
+                                        </div>
+                                      </th>
                                     </tr>
                                     <tr>
-                                        <th>Nombre de Actividad</th>
-                                        <th>G.P</th>
-                                        <th>G.A</th>
-                                        <th>Descripción</th>
-                                        <th>Unidad</th>
-                                        <th>Cantidad</th>
-                                        <th>Precio</th>
+                                      <th class="align-middle">Nombre</th>
+                                      <th class="align-middle" width="7%">Unidad</th>
+                                      <th class="align-middle" width="8%">Cantidad</th>
+                                      <th class="align-middle" width="10%">Precio</th>
+                                      <th class="align-middle" width="15%">Total</th>
+                                      <th class="align-middle" width="15%"> 
+                                        <button class="btn btn-success btn-block" data-toggle="modal" 
+                                                data-target="#addItemModal" onclick="resetModal('4', '<%= apu_c[i].ID %>')">
+                                          <i class="fa fa-plus" aria-hidden="true"></i>
+                                          Agregar item
+                                        </button>
+                                      </th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                  <% if(apu_c[i].apu_i.length > 0) { -%>
+                                    <% var apu_i = apu_c[i].apu_i -%>
+                                    <% for(let j = 0; j < apu_i.length; j++) { -%>
+                                      <tr>
+                                        <td class="align-middle"><%= apu_i[j].item_list.NAME %></td>
+                                        <td class="align-middle"><%= apu_i[j].item_list.MEASSURE_UNIT %></td>
+                                        <td class="align-middle"><%= apu_i[j].QUANTITY %></td>
+                                        <td class="align-middle curr"><%= apu_i[j].item_list.COST %></td>
+                                        <td class="align-middle curr"><%= apu_i[j].TOTAL %></td>
+                                        <td class="align-middle">
+                                          <div class="row mw-100 m-0">
+                                            <div class="col">
+                                              <button class="w-100 btn btn-primary"
+                                                      data-toggle="modal" 
+                                                      data-target="#updACModal" onclick="initItem('4','<%= apu_i[j].ID %>')">
+                                                <i class="fa fa-pen" aria-hidden="true"></i>
+                                              </button>
+                                            </div>
+                                            <div class="col">
+                                              <button class="w-100 btn btn-danger" onclick="delItem('4','<%= apu_i[j].ID %>')">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                              </button>
+                                            </div>      
+                                          </div>  
+                                        </td>
+                                      </tr>
+                                    <% } -%>
+                                  <% } else { -%>
                                     <tr>
-                                        <td>Nombre</td>
-                                        <td>G.P</td>
-                                        <td>G.A</td>
-                                        <td>Descripción</td>
-                                        <td>Unid</td>
-                                        <td>#</td>
-                                        <td>#$</td>
+                                      <td colspan="7">
+                                        <h5 class="text-center Normal weight text">No se han añadido items</h5>
+                                      </td>
                                     </tr>
-                                    <tr>
-                                        <td>Nombre</td>
-                                        <td>G.P</td>
-                                        <td>G.A</td>
-                                        <td>Descripción</td>
-                                        <td>Unid</td>
-                                        <td>#</td>
-                                        <td>#$</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Nombre</td>
-                                        <td>G.P</td>
-                                        <td>G.A</td>
-                                        <td>Descripción</td>
-                                        <td>Unid</td>
-                                        <td>#</td>
-                                        <td>#$</td>
-                                    </tr>
+                                  <% } -%> 
                                 </tbody>
                             </table>
-                        </div>
-                        <div class="form-row">
-                          <div class="col-md-4"></div>
-                          <div class="col-md-4">
-                            <div class="card ml-2 mb-2 mt-2">
-                              <a class="btn btn-primary btn-block " data-title="Edit" data-toggle="modal" data-target="#agregarI" href="#">Agregar Item</a>
-                            </div>
-                          </div>
                         </div>
                     </div>
                     <% } -%>
@@ -280,6 +270,7 @@
       </div>
     </div>
  
+<!-- Modal add section-->    
 <div class="modal fade" id="addSectionModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -303,30 +294,241 @@
       </div>
       <!-- /.modal-dialog -->
   </div>
-  </div>
+</div>
 
-<div class="modal" id="editarP" tabindex="-2" role="dialog" aria-labelledby="edit" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title custom_align" id="Heading">Agregar Presupuesto</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label class="small mb-1">Nombre del Presupuesto</label>
-              <input class="form-control " type="text" placeholder="Nombre">
+<!-- Modal add item-->    
+<div class="modal fade" id="addItemModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title custom_align" id="Heading">Agregar Item</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+              <label for="apu_item_id">Item del grupo de actividades</label>
+              <div class="row">
+                <div class="col">
+                  <button type="button" class="btn btn-primary w-100" 
+                      data-toggle="modal" 
+                      data-target="#selectItemModal">
+                    Seleccionar item
+                  </button>
+                </div>
+                <div class="col d-flex align-items-center">
+                  <input type="text" id="apu_item_id" hidden>
+                  <input type="text" id="apu_item_cost" hidden>
+                  <input type="text" id="apu_item_content" hidden>
+                  <input class="form-control" type="text" id="apu_item_name" disabled>
+                </div>
+              </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-3">
+              <label for="apu_item_amon">Cantidad</label>
+              <input type="number" id="apu_item_amon" class="form-control"> 
             </div>
-          <div class="modal-footer ">
-            <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="agg">Aceptar</button>
+            <div class="col">
+              <label for="apu_item_total">Total</label>
+              <input type="text" id="apu_item_total" class="form-control" disabled>
+            </div>
           </div>
         </div>
-        <!-- /.modal-content -->
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-primary btn-block" onclick="regItem()">Aceptar</button>
       </div>
-      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
 </div>
 </div>
 
+<!-- Modal pick itme -->
+<div class="modal fade bd-example-modal-lg" id="selectItemModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title custom_align" id="Heading">Selecciona un Item</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="fas fa-times" aria-hidden="true"></span></button>
+      </div>
+      <div class="modal-body">
+      <% if(locals.items) { -%>
+        <div id="item_material">
+          <table class="table table-bordered table-hover" width="100%" height="100%" cellspacing="0">
+              <thead class="table-secondary">
+                  <tr>
+                      <th class="align-middle text-center" colspan="8">Materiales y equipo</th>
+                  </tr>
+                  <tr>
+                    <th class="align-middle" width="20%">Origen</th>
+                    <th class="align-middle">Nombre</th>
+                    <th class="align-middle" width="10%">Unidad</th>
+                    <th class="align-middle" width="15%">Costo</th>
+                    <th class="align-middle" width="5%"></th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <%if(items.mt.length > 0) { -%>
+                      <%for(var i = 0; i < items.mt.length; i++) { -%>
+                          <tr id="<%= items.mt[i].ID %>" act_grp="<%= items.mt[i].ID_ACT_GRP %>">
+                            <%if(items.mt[i].user.ID != user.ID) { -%>
+                              <td class="align-middle"> Base de datos</td>
+                            <% } else { %>
+                              <td class="align-middle"> Mis materiales</td>
+                            <% } %>  
+                              <td class="align-middle"><%= items.mt[i].NAME %></td>
+                              <td class="align-middle"><%= items.mt[i].MEASSURE_UNIT %></td>
+                              <td class="align-middle curr"><%= items.mt[i].COST %></td>
+                              <td>
+                                  <button class="w-100 btn btn-primary" 
+                                          onclick="selectItem('<%= items.mt[i].ID %>', '<%= items.mt[i].NAME %>', '<%= items.mt[i].COST %>')">
+                                      <i class="fa fa-check" aria-hidden="true"></i>
+                                  </button>
+                              </td>
+                          </tr>
+                      <%}%>
+                  <%} else{%>
+                      <td colspan="8"><h4 class="text-center Normal weight text">No hay resultados</h4></td>
+                  <%}%>
+              </tbody>
+          </table>
+        </div>
+
+        <div id="item_gang" hidden>
+            <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                <thead class="table-secondary">
+                    <tr>
+                        <th class="align-middle text-center" colspan="8">Cuadrillas</th>
+                    </tr>
+                    <tr>
+                        <th class="align-middle" width="12%">Origen</th>
+                        <th class="align-middle">Nombre</th>
+                        <th class="align-middle" width="7%">Rendimiento</th>
+                        <th class="align-middle" width="6%">Unidad</th>
+                        <th class="align-middle" width="7%">Costo</th>
+                        <th class="align-middle" width="15%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%if(items.ga.length > 0) { -%>
+                        <%for(var i = 0; i < items.ga.length; i++) { -%>
+                            <tr id="<%= items.ga[i].ID %>" act_grp="<%= items.ga[i].ID_ACT_GRP %>">
+                                <%if(items.ga[i].user.ID != user.ID) { -%>
+                                  <td class="align-middle"> Base de datos</td>
+                                <% } else { %>
+                                  <td class="align-middle"> Mis materiales</td>
+                                <% } %>  
+                                <td class="align-middle"><%= items.ga[i].NAME %></td>
+                                <td class="align-middle"><%= items.ga[i].PERFORMANCE %></td>
+                                <td class="align-middle"><%= items.ga[i].MEASSURE_UNIT %></td>
+                                <td class="align-middle"><%= items.ga[i].COST %></td>
+                                <td>
+                                  <button class="w-100 btn btn-primary" 
+                                          onclick="selectItem('<%= items.ga[i].ID %>', '<%= items.ga[i].NAME %>', '<%= items.ga[i].COST %>')">
+                                      <i class="fa fa-check" aria-hidden="true"></i>
+                                  </button>
+                                </td>
+                            </tr>
+                        <%}%>
+                    <%} else{%>
+                        <td colspan="8"><h4 class="text-center Normal weight text">No hay resultados</h4></td>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="item_machinery" hidden>
+            <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                <thead class="table-secondary">
+                    <tr>
+                        <th class="align-middle text-center" colspan="8">Maquinaria</th>
+                    </tr>
+                    <tr>
+                      <th class="align-middle" width="20%">Origen</th>
+                      <th class="align-middle">Nombre</th>
+                      <th class="align-middle" width="10%">Rendimiento</th>
+                      <th class="align-middle" width="10%">Unidad</th>
+                      <th class="align-middle" width="15%">Costo</th>
+                      <th class="align-middle" width="5%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%if(items.mc.length > 0) { -%>
+                        <%for(var i = 0; i < items.mc.length; i++) { -%>
+                            <tr id="<%= items.mc[i].ID %>" act_grp="<%= items.mc[i].ID_ACT_GRP %>">
+                                <%if(items.mc[i].user.ID != user.ID) { -%>
+                                  <td class="align-middle"> Base de datos</td>
+                                <% } else { %>
+                                  <td class="align-middle"> Mis maquinarias</td>
+                                <% } %>  
+                                <td class="align-middle"><%= items.mc[i].NAME %></td>
+                                <td class="align-middle"><%= items.mc[i].PERFORMANCE %></td>
+                                <td class="align-middle"><%= items.mc[i].MEASSURE_UNIT %></td>
+                                <td class="align-middle curr"><%= items.mc[i].COST %></td>
+                                <td>
+                                  <button class="w-100 btn btn-primary" 
+                                          onclick="selectItem('<%= items.mc[i].ID %>', '<%= items.mc[i].NAME %>', '<%= items.mc[i].COST %>')">
+                                      <i class="fa fa-check" aria-hidden="true"></i>
+                                  </button>
+                                </td>
+                            </tr>
+                        <%}%>
+                    <%} else{%>
+                        <td colspan="8"><h4 class="text-center Normal weight text">No hay resultados</h4></td>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="item_transport" hidden>
+            <table class="table table-bordered table-hover align-middle" width="100%" height="100%" cellspacing="0">
+                <thead class="table-secondary">
+                    <tr>
+                        <th class="align-middle text-center" colspan="9">Transportes</th>
+                    </tr>
+                    <tr>
+                      <th class="align-middle" width="20%">Origen</th>
+                      <th class="align-middle">Nombre</th>
+                      <th class="align-middle" width="10%">Unidad</th>
+                      <th class="align-middle" width="15%">Costo</th>
+                      <th class="align-middle" width="5%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%if(items.tr.length > 0) { -%>
+                        <%for(var i = 0; i < items.tr.length; i++) { -%>
+                            <tr id="<%= items.tr[i].ID %>" act_grp="<%= items.tr[i].ID_ACT_GRP %>">
+                                <%if(items.tr[i].user.ID != user.ID) { -%>
+                                  <td class="align-middle"> Base de datos</td>
+                                <% } else { %>
+                                  <td class="align-middle"> Mis transportes</td>
+                                <% } %>  
+                                <td class="align-middle"><%= items.tr[i].NAME %></td>
+                                <td class="align-middle"><%= items.tr[i].MEASSURE_UNIT %></td>
+                                <td class="align-middle curr"><%= items.tr[i].COST %></td>
+                                <td>
+                                  <button class="w-100 btn btn-primary" 
+                                          onclick="selectItem('<%= items.tr[i].ID %>', '<%= items.tr[i].NAME %>', '<%= items.tr[i].COST %>')">
+                                      <i class="fa fa-check" aria-hidden="true"></i>
+                                  </button>
+                                </td>
+                            </tr>
+                        <%}%>
+                    <%} else{%>
+                        <td colspan="9"><h4 class="text-center Normal weight text">No hay resultados</h4></td>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+      <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal upd itme-->
 <div class="modal" id="agregarI" tabindex="-2" role="dialog" aria-labelledby="edit" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">

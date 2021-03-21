@@ -13,7 +13,7 @@ router.get('/salary', function(req, res){
     res.redirect("/salary/all");
 });
 
-router.get('/char', function(req, res){
+router.get('/group', function(req, res){
     res.redirect("/group/all");
 });
 
@@ -62,7 +62,6 @@ router.get('/budget', function(req, res){
 });
 
 router.get('/apu', function(req, res){
-    console.log(req.query);
     res.redirect(url.format({
         pathname:"/apu",
         query:req.query,

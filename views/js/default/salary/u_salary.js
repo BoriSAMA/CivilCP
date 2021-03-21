@@ -4,18 +4,6 @@ $(async function() {
   smmlv = await getSmmlv();
 });
 
-if ($('#all-salaries tbody tr td:nth-child(1)').html() === "1") {
-  $('#all-salaries tbody tr td:nth-child(3)').each( function(){
-    translateTxt($(this), $(this).html());    
-  });
-  
-  $('#all-salaries tbody tr td:nth-child(4)').each( function(){
-    if ($(this).html() != "Por definir") {
-      translateTxt($(this), $(this).html());  
-    }
-  });
-}
-
 async function getSalary(id){
   let response = await fetch(host + salary + id, {
     method: 'GET',

@@ -80,7 +80,7 @@
                                             <td class="align-middle"><%= items.mt[i].activity_group.PREFIX %></td>
                                             <td class="align-middle"><%= items.mt[i].NAME %></td>
                                             <td class="align-middle"><%= items.mt[i].MEASSURE_UNIT %></td>
-                                            <td class="align-middle"><%= items.mt[i].COST %></td>
+                                            <td class="align-middle curr"><%= items.mt[i].COST %></td>
                                             <td>
                                                 <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#addModal" onclick="addCopy('<%= items.mt[i].ID %>')">
                                                     <i class="fa fa-clone" aria-hidden="true"></i>
@@ -123,7 +123,7 @@
                                             <td class="align-middle"><%= items.ga[i].NAME %></td>
                                             <td class="align-middle"><%= items.ga[i].PERFORMANCE %></td>
                                             <td class="align-middle"><%= items.ga[i].MEASSURE_UNIT %></td>
-                                            <td class="align-middle"><%= items.ga[i].COST %></td>
+                                            <td class="align-middle curr"><%= items.ga[i].COST %></td>
                                             <td>
                                                 <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#addModal" onclick="addCopy('<%= items.ga[i].ID %>')">
                                                     <i class="fa fa-clone" aria-hidden="true"></i>
@@ -166,7 +166,7 @@
                                             <td class="align-middle"><%= items.mc[i].NAME %></td>
                                             <td class="align-middle"><%= items.mc[i].PERFORMANCE %></td>
                                             <td class="align-middle"><%= items.mc[i].MEASSURE_UNIT %></td>
-                                            <td class="align-middle"><%= items.mc[i].COST %></td>
+                                            <td class="align-middle curr"><%= items.mc[i].COST %></td>
                                             <td>
                                                 <button class="w-100 btn btn-primary" onclick="chargeModal('<%= items.mc[i].ID %>')">
                                                     <i class="fa fa-clone" aria-hidden="true"></i>
@@ -207,7 +207,7 @@
                                             <td class="align-middle"><%= items.tr[i].activity_group.PREFIX %></td>
                                             <td class="align-middle"><%= items.tr[i].NAME %></td>
                                             <td class="align-middle"><%= items.tr[i].MEASSURE_UNIT %></td>
-                                            <td class="align-middle"><%= items.tr[i].COST %></td>
+                                            <td class="align-middle curr"><%= items.tr[i].COST %></td>
                                             <td>
                                                 <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#addModal" onclick="addCopy('<%= items.tr[i].ID %>')">
                                                     <i class="fa fa-clone" aria-hidden="true"></i>
