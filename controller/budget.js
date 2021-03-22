@@ -95,9 +95,15 @@ router.post('/ac', async(req, res) => {
         });
 
         await sequelize.transaction(async (t) => {
+            const uwu = await models.schedule.findOne({
+                                where:{
+                                    ID_QUOTE: idqu
+                                }
+                            }, { transaction: t });
+
             const item = await models.schedule_activity.create({
-                            ID_QUO_ACT: result.dataValues.ID,
-                            ID_SCHEDULE: idqu
+                            ID_QOU_ACT: result.ID,
+                            ID_SCHEDULE: uwu.ID
                         }, { transaction: t });
             return item;
         });
