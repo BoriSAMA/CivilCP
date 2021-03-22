@@ -8,10 +8,51 @@
                   Diagrama de Gantt
               </div>
               <div class="card ml-2 mb-2 mt-2 mr-2">
-                <div id="gantt_here" style='width:100%; height:500px;'></div>
+                <div id="chart_div"></div>
               </div>
           </div>
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+    google.charts.load('current', {'packages':['gantt']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function daysToMilliseconds(days) {
+      return days * 24 * 60 * 60 * 1000;
+    }
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'ID de la Tarea');
+      data.addColumn('string', 'Nombre de la Tarea');
+      data.addColumn('date', 'Fecha de Inicio');
+      data.addColumn('date', 'Fecha de Fin');
+      data.addColumn('number', 'Duración');
+      data.addColumn('number', 'Porcentaje Hecho');
+      data.addColumn('string', 'Dependencias');
+
+      data.addRows([
+        ['Investigar', 'Buscar fuentes',
+         new Date(2015, 0, 1), new Date(2015, 0, 5), null,  100,  null],
+        ['Escribir', 'Escribir ensayo',
+         null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Investigar,Bosquejo'],
+        ['Citar', 'Crear bibliografia',
+         null, new Date(2015, 0, 7), daysToMilliseconds(1), 20, 'Investigar'],
+        ['Completar', 'Ensayo en mano',
+         null, new Date(2015, 0, 10), daysToMilliseconds(1), 0, 'Citar,Escribir'],
+        ['Bosquejo', 'Bosquejo del ensayo',
+         null, new Date(2015, 0, 6), daysToMilliseconds(1), 100, 'Investigar']
+      ]);
+
+      var options = {
+        height: 275
+      };
+
+      var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+  </script>
   </main>
