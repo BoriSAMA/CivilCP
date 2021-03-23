@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     SKILL: {
-      type: DataTypes.STRING(30),
+      type: DataTypes.STRING(100),
       allowNull: true
     },
     ID_RANK: {

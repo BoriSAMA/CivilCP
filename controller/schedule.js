@@ -9,23 +9,49 @@ var models = initModels(sequelize);
 //get one schedule for user
 router.get('/', async(req, res) => {
 	try{
-		const result = await sequelize.transaction(async (t) => {
+		var result = await sequelize.transaction(async (t) => {
 			const item = await models.schedule.findAll({
-	      where: {
-	              ID: req.query.sid,
-	      				}
-						},{ transaction: t });
+                                        where: {
+                                            ID: req.query.sid
+                                        }
+                                    },{ transaction: t });
 			return item;
         });
-				console.log(result);
+
         if ( result.length == 0 ) {
             throw {name : "regError", message : "Programacion no encontrada"};
         }
 
+        result = result[0].dataValues;
+
+        var act = await sequelize.transaction(async (t) => {
+			const item = await models.schedule_activity.findAll({
+                                        where: {
+                                            ID_SCHEDULE: result.ID
+                                        }, include: [
+                                            {
+                                                model: models.quote_activity,
+                                                include: {
+                                                    model: models.activity_group
+                                                }
+                                            }
+                                        ]
+                                    },{ transaction: t });
+			return item;
+        });
+
+        for (let i = 0; i < act.length; i++) {
+            act[i] = act[i].dataValues;
+            act[i].quote_activity = act[i].quote_activity.dataValues;
+            act[i].quote_activity.activity_group = act[i].quote_activity.activity_group.dataValues;
+        }
+
+        result.activities = act;
+				console.log(result);
         res.status(200).render('index',{
             selected: 'gantt',
             user: req.session.user,
-            schedule: result[0].dataValues
+            schedule: result
         });
 	}catch(err){
         res.status(200).render('index',{
@@ -87,11 +113,10 @@ router.get('/act/:id', async(req, res) => {
 		const result = await sequelize.transaction(async (t) => {
 			const item = await models.schedule_activity.findOne({
                                                     where: {
-                                                        [Op.and]: [
-                                                            { ID: req.params.id },
-                                                            { ID_USER: req.session.user.ID }
-                                                        ]
-                                                    }
+																												ID: req.params.id
+                                                    },include: [{
+                                                        model: models.quote_activity
+                                                    }]
                                                 },{ transaction: t });
 			return item;
         });
@@ -139,16 +164,12 @@ router.patch('/sch/:id', async(req, res) => {
 });
 
 //Update an activity
-router.patch('/:id', async(req, res) => {
+router.patch('/act/:id', async(req, res) => {
     try{
         var { dur, del, date_s, date_f, date_d_f, idpa, idpt} = req.body;
 
-        if (!dur || !del || idpa != 0 || idpt != 0) {
-            throw {name : "regError", message : "Datos de la actividad incompletos"};
-        }
-
 		const result = await sequelize.transaction(async (t) => {
-            const item = await models.quotation.update({
+            const item = await models.schedule_activity.update({
                                 DURATION: dur,
                                 DELAY: del,
                                 START_DATE: date_s,
@@ -158,10 +179,7 @@ router.patch('/:id', async(req, res) => {
                                 ID_PRE_TYP: idpt
                             },{
                                 where: {
-                                    [Op.and]: [
-                                        { ID: req.params.id },
-                                        { ID_USER: req.session.user.ID }
-                                    ]
+																	ID: req.params.id
                                 }
                             },{ transaction: t });
             return item;

@@ -37,11 +37,15 @@ module.exports = function(sequelize, DataTypes) {
     },
     ID_PRE_ACT: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: true,
+      references: {
+        model: 'schedule_activity',
+        key: 'ID'
+      }
     },
     ID_PRE_TYP: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
         model: 'predecessor_type',
         key: 'ID'

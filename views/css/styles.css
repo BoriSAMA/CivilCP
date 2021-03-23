@@ -10246,3 +10246,9 @@ body {
 .sb-sidenav-light .sb-sidenav-footer {
   background-color: #e9ecef;
 }
+
+#chart_div labelStyle: {
+  fontName: Sans,
+  fontSize: 14,
+  color: '#F6F6F6'
+}
