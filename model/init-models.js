@@ -94,6 +94,8 @@ function initModels(sequelize) {
   quotation.hasMany(schedule, { as: "schedules", foreignKey: "ID_QUOTE"});
   schedule_activity.belongsTo(quote_activity, { foreignKey: "ID_QOU_ACT"});
   quote_activity.hasMany(schedule_activity, { as: "schedule_activities", foreignKey: "ID_QOU_ACT"});
+  schedule_activity.belongsTo(schedule_activity, { foreignKey: "ID_PRE_ACT"});
+  schedule_activity.hasMany(schedule_activity, { as: "schedule_activities", foreignKey: "ID_PRE_ACT"});
   schedule_activity.belongsTo(predecessor_type, { foreignKey: "ID_PRE_TYP"});
   predecessor_type.hasMany(schedule_activity, { as: "schedule_activities", foreignKey: "ID_PRE_TYP"});
   schedule_activity.belongsTo(schedule, { foreignKey: "ID_SCHEDULE"});

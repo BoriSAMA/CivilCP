@@ -2,7 +2,7 @@
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <button class="btn btn-link btn-sm order-lg-0 ml-2" id="sidebarToggle" href="#"><h4><i class="fas fa-bars"></i></h4></button>
-            <a class="navbar-brand ml-auto ml-md-12" href="/index">Proyecto Ingenieria Civil</a>
+            <a class="navbar-brand ml-auto ml-md-12" href="/index">Construprojects</a>
             <!-- Navbar-->
             <a class=" btn btn-dark navbar-brand ml-auto ml-md-12" type="button" href="/user/logout">Finalizar Sesión <i class="fas fa-sign-out-alt"></i></a>
         </nav>
@@ -77,7 +77,7 @@
                                     </nav>
                                 </div>
                             <% }-%>
-                            
+
                             <% if(!user.SUPERUSER){ -%>
                             <a class="nav-link collapsed budget" data-toggle="collapse" data-target="#collapsePresupuesto" aria-expanded="false" aria-controls="collapsePresupuesto">
                                 <div class="sb-nav-link-icon"><i class="fas fa-money-check-alt"></i></div>
@@ -120,35 +120,35 @@
 
                 <% }else if(selected == "char"){ -%>
                     <%- include('default/char.ejs') %>
-                
+
                 <% }else if(selected == "item"){ -%>
                     <% if(type == "materials"){ -%>
                         <%- include('default/materials.ejs') %>
-    
+
                     <% }else if(type == "gangs"){ -%>
                         <%- include('default/gangs.ejs') %>
-    
+
                     <% }else if(type == "machineries"){ -%>
                         <%- include('default/machineries.ejs') %>
-    
+
                     <% }else if(type == "transports"){ -%>
                         <%- include('default/transports.ejs') %>
-    
+
                     <% }else if(type == "su_items"){ -%>
                         <%- include('default/items-all.ejs') %>
 
                     <% }else if(type == "u_materials"){ -%>
                         <%- include('default/materialsUser.ejs') %>
-    
+
                     <% }else if(type == "u_gangs"){ -%>
                         <%- include('default/gangsUser.ejs') %>
-    
+
                     <% }else if(type == "u_machineries"){ -%>
                         <%- include('default/machineriesUser.ejs') %>
-    
+
                     <% }else if(type == "u_transports"){ -%>
                         <%- include('default/transportsUser.ejs') %>
-    
+
                     <% }-%>
                 <% }else if(selected == "workers"){ -%>
                     <%- include('quote/workers.ejs') %>
@@ -161,16 +161,16 @@
 
                 <% }else if(selected == "apu"){ -%>
                     <%- include('quote/apu.ejs') %>
-    
+
                 <% }else if(selected == "shoppinglist"){ -%>
                     <%- include('quote/shoppinglist.ejs') %>
-                    
+
                 <% }else if(selected == "gantt"){ -%>
                     <%- include('quote/gantt.ejs') %>
 
                 <% }else{ -%>
                     <%- include('default/normal.ejs') %>
-                    
+
                 <% } -%>
             </div>
           </div>
