@@ -98,8 +98,7 @@
                                           <td class="align-middle">
                                             <div class="row mw-100 m-0">
                                               <div class="col">
-                                                <button class="w-100 btn btn-primary" data-toggle="modal"
-                                                  data-target="#updACModal"
+                                                <button class="w-100 btn btn-primary"
                                                   onclick="initItem('1','<%= apu_i[j].ID %>')">
                                                   <i class="fa fa-pen" aria-hidden="true"></i>
                                                 </button>
@@ -181,7 +180,7 @@
                                             <td class="align-middle text-center" rowspan="3">
                                               <%= apu_i[j].item_list.MEASSURE_UNIT %>/h
                                             </td>
-                                            <% if(apu_i[j].gang.OT != 0) { -%>
+                                            <% if(apu_i[j].gang.OT != '') { -%>
                                               <td class="align-middle text-center">
                                                 <%= apu_i[j].gang.OT.QUANTITY %>%
                                               </td>
@@ -202,9 +201,8 @@
                                             <td class="align-middle" rowspan="3">
                                               <div class="row mw-100 m-0">
                                                 <div class="col">
-                                                  <button class="w-100 btn btn-primary" data-toggle="modal"
-                                                    data-target="#updACModal"
-                                                    onclick="initItem('2','<%= apu_i[j].ID %>')">
+                                                  <button class="w-100 btn btn-primary"
+                                                    onclick="initGang('<%= apu_i[j].ID %>')">
                                                     <i class="fa fa-pen" aria-hidden="true"></i>
                                                   </button>
                                                 </div>
@@ -218,26 +216,45 @@
                                             </td>
                                           </tr>
                                           <tr>
+                                            
                                             <td class="align-middle text-center">
                                               <%= cuadrilla[1] %>
                                             </td>
-                                            <td class="align-middle text-center">
-                                              <%= apu_i[j].gang.O.QUANTITY %>%
-                                            </td>
-                                            <td class="align-middle curr">
-                                              <%= apu_i[j].gang.O.salary.HOURLY_VALUE * apu_i[j].gang.O.QUANTITY/100 %>
-                                            </td>
+                                            <% if(apu_i[j].gang.O != '') { -%>
+                                              <td class="align-middle text-center">
+                                                <%= apu_i[j].gang.O.QUANTITY %>%
+                                              </td>
+                                              <td class="align-middle curr">
+                                                <%= apu_i[j].gang.O.salary.HOURLY_VALUE * apu_i[j].gang.O.QUANTITY/100 %>
+                                              </td>
+                                            <% } else { -%>
+                                              <td class="align-middle text-center">
+                                                0%
+                                              </td>
+                                              <td class="align-middle curr">
+                                                0
+                                              </td>
+                                            <% } -%>
                                           </tr>
                                           <tr>
                                             <td class="align-middle text-center">
                                               <%= cuadrilla[2] %>
                                             </td>
-                                            <td class="align-middle text-center">
-                                              <%= apu_i[j].gang.A.QUANTITY %>%
-                                            </td>
-                                            <td class="align-middle curr">
-                                              <%= apu_i[j].gang.A.salary.HOURLY_VALUE * apu_i[j].gang.A.QUANTITY/100 %>
-                                            </td>
+                                            <% if(apu_i[j].gang.A != '') { -%>
+                                              <td class="align-middle text-center">
+                                                <%= apu_i[j].gang.A.QUANTITY %>%
+                                              </td>
+                                              <td class="align-middle curr">
+                                                <%= apu_i[j].gang.A.salary.HOURLY_VALUE * apu_i[j].gang.A.QUANTITY/100 %>
+                                              </td>
+                                            <% } else { -%>
+                                              <td class="align-middle text-center">
+                                                0%
+                                              </td>
+                                              <td class="align-middle curr">
+                                                0
+                                              </td>
+                                            <% } -%>
                                           </tr>
                                           <% } -%>
                                           <% } else { -%>
@@ -311,8 +328,7 @@
                                             <td class="align-middle" rowspan="3">
                                               <div class="row mw-100 m-0">
                                                 <div class="col">
-                                                  <button class="w-100 btn btn-primary" data-toggle="modal"
-                                                    data-target="#updACModal"
+                                                  <button class="w-100 btn btn-primary"
                                                     onclick="initItem('3','<%= apu_i[j].ID %>')">
                                                     <i class="fa fa-pen" aria-hidden="true"></i>
                                                   </button>
@@ -395,8 +411,7 @@
                                           <td class="align-middle">
                                             <div class="row mw-100 m-0">
                                               <div class="col">
-                                                <button class="w-100 btn btn-primary" data-toggle="modal"
-                                                  data-target="#updACModal"
+                                                <button class="w-100 btn btn-primary"
                                                   onclick="initItem('4','<%= apu_i[j].ID %>')">
                                                   <i class="fa fa-pen" aria-hidden="true"></i>
                                                 </button>
@@ -636,6 +651,177 @@
             <div class="modal-footer ">
               <button type="button" id="btn_item" class="btn btn-primary btn-block" onclick="regItem()">Aceptar</button>
               <button type="button" id="btn_gang" class="btn btn-primary btn-block" onclick="regGang()" hidden>Aceptar</button>
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+    </div>
+
+    <!-- Modal upd item-->
+    <div class="modal fade" id="updItemModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title custom_align" id="Heading">Editar Item</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+              <span class="fas fa-times" aria-hidden="true"></span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="apu_item_id">Item del grupo de actividades</label>
+              <div class="row">
+                <div class="col d-flex align-items-center">
+                  <input type="text" id="upd_apu_item_id" hidden>
+                  <input type="text" id="upd_apu_item_content" hidden>
+                  <input class="form-control" type="text" id="upd_apu_item_name" disabled>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" id="upd_item_gang" hidden>
+              <table class="table">
+                <thead class="thead-light">
+                  <tr>
+                    <th scope="col" class="align-middle text-center" colspan="2" width="20%">Division</th>
+                    <th scope="col" class="align-middle text-center" width="20%">Mult.</th>
+                    <th scope="col" class="align-middle text-center">Valor hora</th>
+                    <th scope="col" class="align-middle text-center" width="20%">Cantidad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row" class="align-middle text-center" width="5%">
+                      OT
+                    </th>
+                    <td>
+                      <input class="form-control" type="number" id="upd_apu_item_ot">
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <input class="form-control" type="number" id="upd_apu_ot_mult_salary" disabled>
+                        <div class="input-group-append">
+                          <button class="btn-sm btn-secondary" type="button" data-toggle="modal"
+                          data-target="#selectSalaryModal" onclick="setSalaryType('1')">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                        <input class="form-control" type="text" id="upd_apu_ot_id_salary" hidden>
+                      </div>
+                    </td>
+                    <td>
+                      <input class="form-control" type="text" id="upd_apu_ot_salary" disabled>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <input class="form-control" type="number" id="upd_apu_ot_quantity">
+                        <div class="input-group-append">
+                          <span class="input-group-text px-1">%</span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="align-middle text-center" width="5%">
+                      O
+                    </th>
+                    <td>
+                      <input class="form-control" type="number" id="upd_apu_item_o">
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <input class="form-control" type="number" id="upd_apu_o_mult_salary" disabled>
+                        <div class="input-group-append">
+                          <button class="btn-sm btn-secondary" type="button" data-toggle="modal"
+                          data-target="#selectSalaryModal" onclick="setSalaryType('2')">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <input class="form-control" type="text" id="upd_apu_o_id_salary" hidden>
+                    </td>
+                    <td>
+                      <input class="form-control" type="text" id="upd_apu_o_salary" disabled>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <input class="form-control" type="number" id="upd_apu_o_quantity">
+                        <div class="input-group-append">
+                          <span class="input-group-text px-1">%</span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row" class="align-middle text-center" width="5%">
+                      A
+                    </th>
+                    <td>
+                      <input class="form-control" type="number" id="upd_apu_item_a">
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <input class="form-control" type="number" id="upd_apu_a_mult_salary" disabled>
+                        <div class="input-group-append">
+                          <button class="btn-sm btn-secondary" type="button" data-toggle="modal"
+                          data-target="#selectSalaryModal" onclick="setSalaryType('3')"> 
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <input class="form-control" type="text" id="upd_apu_a_id_salary" hidden>
+                    </td>
+                    <td>
+                      <input class="form-control" type="text" id="upd_apu_a_salary" disabled>
+                    </td>
+                    <td>
+                      <div class="input-group">
+                        <input class="form-control" type="number" id="upd_apu_a_quantity">
+                        <div class="input-group-append">
+                          <span class="input-group-text px-1">%</span>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div id="upd_item_gang_alert" class="alert alert-warning" role="alert" hidden>
+                La suma del valor de las cantidades debe ser 100.
+              </div>
+              <div id="upd_salary_gang_alert" class="alert alert-secondary" role="alert" hidden>
+                Un salario no ha sido asignado, se tomara como 0 si no selecciona uno.
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="apu_item_cost">Costo del item</label>
+              <input class="form-control" type="text" id="upd_apu_item_cost" disabled>
+            </div>
+
+            <div class="form-group" id="upd_item_perf" hidden>
+              <label class="small">Rendimiento por hora</label>
+              <input class="form-control" type="number" id="upd_apu_item_perf" placeholder="Rendimiento" disabled>
+            </div>
+
+            <div class="form-group">
+              <div class="row">
+                <div class="col-3" id="div-quantity">
+                  <label for="apu_item_amon">Cantidad</label>
+                  <input type="number" id="upd_apu_item_amon" class="form-control">
+                </div>
+                <div class="col">
+                  <label for="apu_item_total">Total</label>
+                  <input type="text" id="upd_apu_item_total" class="form-control" disabled>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer ">
+              <button type="button" id="upd_btn_item" class="btn btn-primary btn-block" onclick="updItem()">Aceptar</button>
+              <button type="button" id="upd_btn_gang" class="btn btn-primary btn-block" onclick="updGang()" hidden>Aceptar</button>
             </div>
           </div>
           <!-- /.modal-content -->

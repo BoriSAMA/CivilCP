@@ -47,7 +47,7 @@ router.get('/', async(req, res) => {
         }
 
         result.activities = act;
-				console.log(result);
+		console.log(result);
         res.status(200).render('index',{
             selected: 'gantt',
             user: req.session.user,

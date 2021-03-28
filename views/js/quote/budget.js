@@ -55,7 +55,6 @@ async function regCh(){
     });
     
     var json = await response.json();
-    
     manageModals(json);
 }
 
@@ -77,7 +76,7 @@ async function regAc(){
     });
     
     var json = await response.json();
-    
+    recalculate(0);
     manageModals(json);
 }
 
@@ -89,9 +88,7 @@ async function delCg(id) {
         }});
       
       var json = await response.json();
-    
       recalculate(0);
-
       manageModals(json);
 }
 
@@ -104,9 +101,7 @@ async function delCh() {
         }});
       
       var json = await response.json();
-    
       recalculate(0);
-
       manageModals(json);
 }
 
@@ -118,9 +113,7 @@ async function delAc(id) {
         }});
       
       var json = await response.json();
-    
       recalculate(0);
-
       manageModals(json);
 }
 
@@ -136,10 +129,9 @@ async function updCh() {
             name: aux[1]
         })
     });
-      
-      var json = await response.json();
-    
-      manageModals(json);
+
+    var json = await response.json();
+    manageModals(json);
 }
 
 async function updAc() {
@@ -158,8 +150,8 @@ async function updAc() {
         })
     });
 
-    recalculate(aux[4]);
     var json = await response.json();
+    recalculate(aux[4]);
     manageModals(json);
 }
 
@@ -188,10 +180,6 @@ async function recalculate(a_id){
             acid: 0
         })
     });
-    
-    var json = await response.json();
-    
-    manageModals(json);
 }
 
 async function chargeSelects(){

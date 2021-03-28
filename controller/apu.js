@@ -65,14 +65,14 @@ router.post('/gang', async (req, res) => {
         if (!quan || iditem == 0 || idapuc == 0) {
             throw { name: "regError", message: "Datos de la cuadrilla incompletos" };
         }
-        var aux_quan = quantity.reduce((acc, curr) => parseInt(acc) + parseInt(curr));
+        var aux_quan = quantity.reduce((acc, curr) => parseFloat(acc) + parseFloat(curr));
 
-        if (aux_quan != 100) {
+        if (Math.round(aux_quan) != 100) {
             throw { name: "regError", message: "La suma de las cantidades debe ser 100%" };
         }
 
         let sal = await sequelize.transaction(async (t) => {
-            const item = await models.salary.findOne({ where: {MULTIPLIER: 1}}, { transaction: t });
+            const item = await models.salary.findOne({ where: { MULTIPLIER: 1 } }, { transaction: t });
             return item;
         });
 
@@ -95,8 +95,6 @@ router.post('/gang', async (req, res) => {
             return item;
         });
 
-        console.log(apu_i.dataValues);
-
         var dist = apu_i.dataValues.CUSTOM_DESCRIPTION.split(':');
         var rank = [1, 2, 3]
         var rank_n = ['OT', 'O', 'A'];
@@ -109,7 +107,7 @@ router.post('/gang', async (req, res) => {
                         ID_RANK: rank[i],
                         GANG_CHAR: rank_n[i] + "." + ind,
                         ID_GANG: apu_i.dataValues.ID,
-                        QUANTITY: parseInt(quantity[i]) / parseInt(dist[i]),
+                        QUANTITY: parseFloat(quantity[i]),
                         ID_SALARY: salary[i],
                     }, { transaction: t });
                 });
@@ -188,29 +186,29 @@ router.get('/', async (req, res) => {
                 apu_i[j] = apu_i[j].dataValues;
                 apu_i[j].item_list = apu_i[j].item_list.dataValues;
 
-                
+
                 if (apu_c[i].ID_CONTENT == 2) {
-                    var gang = ['','','']
+                    var gang = ['', '', '']
                     for (let k = 0; k < 3; k++) {
                         let ga = await sequelize.transaction(async (t) => {
                             const item = await models.gang_worker.findOne({
                                 where: {
                                     ID_GANG: apu_i[j].ID,
                                     ID_RANK: k + 1
-                                },include: [{
+                                }, include: [{
                                     model: models.salary,
                                     attributes: ['HOURLY_VALUE']
                                 }]
                             }, { transaction: t });
                             return item;
                         });
-                                                
+
                         if (ga != null) {
                             gang[k] = ga.dataValues;
                             gang[k].salary = gang[k].salary.dataValues;
-                        }                       
+                        }
                     }
-                    apu_i[j].gang = {OT: gang[0], O: gang[1], A: gang[2]};
+                    apu_i[j].gang = { OT: gang[0], O: gang[1], A: gang[2] };
                 }
             }
             apu_c[i].apu_i = apu_i
@@ -299,7 +297,7 @@ router.get('/:id', async (req, res) => {
 //get a gang
 router.get('/gang/:id', async (req, res) => {
     try {
-        const result = await sequelize.transaction(async (t) => {
+        let result = await sequelize.transaction(async (t) => {
             const item = await models.apu_item.findOne({
                 where: {
                     ID: req.params.id
@@ -309,6 +307,31 @@ router.get('/gang/:id', async (req, res) => {
             }, { transaction: t });
             return item;
         });
+
+        result = result.dataValues;
+        result.item_list = result.item_list.dataValues;
+        var gang = ['', '', ''];
+
+        for (let k = 0; k < 3; k++) {
+            let ga = await sequelize.transaction(async (t) => {
+                const item = await models.gang_worker.findOne({
+                    where: {
+                        ID_GANG: result.ID,
+                        ID_RANK: k + 1
+                    }, include: [{
+                        model: models.salary,
+                        attributes: ['HOURLY_VALUE', 'MULTIPLIER']
+                    }]
+                }, { transaction: t });
+                return item;
+            });
+
+            if (ga != null) {
+                gang[k] = ga.dataValues;
+                gang[k].salary = gang[k].salary.dataValues;
+            }
+        }
+        result.gang = { OT: gang[0], O: gang[1], A: gang[2] };
 
         res.status(200).json(result);
     } catch (err) {
@@ -442,9 +465,19 @@ router.patch('/calculate/', async (req, res) => {
                 { type: QueryTypes.SELECT });
 
             total[3] = total3[0].sum;
-            console.log("t4: " + total[2]);
+            console.log("t4: " + total[3]);
+
+            const quo = await models.quotation.findOne({ where: { ID: bid } }, { transaction: t });
+            var totals = [quo.PRC_ADMIN / 100 * total[3], quo.PRC_UNEXPECTED / 100 * total[3], quo.PRC_UTILITY / 100 * total[3], quo.PRC_IVA / 100 * total[3]];
+            var tot = parseFloat(totals.reduce((acc, curr) => parseFloat(acc) + parseFloat(curr))) + parseFloat(total[3]);
+
             const aux = await models.quotation.update({
-                TOTAL_DIRECT: total[3]
+                TOTAL_DIRECT: total[3],
+                ADMIN: totals[0],
+                UNEXPECTED: totals[1],
+                UTILITY: totals[2],
+                IVA: totals[3],
+                TOTAL: tot
             }, {
                 where: {
                     ID: bid
@@ -463,11 +496,12 @@ router.patch('/calculate/', async (req, res) => {
 //Update
 router.patch('/:id', async (req, res) => {
     try {
-        var { total } = req.body;
+        var { total, quan } = req.body;
 
         const result = await sequelize.transaction(async (t) => {
-            const sal = await models.apu.update({
-                TOTAL: total
+            const sal = await models.apu_item.update({
+                TOTAL: total,
+                QUANTITY: quan
             }, {
                 where: {
                     ID: req.params.id
@@ -477,14 +511,75 @@ router.patch('/:id', async (req, res) => {
         });
 
         if (result == "") {
-            throw { name: "MatchError", message: "No se ha actualizado el apu" };
+            throw { name: "MatchError", message: "No se ha actualizado el item" };
         }
-        res.status(200).json({ name: "Exito", message: "Se ha actualizado el apu" });
+        res.status(200).json({ name: "Exito", message: "Se ha actualizado el item" });
     } catch (err) {
         if (err.name == "MatchError") {
             res.status(400).json({ message: err.message });
         } else {
             res.status(500).json({ message: "internal server error" });
+        }
+    }
+});
+
+//Update a gang
+router.patch('/gang/:id', async (req, res) => {
+    try {
+        var { total, quan, c_perf, c_desc, salary, quantity} = req.body;
+
+        console.log(req.body);
+        
+        var aux_quan = quantity.reduce((acc, curr) => parseFloat(acc) + parseFloat(curr));
+
+        if (Math.round(aux_quan) != 100) {
+            throw { name: "regError", message: "La suma de las cantidades debe ser 100%" };
+        }
+
+        const result = await sequelize.transaction(async (t) => {
+            const sal = await models.apu_item.update({
+                TOTAL: total,
+                CUSTOM_PERFORMANCE: c_perf,
+                CUSTOM_DESCRIPTION: c_desc,
+                QUANTITY: quan
+            }, {
+                where: {
+                    ID: req.params.id
+                }
+            }, { transaction: t });
+
+            models.gang_worker.destroy({ where: { ID_GANG: req.params.id }}, { transaction: t });
+            return sal;
+        });
+       
+        var dist = c_desc.split(':');
+        var rank = [1, 2, 3]
+        var rank_n = ['OT', 'O', 'A'];
+
+        for (let i = 0; i < dist.length; i++) {
+            for (let j = 0; j < dist[i]; j++) {
+                let ind = j + 1;
+                await sequelize.transaction(async (t) => {
+                    await models.gang_worker.create({
+                        ID_RANK: rank[i],
+                        GANG_CHAR: rank_n[i] + "." + ind,
+                        ID_GANG: req.params.id,
+                        QUANTITY: parseFloat(quantity[i]),
+                        ID_SALARY: salary[i],
+                    }, { transaction: t });
+                });
+            }
+        }
+
+        if (result == "") {
+            throw { name: "MatchError", message: "No se ha actualizado la cuadrilla" };
+        }
+        res.status(200).json({ name: "Exito", message: "Se ha actualizado la cuadrilla" });
+    } catch (err) {
+        if (err.name == "MatchError") {
+            res.status(400).json({ message: err.message });
+        } else {
+            res.status(500).json({ name: "Error " + err.name, message: "internal server error" + err.message });
         }
     }
 });
