@@ -4,18 +4,25 @@
       <div class="col-xl-12 mt-4">
           <div class="card mb-4">
               <div class="card-header">
-                  <% if (locals.schedule){ -%>
-                  <input type="number" id="sch_id" value="<%= schedule.ID %>" hidden>
-                  <% } -%>
-                  <div class="d-flex justify-content-between">
-                    <div class="">
-                      <i class="fas fa-table mr-1"></i>
-                      Diagrama de Gantt
+                <div class="row">
+                    <% if (locals.schedule){ -%>
+                    <input type="number" id="sch_id" value="<%= schedule.ID %>" hidden>
+                    <% } -%>
+                    <div class="d-flex justify-content-between">
+                      <div class="col-1 pr-0">
+                        <a class="btn-sm btn-info" href="/index/budgets">
+                          <i class="fa fa-reply" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                      <div class="col p-0">
+                        <i class="fas fa-table mr-1"></i>
+                        Diagrama de Gantt
+                      </div>
+                      <button class="btn btn-primary" data-toggle="modal" data-target="#slcSchModal" onclick="initGant()">
+                        <i class="fa fa-pen" aria-hidden="true"></i>
+                      </button>
                     </div>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#slcSchModal" onclick="initGant()">
-                      <i class="fa fa-pen" aria-hidden="true"></i>
-                    </button>
-                  </div>
+                </div>
               </div>
               <div class="card ml-2 mb-2 mt-2 mr-2">
                 <div id="chart_div"></div>
@@ -124,6 +131,7 @@
           </div>
           <input type="number" id="upd_sch_id" hidden>
           <input type="number" id="upd_sch_taskid" hidden>
+          <input type="date" id="upd_sch_pfdate" hidden>
           <div class="modal-footer">
             <div class="card w-100 mt-2">
                 <button class="btn btn-primary btn-block" type="button" onclick="updAct()">

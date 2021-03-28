@@ -93,8 +93,8 @@ async function drawChart() {
       console.log(ewe);
       $("#upd_sch_pre").val(ewe.quote_activity.CUSTOM_NAME);
       $("#upd_sch_taskid").val(json.ID_PRE_ACT);
+      $("#upd_sch_pfdate").val(ewe.FINISH_DATE);
       applyfilter(json.ID);
-
   }
 
   async function updAct() {
@@ -136,6 +136,7 @@ async function drawChart() {
       aux[2] = $("#upd_sch_fdate").val();
       aux[3] = $("#upd_sch_duration").val();
       aux[4] = $("#upd_sch_taskid").val();
+      aux[5] = $("#upd_sch_pfdate").val();
       return aux;
   }
 
@@ -173,12 +174,22 @@ async function drawChart() {
   });
 
   $("#upd_sch_fdate").on("change", function () {
-      dateOps();
+      verifDate();
   });
 
   $("#upd_sch_sdate").on("change", function () {
-      dateOps();
+      verifDate();
   });
+
+  function verifDate(){
+    var d1 = new Date($("#upd_sch_pfdate").val());
+    var d2 = new Date($("#upd_sch_sdate").val());
+    if(d2.getTime()>d1.getTime()){
+      dateOps();
+    }else{
+      manageModals({name:"Error", message:"La fecha de inicio no puede ser anterior a la fecha de fin de su predecesora"});
+    }
+  }
 
   function dateOps(){
     var d1 = new Date($("#upd_sch_sdate").val());
@@ -188,7 +199,7 @@ async function drawChart() {
     if(d2.getTime()>d1.getTime()){
       $("#upd_sch_duration").val(horasTranscurridas);
     }else{
-      manageModals({name:"Error", message:"La fecha de fin no puede ser igual o menor que la fecha de inicio"});
+      manageModals({name:"Error", message:"La fecha de fin no puede ser anterior o igual a la fecha de inicio"});
     }
   }
 
