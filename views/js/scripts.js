@@ -92,6 +92,9 @@ function formatCurrency(input, blur) {
 
 function translateNum(text){
     var aux, ret = "";
+    if (text == '') {
+      return 0;
+    }
     aux = text.substring(1);
     aux = aux.split(",");
     for (let i = 0; i < aux.length; i++) {

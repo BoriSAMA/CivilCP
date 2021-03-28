@@ -52,14 +52,12 @@
                               <th class="align-middle">Nombre</th>
                               <th class="align-middle" width="10%">Unidad</th>
                               <th class="align-middle" width="15%">Costo</th>
-                              <% if(user.SUPERUSER){ -%> 
-                                <th class="text-center" width="15%">
-                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
-                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                        Añadir
-                                    </button>
-                                </th>
-                              <% }-%>
+                              <th class="text-center" width="15%">
+                                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                                      <i class="fa fa-plus" aria-hidden="true"></i>
+                                      Añadir
+                                  </button>
+                              </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,30 +70,24 @@
                                         <td class="align-middle"><%= tr[i].NAME %></td>
                                         <td class="align-middle"><%= tr[i].MEASSURE_UNIT %></td>
                                         <td class="align-middle curr"><%= tr[i].COST %></td>
-                                        <% if(user.SUPERUSER){ -%> 
-                                            <td>
-                                                <div class="row mw-100 m-0">
-                                                    <div class="col">
-                                                    <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#updModal" onclick="initItem('<%= tr[i].ID %>')">
-                                                        <i class="fa fa-pen" aria-hidden="true"></i>
-                                                    </button>
-                                                    </div>
-                                                    <div class="col">
-                                                    <button class="w-100 btn btn-danger" onclick="delItem('<%= tr[i].ID %>')">
-                                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </button>
-                                                    </div>      
+                                        <td>
+                                            <div class="row mw-100 m-0">
+                                                <div class="col">
+                                                <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#updModal" onclick="initItem('<%= tr[i].ID %>')">
+                                                    <i class="fa fa-pen" aria-hidden="true"></i>
+                                                </button>
                                                 </div>
-                                            </td>
-                                        <% }-%>
+                                                <div class="col">
+                                                <button class="w-100 btn btn-danger" onclick="delItem('<%= tr[i].ID %>')">
+                                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                                </button>
+                                                </div>      
+                                            </div>
+                                        </td>
                                     </tr>
                                 <%}%>
                             <%} else{%>
-                                <% if(user.SUPERUSER){ -%>
-                                    <td colspan="9"><h4 class="text-center Normal weight text">No se han añadido transportes</h4></td>
-                                <% } else {-%>
                                     <td colspan="8"><h4 class="text-center Normal weight text">No se han añadido transportes</h4></td>
-                                <% }-%>
                             <%}%>
                         <%}%>
                         </tbody>
@@ -182,7 +174,7 @@
         <div class="modal-footer">
           <div class="card w-100 mt-2">
               <button class="btn btn-primary btn-block" type="button" onclick="regItem()">
-                Guardar material
+                Guardar transporte
               </button>
           </div>
         </div>
@@ -234,7 +226,7 @@
         <div class="modal-footer">
           <div class="card w-100 mt-2">
             <button class="btn btn-primary btn-block" type="button" onclick="updItem()">
-              actualizar material
+              actualizar transporte
             </button>
           </div>
         </div>

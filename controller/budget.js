@@ -103,7 +103,11 @@ router.post('/ac', async(req, res) => {
 
             const item = await models.schedule_activity.create({
                             ID_QOU_ACT: result.ID,
-                            ID_SCHEDULE: uwu.ID
+                            ID_SCHEDULE: uwu.ID,
+                            DURATION: 0,
+                            DELAY:0,
+                            START_DATE: Date.now(),
+                            FINISH_DATE: Date.now(),
                         }, { transaction: t });
             return item;
         });

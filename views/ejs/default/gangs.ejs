@@ -52,7 +52,6 @@
                             <th class="align-middle" colspan="2">Nombre</th>
                             <th class="align-middle" width="7%">Rendimiento</th>
                             <th class="align-middle" width="6%">Unidad</th>
-                            <th class="align-middle" width="15%">Costo</th>
                             <% if(user.SUPERUSER){ -%> 
                               <th class="text-center" width="20%">
                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
@@ -74,7 +73,6 @@
                                     <td class="align-middle"><%= ga[i].DESCRIPTION %></td>
                                     <td class="align-middle"><%= ga[i].PERFORMANCE %></td>
                                     <td class="align-middle"><%= ga[i].MEASSURE_UNIT %></td>
-                                    <td class="align-middle curr"><%= ga[i].COST %></td>
                                     <% if(user.SUPERUSER){ -%> 
                                       <td>
                                         <div class="row mw-100 m-0">
@@ -178,10 +176,11 @@
           <label class="small mb-1">Rendimiento</label>
           <input class="form-control" type="number" id="item_perf" placeholder="Rendimiento">
         </div>
-        <div class="form-group">
-          <label class="small mb-1">Costo</label>
+
+        <div class="form-group" hidden>
           <input class="form-control" type="text" id="item_cost" data-type="currency">
         </div>
+
         <input type="number" id="item_cont" value="2" hidden>
       </div>
       <div class="modal-footer">
@@ -265,8 +264,7 @@
           <input class="form-control" type="number" id="upd_item_perf" placeholder="Rendimiento">
         </div>
 
-        <div class="form-group">
-          <label class="small mb-1">Costo</label>
+        <div class="form-group" hidden>
           <input class="form-control" type="text" id="upd_item_cost" data-type="currency">
         </div>
 

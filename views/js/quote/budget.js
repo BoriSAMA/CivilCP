@@ -90,6 +90,8 @@ async function delCg(id) {
       
       var json = await response.json();
     
+      recalculate(0);
+
       manageModals(json);
 }
 
@@ -103,6 +105,8 @@ async function delCh() {
       
       var json = await response.json();
     
+      recalculate(0);
+
       manageModals(json);
 }
 
@@ -115,6 +119,8 @@ async function delAc(id) {
       
       var json = await response.json();
     
+      recalculate(0);
+
       manageModals(json);
 }
 
@@ -151,10 +157,10 @@ async function updAc() {
             quan: aux[5]  
         })
     });
-      
-      var json = await response.json();
-    
-      manageModals(json);
+
+    recalculate(aux[4]);
+    var json = await response.json();
+    manageModals(json);
 }
 
 async function getGroups(){
@@ -166,6 +172,26 @@ async function getGroups(){
     });
     var json = await response.json();
     return json;
+}
+
+async function recalculate(a_id){ 
+    var b_id = $("#quote_info").attr("qid");; 
+
+    await fetch(host + apu + "/calculate", {
+        method: 'PATCH',
+        headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+        }, body: JSON.stringify({
+            bid: b_id,
+            aid: a_id,
+            apid: 0,
+            acid: 0
+        })
+    });
+    
+    var json = await response.json();
+    
+    manageModals(json);
 }
 
 async function chargeSelects(){

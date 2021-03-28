@@ -46,9 +46,9 @@ async function updItem() {
     body: JSON.stringify({
       name: aux[2],
       unit: aux[3],
-      perf: aux[6],
-      desc: aux[5],
-      cost: aux[4],
+      perf: aux[5],
+      desc: aux[4],
+      cost: 0,
       actg: aux[1],
     }),
   });
@@ -78,7 +78,6 @@ async function initItem(id) {
   $("#select_filter_act_grp_4").val(json[0].ID_ACT_GRP).trigger("change");
   $("#upd_item_name").val(json[0].NAME);
   $("#upd_item_unit").val(json[0].MEASSURE_UNIT).trigger("change");
-  translateTxt($("#upd_item_cost"), json[0].COST);
   $("#upd_item_id").val(id);
   $("#upd_item_perf").val(json[0].PERFORMANCE);
   let aux = json[0].DESCRIPTION.split(':');
@@ -93,14 +92,13 @@ function getUdpData() {
   aux[1] = $("#select_filter_act_grp_4").val();
   aux[2] = $("#upd_item_name").val();
   aux[3] = $("#upd_item_unit").val();
-  aux[4] = translateNum($("#upd_item_cost").val());
-  aux[5] =
+  aux[4] =
     ($("#upd_item_ot").val() == "" ? 0 : $("#item_ot").val()) +
     ":" +
     ($("#upd_item_o").val() == "" ? 0 : $("#item_o").val()) +
     ":" +
     ($("#upd_item_a").val() == "" ? 0 : $("#item_a").val());
-  aux[6] = $("#upd_item_perf").val();
+  aux[5] = $("#upd_item_perf").val();
   return aux;
 }
 
@@ -109,7 +107,6 @@ function resetUpdModal() {
   $("#select_filter_act_grp_4").val(0);
   $("#upd_item_name").val("");
   $("#upd_item_unit").val("ML");
-  $("#upd_item_cost").val("");
   $("#upd_item_perf").val("");
   $("#upd_item_ot").val("");
   $("#upd_item_o").val("");

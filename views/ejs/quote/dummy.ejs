@@ -1,0 +1,121 @@
+<div class="form-group" id="add_item_gang" hidden>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Division</th>
+          <th>Multiplicador</th>
+          <th>Valor hora</th>
+          <th>Division</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+
+    <div class="row">
+      <div class="col">
+        <label class="small">Division</label>
+      </div>
+      <div class="col">
+        <label class="small">Multiplicador</label>
+      </div>
+      <div class="col">
+        <label class="small">Valor hora</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">OT</span>
+          </div>
+          <input class="form-control" type="number" id="apu_item_ot">
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group">
+          <input class="form-control" type="number" id="apu_ot_mult_salary" disabled>
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" data-toggle="modal"
+            data-target="#selectSalaryModal" onclick="setSalaryType('1')">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <input class="form-control" type="text" id="apu_ot_id_salary" hidden>
+      </div>
+      <div class="col-4">
+        <input class="form-control" type="text" id="apu_ot_salary" disabled>
+      </div>
+      <div class="col">
+        <input class="form-control" type="text" id="apu_ot_quantity" disabled>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">O</span>
+          </div>
+          <input class="form-control" type="number" id="apu_item_o">
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group">
+          <input class="form-control" type="number" id="apu_o_mult_salary" disabled>
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" data-toggle="modal"
+            data-target="#selectSalaryModal" onclick="setSalaryType('2')">
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <input class="form-control" type="text" id="apu_o_id_salary" hidden>
+      </div>
+      <div class="col-4">
+        <input class="form-control" type="text" id="apu_o_salary" disabled>
+      </div>
+      <div class="col">
+        <input class="form-control" type="text" id="apu_o_quantity" disabled>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-3">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">A</span>
+          </div>
+          <input class="form-control" type="number" id="apu_item_a">
+        </div>
+      </div>
+      <div class="col">
+        <div class="input-group">
+          <input class="form-control" type="number" id="apu_a_mult_salary" disabled>
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" data-toggle="modal"
+            data-target="#selectSalaryModal" onclick="setSalaryType('3')"> 
+              <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <input class="form-control" type="text" id="apu_a_id_salary" hidden>
+      </div>
+      <div class="col-4">
+        <input class="form-control" type="text" id="apu_a_salary" disabled>
+      </div>
+      <div class="col">
+        <input class="form-control" type="text" id="apu_a_quantity" disabled>
+      </div>
+    </div>
+  </div>
+
+  
+  sch_act_gang.belongsTo(gang, { foreignKey: "ID_GANG"});
+  gang.hasMany(sch_act_gang, { as: "sch_act_gangs", foreignKey: "ID_GANG"});
+
+  

@@ -14,8 +14,8 @@ var models = initModels(sequelize);
 //submit an item
 router.post('/', async(req, res) => {
 	try{
-
         var {name, mesu, perf, desc, cost, actg, cont} = req.body;
+        console.log(req.body);
         switch (cont) {
             case '1':
                 if (!name || !mesu || !cost || actg == '0') {
@@ -23,7 +23,7 @@ router.post('/', async(req, res) => {
                 }
                 break;
             case '2':
-                if (!desc || !mesu || !perf || !cost || actg == '0') {
+                if (!desc || !mesu || !perf || actg == '0') {
                     throw {name : "regError", message : "Datos incompletos"};
                 }
                 break;

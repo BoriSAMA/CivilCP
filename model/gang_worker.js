@@ -11,6 +11,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(5),
       allowNull: false
     },
+    QUANTITY: {
+      type: DataTypes.INTEGER,
+      allowNull: true
+    },
     ID_RANK: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -23,7 +27,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'gang',
+        model: 'apu_item',
         key: 'ID'
       }
     },
