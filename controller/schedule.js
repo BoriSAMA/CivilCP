@@ -9,13 +9,10 @@ var models = initModels(sequelize);
 //get one schedule for user
 router.get('/', async(req, res) => {
 	try{
-		const result = await sequelize.transaction(async (t) => {
+		var result = await sequelize.transaction(async (t) => {
 			const item = await models.schedule.findAll({
                                         where: {
-                                            [Op.and]: [
-                                                { ID: req.query.sid },
-                                                { ID_USER: req.session.user.ID }
-                                            ]
+                                            ID: req.query.sid
                                         }
                                     },{ transaction: t });
 			return item;
@@ -25,10 +22,36 @@ router.get('/', async(req, res) => {
             throw {name : "regError", message : "Programacion no encontrada"};
         }
 
+        result = result[0].dataValues;
+
+        var act = await sequelize.transaction(async (t) => {
+			const item = await models.schedule_activity.findAll({
+                                        where: {
+                                            ID_SCHEDULE: result.ID
+                                        }, include: [
+                                            {
+                                                model: models.quote_activity,
+                                                include: {
+                                                    model: models.activity_group
+                                                }
+                                            }
+                                        ]
+                                    },{ transaction: t });
+			return item;
+        });
+
+        for (let i = 0; i < act.length; i++) {
+            act[i] = act[i].dataValues;
+            act[i].quote_activity = act[i].quote_activity.dataValues;
+            act[i].quote_activity.activity_group = act[i].quote_activity.activity_group.dataValues;
+        }
+
+        result.activities = act;
+				console.log(result);
         res.status(200).render('index',{
             selected: 'gantt',
             user: req.session.user,
-            schedule: result[0].dataValues
+            schedule: result
         });
 	}catch(err){
         res.status(200).render('index',{
@@ -45,16 +68,13 @@ router.get('/sch/:id', async(req, res) => {
 		var result = await sequelize.transaction(async (t) => {
 			const item = await models.schedule.findAll({
                                         where: {
-                                            [Op.and]: [
-                                                { ID: req.params.id },
-                                                { ID_USER: req.session.user.ID }
-                                            ]
-                                        }
-                                    },{ transaction: t });
+																					ID: req.params.id
+																				}
+                                			},{ transaction: t });
 			return item;
         });
 
-         
+
         if ( result.length == 0 ) {
             throw {name : "regError", message : "Programacion no encontrada"};
         }
@@ -62,14 +82,19 @@ router.get('/sch/:id', async(req, res) => {
         result = result[0].dataValues;
 
         var act = await sequelize.transaction(async (t) => {
-			const item = await models.schedule.findAll({
-                                        where: {
-                                            ID_QUOTE: result.ID
-                                        }
-                                    },{ transaction: t });
-			return item;
+					const item = await models.schedule_activity.findAll({
+		                                        where: {
+		                                            ID_SCHEDULE: result.ID
+		                                        }, include: [{
+																							model: models.quote_activity,
+																							include: [{
+																								model: models.activity_group,
+																							}]
+																						}]
+		                                    },{ transaction: t });
+					return item;
         });
-        
+
         for (let i = 0; i < act.length; i++) {
             act[i] = act[i].dataValues;
         }
@@ -88,11 +113,10 @@ router.get('/act/:id', async(req, res) => {
 		const result = await sequelize.transaction(async (t) => {
 			const item = await models.schedule_activity.findOne({
                                                     where: {
-                                                        [Op.and]: [
-                                                            { ID: req.params.id },
-                                                            { ID_USER: req.session.user.ID }
-                                                        ]
-                                                    }
+																												ID: req.params.id
+                                                    },include: [{
+                                                        model: models.quote_activity
+                                                    }]
                                                 },{ transaction: t });
 			return item;
         });
@@ -106,7 +130,7 @@ router.get('/act/:id', async(req, res) => {
 
 //Update a schedule
 router.patch('/sch/:id', async(req, res) => {
-    try{        
+    try{
         var { date_s, date_f , dur } = req.body;
 
         if ( !dur ) {
@@ -114,7 +138,7 @@ router.patch('/sch/:id', async(req, res) => {
         }
 
 		const result = await sequelize.transaction(async (t) => {
-            const item = await models.quotation.update({ 
+            const item = await models.quotation.update({
                                 TOTAL_DURATION: dur,
                                 START_DATE: date_s,
                                 FINISH_DATE: date_f
@@ -127,7 +151,7 @@ router.patch('/sch/:id', async(req, res) => {
         });
 
 		if(result == ""){
-			throw {name : "MatchError", message : "No se encontro pudo realizar la actualizacion"}; 
+			throw {name : "MatchError", message : "No se encontro pudo realizar la actualizacion"};
         }
 		res.status(200).json({name: "Exito", message: "Se ha actualizado el presupuesto"});
 	}catch(err){
@@ -140,16 +164,12 @@ router.patch('/sch/:id', async(req, res) => {
 });
 
 //Update an activity
-router.patch('/:id', async(req, res) => {
-    try{        
+router.patch('/act/:id', async(req, res) => {
+    try{
         var { dur, del, date_s, date_f, date_d_f, idpa, idpt} = req.body;
 
-        if (!dur || !del || idpa != 0 || idpt != 0) {
-            throw {name : "regError", message : "Datos de la actividad incompletos"};
-        }
-
 		const result = await sequelize.transaction(async (t) => {
-            const item = await models.quotation.update({ 
+            const item = await models.schedule_activity.update({
                                 DURATION: dur,
                                 DELAY: del,
                                 START_DATE: date_s,
@@ -159,17 +179,14 @@ router.patch('/:id', async(req, res) => {
                                 ID_PRE_TYP: idpt
                             },{
                                 where: {
-                                    [Op.and]: [
-                                        { ID: req.params.id },
-                                        { ID_USER: req.session.user.ID }
-                                    ]
+																	ID: req.params.id
                                 }
                             },{ transaction: t });
             return item;
         });
 
 		if( result == "" ){
-			throw {name : "MatchError", message : "No se pudo realizar la actualizacion"}; 
+			throw {name : "MatchError", message : "No se pudo realizar la actualizacion"};
         }
 		res.status(200).json({name: "Exito", message: "Se ha actualizado la actividad"});
 	}catch(err){

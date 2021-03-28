@@ -32,6 +32,7 @@ const budgets = "budgets";
 const budget = "budget";
 const apu = "apu";
 const worker = "worker";
+const schedule = "schedule";
 
 const item_unit = ['ML', 'M2', 'M3', 'UND', 'GB', 'PT', 'KG'];
 
