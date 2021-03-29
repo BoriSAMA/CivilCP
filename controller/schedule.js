@@ -26,7 +26,6 @@ router.get('/', async(req, res) => {
 
         var act = await sequelize.transaction(async (t) => {
 			const item = await models.schedule_activity.findAll({
-                                        
                                         where: {
                                             ID_SCHEDULE: result.ID
                                         },
@@ -40,6 +39,14 @@ router.get('/', async(req, res) => {
                                                 include: {
                                                     model: models.activity_group
                                                 }
+                                            },{
+                                                model: models.schedule_activity,
+                                                as: "pre_activity",
+                                                attributes: ['ID_QOU_ACT'],
+                                                include: {
+                                                    model: models.quote_activity,
+                                                    attributes: ['QUOTE_NUMBER', 'CUSTOM_NAME']
+                                                }
                                             }
                                         ]
                                     },{ transaction: t });
@@ -50,8 +57,13 @@ router.get('/', async(req, res) => {
             act[i] = act[i].dataValues;
             act[i].quote_activity = act[i].quote_activity.dataValues;
             act[i].quote_activity.activity_group = act[i].quote_activity.activity_group.dataValues;
+            if (act[i].pre_activity != null) {
+                act[i].pre_activity = act[i].pre_activity.dataValues;
+                act[i].pre_activity.quote_activity = act[i].pre_activity.quote_activity.dataValues;
+            }
         }
 
+        console.log(act);
         result.activities = act;
         res.status(200).render('index',{
             selected: 'gantt',

@@ -121,7 +121,6 @@ $('#apu_item_ot').on({
             $("#apu_ot_quantity").prop('disabled', false);
         }
     
-    resetPerf();
     checkAddition();
 }, 'keyup': function () {
     resetPerf()
@@ -136,7 +135,7 @@ $('#apu_item_o').on({
         }else{
             $("#apu_o_quantity").prop('disabled', false);
         }
-    resetPerf()
+
     checkAddition();
 }, 'keyup': function () {
     resetPerf()
@@ -151,7 +150,7 @@ $('#apu_item_a').on({
         }else{
             $("#apu_a_quantity").prop('disabled', false);
         }
-    resetPerf()
+        
     checkAddition();
 }, 'keyup': function () {
     resetPerf()
@@ -197,7 +196,6 @@ $('#upd_apu_item_ot').on({
             $("#upd_apu_ot_quantity").prop('disabled', false);
         }
     
-    resetPerf();
     checkUpdAddition();
 }, 'keyup': function () {
     resetPerf()
@@ -212,7 +210,7 @@ $('#upd_apu_item_o').on({
         }else{
             $("#upd_apu_o_quantity").prop('disabled', false);
         }
-    resetPerf()
+
     checkUpdAddition();
 }, 'keyup': function () {
     resetPerf()
@@ -227,7 +225,6 @@ $('#upd_apu_item_a').on({
         }else{
             $("#upd_apu_a_quantity").prop('disabled', false);
         }
-    resetPerf()
     checkUpdAddition();
 }, 'keyup': function () {
     resetPerf()

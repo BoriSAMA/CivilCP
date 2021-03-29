@@ -71,7 +71,11 @@
                               <td class="align-middle"><%= schedule.activities[i].START_DATE %></td>
                               <td class="align-middle"><%= schedule.activities[i].FINISH_DATE %></td>
                               <td class="align-middle"><%= schedule.activities[i].DURATION +" dias"%></td>
-                              <td></td>
+                              <%if(schedule.activities[i].pre_activity == null) { -%>
+                                <td class="align-middle"></td>
+                              <% } else { -%>
+                                <td class="align-middle"><%= schedule.activities[i].pre_activity.quote_activity.QUOTE_NUMBER %> - <%= schedule.activities[i].pre_activity.quote_activity.CUSTOM_NAME %></td>
+                              <% } -%>
                               <td>
                                 <button type="button" class="btn btn-primary" data-target="#updActModal" data-toggle="modal" onclick="initActtUpd('<%= schedule.activities[i].ID %>')">
                                   <i class="fa fa-pen" aria-hidden="true"></i>
