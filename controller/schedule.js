@@ -130,10 +130,24 @@ router.get('/act/:id', async(req, res) => {
 		const result = await sequelize.transaction(async (t) => {
 			const item = await models.schedule_activity.findOne({
                                                     where: {
-																												ID: req.params.id
-                                                    },include: [{
-                                                        model: models.quote_activity
-                                                    }]
+														ID: req.params.id
+                                                    },include: [
+                                                        {
+                                                            model: models.quote_activity,
+                                                            attributes: ['QUOTE_NUMBER', 'CUSTOM_NAME'],
+                                                            include: {
+                                                                model: models.activity_group
+                                                            }
+                                                        },{
+                                                            model: models.schedule_activity,
+                                                            as: "pre_activity",
+                                                            attributes: ['ID_QOU_ACT', 'FINISH_DATE'],
+                                                            include: {
+                                                                model: models.quote_activity,
+                                                                attributes: ['QUOTE_NUMBER', 'CUSTOM_NAME']
+                                                            }
+                                                        }
+                                                    ]
                                                 },{ transaction: t });
 			return item;
         });

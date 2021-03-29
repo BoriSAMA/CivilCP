@@ -106,8 +106,8 @@ router.post('/ac', async(req, res) => {
                             ID_SCHEDULE: uwu.ID,
                             DURATION: 0,
                             DELAY:0,
-                            START_DATE: Date.now(),
-                            FINISH_DATE: Date.now(),
+                            START_DATE: new Date(),
+                            FINISH_DATE: new Date(),
                         }, { transaction: t });
             return item;
         });
