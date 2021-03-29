@@ -26,12 +26,13 @@ async function drawChart() {
 
   for (var i = 0; i < awa.length; i++) {
     let aux = awa[i];
-    //console.log(aux);
-    owo[i] = [aux.ID + "", 
-              aux.quote_activity.QUOTE_NUMBER + "-" + aux.quote_activity.CUSTOM_NAME, 
-              new Date(aux.START_DATE), 
-              null, 
-              daysToMilliseconds(1), 
+    var ayu = aux.START_DATE.split("-");
+    var azu = aux.FINISH_DATE.split("-");
+    owo[i] = [aux.ID + "",
+              aux.quote_activity.QUOTE_NUMBER + "-" + aux.quote_activity.CUSTOM_NAME,
+              new Date(ayu[0], ayu[1]-1, ayu[2]),
+              new Date(azu[0], azu[1]-1, azu[2]),
+              daysToMilliseconds(aux.DURATION),
               0,
               typeof aux.ID_PRE_ACT == "number" ? aux.ID_PRE_ACT + "" : null];
   }
@@ -97,7 +98,7 @@ async function initActtEdit(json) {
   $("#upd_sch_duration").val(json.DURATION);
   console.log();
   if (json.pre_activity != null ) {
-    $("#upd_sch_pre").val(json.pre_activity.quote_activity.QUOTE_NUMBER + "-" + 
+    $("#upd_sch_pre").val(json.pre_activity.quote_activity.QUOTE_NUMBER + "-" +
                           json.pre_activity.quote_activity.CUSTOM_NAME);
     $("#upd_sch_pfdate").val(json.pre_activity.FINISH_DATE);
   }else{
@@ -168,9 +169,6 @@ $("#updActModal").on("shown.bs.modal", function () {
   $('#slcSchModal').modal('hide');
 });
 
-$("#updActModal").on("hidden.bs.modal", function () {
-  $('#slcSchModal').modal('show');
-});
 
 $("#upd_sch_fdate").on("change", function () {
   verifDate();
@@ -178,6 +176,14 @@ $("#upd_sch_fdate").on("change", function () {
 
 $("#upd_sch_sdate").on("change", function () {
   verifDate();
+});
+
+$("#slcPreModal").on({
+    "shown.bs.modal": function () {
+        $('#updActModal').modal('hide');
+    }, "hidden.bs.modal": function () {
+        $('#updActModal').modal('show');
+    }
 });
 
 function verifDate() {
@@ -205,6 +211,7 @@ function dateOps() {
 function manageModals(json) {
   $('#addSchModal').modal('hide');
   $('#slcSchModal').modal('hide');
+  $('#updActModal').modal('hide');
   $('#msgModal .modal-title').html(json.name);
   $('#msgModal .modal-body').html(json.message);
   $("#msgModal").modal();
