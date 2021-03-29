@@ -24,13 +24,15 @@ router.post('/register', async(req, res) => {
 		}else if (!mail.endsWith("@ufps.edu.co")){
 			throw {name : "regError", message : "el correo debe ser de la UFPS"};
 		}
-
-		bcrypt.genSalt(10, async (err, salt) => {
-			bcrypt.hash(pass, salt, async (err, hash) => {
-			  if (err) throw err;
-				pass = hash;
-			});
-		});
+		
+		// bcrypt.genSalt(10, async (err, salt) => {
+		// 	bcrypt.hash(pass, salt, async (err, hash) => {
+		// 	  if (err) throw err;
+		// 		pass = hash;
+		// 		console.log("h: "+ hash);
+		// 	});
+		// });
+		pass = bcrypt.hashSync(pass, 10);
 
 		await sequelize.transaction(async (t) => {
 			const user = await User.create({
