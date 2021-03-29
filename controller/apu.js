@@ -402,10 +402,11 @@ router.patch('/calculate/', async (req, res) => {
         var aid = req.body.aid;
         var apid = req.body.apid;
         var acid = req.body.acid;
+        
         var total = [0, 0, 0, 0];
 
         await sequelize.transaction(async (t) => {
-            if (acid != 0) {
+            if (acid != 0 && typeof acid !== 'undefined') {
                 //sumar todos los items del apu al contenido
                 total[0] = await models.apu_item.sum('TOTAL', { where: { ID_APU_CONTENT: acid } });
                 if (isNaN(total[0])) {
@@ -421,7 +422,7 @@ router.patch('/calculate/', async (req, res) => {
                 }, { transaction: t });
 
             }
-            if (aid != 0) {
+            if (aid != 0 && typeof aid !== 'undefined') {
                 if (apid != 0) {
                     //sumar todos los contenidos del apu al apu
                     total[1] = await models.apu_content.sum('TOTAL', { where: { ID_APU: apid } });

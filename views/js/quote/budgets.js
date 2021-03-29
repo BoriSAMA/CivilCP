@@ -88,7 +88,7 @@ async function updQuote() {
     });
     
     var json = await response.json();
-    
+    recalculate(id)
     manageModals(json);
 }
 
@@ -186,11 +186,13 @@ function getAddData() {
 }
 
 function calculateTotal() {
-    let aux = translateNum($("#upd_budget_tdir").val()) + translateNum($("#upd_budget_admn_val").val()) +
-    translateNum($("#upd_budget_unex_val").val()) + translateNum($("#upd_budget_util_val").val()) +
-    translateNum($("#upd_budget_iva_val").val());
+    let aux =   parseFloat(translateNum($("#upd_budget_tdir").val())) + 
+                parseFloat(translateNum($("#upd_budget_admn_val").val())) +
+                parseFloat(translateNum($("#upd_budget_unex_val").val())) + 
+                parseFloat(translateNum($("#upd_budget_util_val").val())) +
+                parseFloat(translateNum($("#upd_budget_iva_val").val()));
 
-    $("#upd_budget_total").val(aux).trigger('blur');
+    translateTxt($("#upd_budget_total"), aux);
 }
 
 function manageModals(json) {
@@ -205,4 +207,15 @@ function manageModals(json) {
 function openUpdModal(){
     $('#updModal').modal('show');
     $('#detailModal').modal('hide');
+}
+
+async function recalculate(b_id){
+    await fetch(host + apu + "/calculate", {
+        method: 'PATCH',
+        headers: {
+        'Content-Type': 'application/json;charset=utf-8'
+        }, body: JSON.stringify({
+            bid: b_id
+        })
+    });
 }

@@ -26,11 +26,17 @@ router.get('/', async(req, res) => {
 
         var act = await sequelize.transaction(async (t) => {
 			const item = await models.schedule_activity.findAll({
+                                        
                                         where: {
                                             ID_SCHEDULE: result.ID
-                                        }, include: [
+                                        },
+                                        attributes: { 
+                                            exclude: ['DELAY', 'DELAYED_FINISH_DATE', 'ID_PRE_TYP'] 
+                                        },
+                                        include: [
                                             {
                                                 model: models.quote_activity,
+                                                attributes: ['QUOTE_NUMBER', 'CUSTOM_NAME'],
                                                 include: {
                                                     model: models.activity_group
                                                 }
@@ -47,7 +53,6 @@ router.get('/', async(req, res) => {
         }
 
         result.activities = act;
-		console.log(result);
         res.status(200).render('index',{
             selected: 'gantt',
             user: req.session.user,
