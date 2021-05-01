@@ -125,6 +125,8 @@ router.delete('/', async(req, res) => {
 	}catch(err){
         if(err.name == "MatchError"){
             res.status(400).json({name: "Error", message: err.message});
+        }else if(err.name == "SequelizeForeignKeyConstraintError"){
+            res.status(400).json({name: "Error", message:"No se pueden eliminar salarios referenciados por algun presupuesto"});
         }else{
             res.status(500).json({name: "Error", message: "internal server error"});
         }

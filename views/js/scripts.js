@@ -25,6 +25,7 @@
 })(jQuery);
 
 const host = "http://127.0.0.1:1337/";
+//const host = "http://ec2-34-195-7-120.compute-1.amazonaws.com:1337/";
 const salary = "salary";
 const group = "group";
 const item = "item";
@@ -35,6 +36,8 @@ const worker = "worker";
 const schedule = "schedule";
 
 const item_unit = ['ML', 'M2', 'M3', 'UND', 'GB', 'PT', 'KG'];
+const item_performance_unit = ['ML/h', 'M2/h', 'M3/h', 'UND/h', 'GB/h', 'PT/h', 'KG/h'];
+const item_transport_unit = ['M3/km', 'Kg/Km'];
 
 const workers_type = ['Oficial Técnico', 'Oficial', 'Ayudante'];
 

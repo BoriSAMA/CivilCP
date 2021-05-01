@@ -6,9 +6,9 @@ $(async function() {
 });
 
 $('#msgModal').on('hidden.bs.modal', function () {
-  if ($('#msgModal .modal-title').html() == "Exito") {
-    window.location = '/index/salary';
-  }
+    if ($('#msgModal .modal-title').html() == "Exito") {
+        window.location = window.location.href;
+    }
 })
 
 $('#addModal').on('hidden.bs.modal', function () {
@@ -48,10 +48,7 @@ async function regSalary(){
     });
 
     var json = await response.json();
-    $('#addModal').modal('hide');
-    $('#msgModal .modal-title').html(json.name);
-    $('#msgModal .modal-body').html(json.message);
-    $("#msgModal").modal();
+    manageModals(json);
 }
 
 async function delSalary(id){
@@ -66,9 +63,7 @@ async function delSalary(id){
   
   var json = await response.json();
 
-  $('.modal-title').html(json.name);
-  $('.modal-body').html(json.message);
-  $("#msgModal").modal();
+  manageModals(json);
 }
 
 async function getSalary(id){
@@ -126,16 +121,12 @@ async function updSalary(cond, id){
     smmlv = await getSmmlv();
   }
 
-  $('#msgModal .modal-title').html(json.name);
-  $('#msgModal .modal-body').html(json.message);
-  $("#msgModal").modal();
+  manageModals(json);
 }
 
 async function chargeSalary(salAux){
   if (typeof salAux.name !== 'undefined') {
-    $('#msgModal .modal-title').html(salAux.name);
-    $('#msgModal .modal-body').html(salAux.message);
-    $("#msgModal").modal();
+    manageModals(salAux);
   }else{
     $('#mul1').val(salAux.MULTIPLIER);
     translateTxt($('#vsm1'), salAux.VALUE);
@@ -162,22 +153,23 @@ async function chargeSalary(salAux){
 
     if ($('#mul1').val() != 1) {
         if (salAux.TOTAL_ANNUAL_EFFECTIVE_HOURS === 0) {
-          $('#hca').val(smmlv.ANNUAL_CALENDAR_HOURS);
-          $('#hl').val(smmlv.ANNUAL_WORKING_HOURS);
-          $('#hea').val(smmlv.TOTAL_ANNUAL_EFFECTIVE_HOURS);
+          $('#hca').val(smmlv.ANNUAL_CALENDAR_HOURS).trigger('keyup');
+          $('#hl').val(smmlv.ANNUAL_WORKING_HOURS).trigger('keyup');
+          $('#hea').val(smmlv.TOTAL_ANNUAL_EFFECTIVE_HOURS).trigger('keyup');
         }else{
-          $('#hca').val(salAux.ANNUAL_CALENDAR_HOURS);
-          $('#hl').val(salAux.ANNUAL_WORKING_HOURS);
-          $('#hea').val(salAux.TOTAL_ANNUAL_EFFECTIVE_HOURS);
+          $('#hca').val(salAux.ANNUAL_CALENDAR_HOURS).trigger('keyup');
+          $('#hl').val(salAux.ANNUAL_WORKING_HOURS).trigger('keyup');
+          $('#hea').val(salAux.TOTAL_ANNUAL_EFFECTIVE_HOURS).trigger('keyup');
         }
         translateTxt($('#fic'), (smmlv.VALUE * 12) * 0.025);
     }else{
-      $('#hca').val(salAux.ANNUAL_CALENDAR_HOURS);
-      $('#hl').val(salAux.ANNUAL_WORKING_HOURS);
-      $('#hea').val(salAux.TOTAL_ANNUAL_EFFECTIVE_HOURS);
+      $('#hca').val(salAux.ANNUAL_CALENDAR_HOURS).trigger('keyup');
+      $('#hl').val(salAux.ANNUAL_WORKING_HOURS).trigger('keyup');
+      $('#hea').val(salAux.TOTAL_ANNUAL_EFFECTIVE_HOURS).trigger('keyup');
       translateTxt($('#fic'), anu_val * 0.025);
     }
   } 
+  //calcular costos de la hora efectiva
   $('#information').removeAttr('hidden');
 }
 
@@ -228,4 +220,11 @@ function addValues(){
 function chargeHours(input1, input2) {
     var aux = real_value / parseInt(input1.val());
     translateTxt(input2, aux);
+}
+
+function manageModals(json) {
+  $('#addModal').modal('hide');
+  $('#msgModal .modal-title').html(json.name);
+  $('#msgModal .modal-body').html(json.message);
+  $("#msgModal").modal();
 }

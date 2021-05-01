@@ -1,12 +1,12 @@
  $(function () {
-  for (var i = 0; i < item_unit.length; i++) {
+  for (var i = 0; i < item_transport_unit.length; i++) {
     jQuery("<option/>", {
-      value: item_unit[i],
-      html: item_unit[i],
+      value: item_transport_unit[i],
+      html: item_transport_unit[i],
     }).appendTo("#item_unit");
     jQuery("<option/>", {
-      value: item_unit[i],
-      html: item_unit[i],
+      value: item_transport_unit[i],
+      html: item_transport_unit[i],
     }).appendTo("#upd_item_unit");
   }
   $(".selectBuscar").select2({ theme: "bootstrap4" });

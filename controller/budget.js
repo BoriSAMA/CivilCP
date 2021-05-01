@@ -101,13 +101,18 @@ router.post('/ac', async(req, res) => {
                                 }
                             }, { transaction: t });
 
+            var today = new Date();   
+            var tomorrow =  new Date();
+            tomorrow.setDate(tomorrow.getDate()+1)
+            console.log(today);
+            console.log(tomorrow);
             const item = await models.schedule_activity.create({
                             ID_QOU_ACT: result.ID,
                             ID_SCHEDULE: uwu.ID,
-                            DURATION: 0,
+                            DURATION: 1,
                             DELAY:0,
-                            START_DATE: new Date(),
-                            FINISH_DATE: new Date(),
+                            START_DATE: today,
+                            FINISH_DATE: tomorrow,
                         }, { transaction: t });
             return item;
         });

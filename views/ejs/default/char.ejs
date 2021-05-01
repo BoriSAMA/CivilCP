@@ -8,7 +8,7 @@
           </div>
           <div class="card-header">
             <div class="row">
-              <div class="col-8">
+              <div class="col">
                 <span class="align-middle">
                   <i class="fas fa-table mr-1"></i>
                   Caracterizaciones
@@ -19,6 +19,25 @@
                   <option value="1">Grupo de procesos</option>
                   <option value="2">Grupo de actividades</option>
                 </select>
+              </div>
+              <div id="filter-section" class="col-2" hidden>
+                <button class="btn btn-info align-middle w-100" type="button" onclick="showfilters()">
+                    <i class="fa fa-filter h-100 align-middle" aria-hidden="true"></i>
+                    Filtros
+                </button>
+              </div>
+            </div>
+            <div class="row filters mt-1 pt-2" style="background-color: #D4E0E3;" hidden>
+              <div class="col-6">
+                
+              </div>
+              <div class="col-6">
+                  <div class="form-group">
+                      <label for="select_filter_chp_grp">Grupo de procesos:</label>
+                      <select id="select_filter_chp_grp" class="custom-select selectBuscar">
+                          <option value="0">Ninguno</option>
+                      </select>
+                  </div>
               </div>
             </div>
           </div>
@@ -111,7 +130,7 @@
                     <tbody>
                       <%if(groups.ag.length > 0) { -%>
                         <%for(var i = 0; i < groups.ag.length; i++) { -%>
-                          <tr id="<%=groups.ag[i].ID %>">
+                          <tr id="<%=groups.ag[i].ID %>" chp_grp="<%= groups.ag[i].ID_CHP_GRP %>">
                             <td class="align-middle"><%= i + 1 %></td>
                             <td class="align-middle" cg_id="<%= groups.ag[i].chapter_group.ID %>"><%= groups.ag[i].chapter_group.NAME %></td>
                             <td class="align-middle"><%= groups.ag[i].PREFIX %></td>

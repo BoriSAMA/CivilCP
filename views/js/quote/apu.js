@@ -16,7 +16,6 @@ $(async function() {
         if (aux.length == 4) {
             $('#btnSection').prop('hidden',true);
         }else{
-            console.log(aux);
             aux.forEach(e => {
                 $("#select_apu_content option[value='"+e+"']").remove();
             });
@@ -398,6 +397,17 @@ async function initItem(content, id) {
       initItemEdit(json, content);
 }
 
+async function getItem(id) {
+    let response = await fetch(host + item + "/" + id, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        }
+      });
+      var json = await response.json();
+      return json[0];
+}
+
 async function initGang(id) {
     let response = await fetch(host + apu + "/gang/" + id, {
         method: 'GET',
@@ -511,19 +521,34 @@ function getUpdGangData() {
     return aux;
 }
 
-function selectItem(id, name, cost, perf = '', gang = '') {
-    $('#apu_item_id').val(id);
-    translateTxt($('#apu_item_cost'), cost)
-    $('#apu_item_name').val(name);
-    if (perf != '') {
-        $('#apu_item_perf').val(perf);
+async function selectItem(id) {
+    const item_fetch = await getItem(id);
+    $('#apu_item_id').val(item_fetch.ID);
+    console.log(item_fetch);
+    translateTxt($('#apu_item_cost'), item_fetch.COST);
+    $('#apu_item_name').val(item_fetch.NAME);
+    if (item_fetch.PERFORMANCE != 0) {
+        $('#apu_item_perf').val(item_fetch.PERFORMANCE);
     }
-    if (gang != '') {
-        var aux = gang.split(':');
+    if (item_fetch.ID_CONTENT == 2) {
+        var aux = item_fetch.DESCRIPTION.split(':');
         $('#apu_item_ot').val(aux[0]).trigger('change');
         $('#apu_item_o').val(aux[1]).trigger('change');
         $('#apu_item_a').val(aux[2]).trigger('change');
     }
+
+    // $('#apu_item_id').val(id);
+    // translateTxt($('#apu_item_cost'), cost)
+    // $('#apu_item_name').val(name);
+    // if (perf != '') {
+    //     $('#apu_item_perf').val(perf);
+    // }
+    // if (gang != '') {
+    //     var aux = gang.split(':');
+    //     $('#apu_item_ot').val(aux[0]).trigger('change');
+    //     $('#apu_item_o').val(aux[1]).trigger('change');
+    //     $('#apu_item_a').val(aux[2]).trigger('change');
+    // }
 
     $('#selectItemModal').modal('hide');
 }

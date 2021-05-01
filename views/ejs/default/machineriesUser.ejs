@@ -7,14 +7,14 @@
             <div class="row">
               <div class="col">
                 <i class="fas fa-table h-100 align-middle"></i>
-                <span class="align-middle"> 
-                  Mis maquinarias 
+                <span class="align-middle">
+                  Mis maquinarias
                 </span>
               </div>
               <div class="col-2">
                 <button class="btn btn-info align-middle w-100" type="button" onclick="showfilters()">
                   <i class="fa fa-filter h-100 align-middle" aria-hidden="true"></i>
-                    Filtros
+                  Filtros
                 </button>
               </div>
             </div>
@@ -54,51 +54,61 @@
                     <th class="align-middle" width="6%">Unidad</th>
                     <th class="align-middle" width="7%">Costo</th>
                     <th class="text-center" width="15%">
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
-                            <i class="fa fa-plus" aria-hidden="true"></i>
-                            Añadir
-                          </button>
+                      <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addModal">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                        Añadir
+                      </button>
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <%if(locals.mc) { -%> 
-                    <%if(mc.length > 0) { -%>
-                        <%for(var i = 0; i < mc.length; i++) { -%>
-                            <tr id="<%= mc[i].ID %>" act_grp="<%= mc[i].ID_ACT_GRP %>" chp_grp="<%= mc[i].activity_group.ID_CHP_GRP %>">
-                                <td class="align-middle"><%= i + 1 %></td>
-                                <td class="align-middle">
-                                    <%= mc[i].activity_group.PREFIX %>
-                                </td>
-                                <td class="align-middle"><%= mc[i].NAME %></td>
-                                <td class="align-middle"><%= mc[i].PERFORMANCE %></td>
-                                <td class="align-middle">
-                                    <%= mc[i].MEASSURE_UNIT %>
-                                </td>
-                                <td class="align-middle curr"><%= mc[i].COST %></td>
-                                <td>
-                                    <div class="row mw-100 m-0">
-                                        <div class="col">
-                                            <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#updModal" onclick="initItem('<%= mc[i].ID %>')">
-                                                <i class="fa fa-pen" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-                                        <div class="col">
-                                            <button class="w-100 btn btn-danger" onclick="delItem('<%= mc[i].ID %>')">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        <%}%> 
-                    <%} else { %>
-                        <td colspan="8">
-                            <h4 class="text-center Normal weight text">
-                            No se ha añadido maquinaria
-                            </h4>
-                        </td>
-                    <%}%> 
+                  <%if(locals.mc) { -%>
+                    <%if(mc.length> 0) { -%>
+                      <%for(var i=0; i < mc.length; i++) { -%>
+                        <tr id="<%= mc[i].ID %>" act_grp="<%= mc[i].ID_ACT_GRP %>"
+                          chp_grp="<%= mc[i].activity_group.ID_CHP_GRP %>">
+                          <td class="align-middle">
+                            <%= i + 1 %>
+                          </td>
+                          <td class="align-middle">
+                            <%= mc[i].activity_group.PREFIX %>
+                          </td>
+                          <td class="align-middle">
+                            <%= mc[i].NAME %>
+                          </td>
+                          <td class="align-middle">
+                            <%= mc[i].PERFORMANCE %>
+                          </td>
+                          <td class="align-middle">
+                            <%= mc[i].MEASSURE_UNIT %>
+                          </td>
+                          <td class="align-middle curr">
+                            <%= mc[i].COST %>
+                          </td>
+                          <td>
+                            <div class="row mw-100 m-0">
+                              <div class="col">
+                                <button class="w-100 btn btn-primary" data-toggle="modal" data-target="#updModal"
+                                  onclick="initItem('<%= mc[i].ID %>')">
+                                  <i class="fa fa-pen" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                              <div class="col">
+                                <button class="w-100 btn btn-danger" onclick="delItem('<%= mc[i].ID %>')">
+                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      <%}%>
+                    <% } else { %>
+                      <td colspan="8">
+                        <h4 class="text-center Normal weight text">
+                          No se ha añadido maquinaria
+                        </h4>
+                      </td>
+                    <%}%>
                   <%}%>
                 </tbody>
               </table>
@@ -110,53 +120,31 @@
   </div>
 
   <!-- Modal add-->
-  <div
-    class="modal fade"
-    id="addModal"
-    tabindex="-2"
-    role="dialog"
-    aria-labelledby="exampleModalCenterTitle"
+  <div class="modal fade" id="addModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
-    
+
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal2-title" id="exampleModalLongTitle">Añadir Item</h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <h5 class="modal2-title" id="exampleModalLongTitle">Añadir una Maquinaria</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="form-group">
             <label for="select_filter_chp_grp_2">Grupo de procesos</label>
-            <select
-              id="select_filter_chp_grp_2"
-              class="custom-select selectBuscar"
-            ></select>
+            <select id="select_filter_chp_grp_2" class="custom-select selectBuscar"></select>
           </div>
           <div class="form-group" id="add_act_grp">
             <label for="select_filter_act_grp_3">Grupo de actividades</label>
-            <select
-              id="select_filter_act_grp_3"
-              class="custom-select selectBuscar"
-              disabled
-            >
+            <select id="select_filter_act_grp_3" class="custom-select selectBuscar" disabled>
               <option value="0">Ninguno</option>
             </select>
           </div>
           <div class="form-group">
             <label class="small mb-1">Nombre</label>
-            <input
-              class="form-control"
-              type="text"
-              id="item_name"
-              placeholder="Nombre del item"
-            />
+            <input class="form-control" type="text" id="item_name" placeholder="Nombre del item" />
           </div>
           <div class="form-group">
             <label class="small mb-1">Unidad</label>
@@ -195,32 +183,18 @@
 
           <div class="form-group">
             <label class="small mb-1">Rendimiento</label>
-            <input
-              class="form-control"
-              type="number"
-              id="item_perf"
-              placeholder="Rendimiento"
-            />
+            <input class="form-control" type="number" id="item_perf" placeholder="Rendimiento por hora" />
           </div>
           <div class="form-group">
             <label class="small mb-1">Costo</label>
-            <input
-              class="form-control"
-              type="text"
-              id="item_cost"
-              data-type="currency"
-            />
+            <input class="form-control" type="text" id="item_cost" data-type="currency" />
           </div>
           <input type="number" id="item_cont" value="3" hidden />
         </div>
         <div class="modal-footer">
           <div class="card w-100 mt-2">
-            <button
-              class="btn btn-primary btn-block"
-              type="button"
-              onclick="regItem()"
-            >
-              Guardar material
+            <button class="btn btn-primary btn-block" type="button" onclick="regItem()">
+              Guardar Maquinaria
             </button>
           </div>
         </div>
@@ -229,61 +203,36 @@
   </div>
 
   <!-- Modal upd-->
-  <div
-    class="modal fade"
-    id="updModal"
-    tabindex="-3"
-    role="dialog"
-    aria-labelledby="exampleModalCenterTitle"
-    aria-hidden="true"
-  >
+  <div class="modal fade" id="updModal" tabindex="-3" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal2-title" id="exampleModalLongTitle">
-            Actualizar un item
+            Actualizar una Maquinaria
           </h5>
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
           <div class="form-group">
             <label for="select_filter_chp_grp_3">Grupo de procesos</label>
-            <select
-              id="select_filter_chp_grp_3"
-              class="custom-select selectBuscar"
-            ></select>
+            <select id="select_filter_chp_grp_3" class="custom-select selectBuscar"></select>
           </div>
           <div class="form-group">
             <label for="select_filter_act_grp_4">Grupo de actividades</label>
-            <select
-              id="select_filter_act_grp_4"
-              class="custom-select selectBuscar"
-            >
+            <select id="select_filter_act_grp_4" class="custom-select selectBuscar">
               <option value="0">Ninguno</option>
             </select>
           </div>
           <div class="form-group">
             <label class="small mb-1">Nombre</label>
-            <input
-              class="form-control"
-              type="text"
-              id="upd_item_name"
-              placeholder="Nombre del item"
-            />
+            <input class="form-control" type="text" id="upd_item_name" placeholder="Nombre del item" />
           </div>
           <div class="form-group">
             <label class="small mb-1">Unidad</label>
-            <select
-              id="upd_item_unit"
-              class="custom-select selectBuscar"
-            ></select>
+            <select id="upd_item_unit" class="custom-select selectBuscar"></select>
           </div>
 
           <div class="form-group" hidden>
@@ -318,34 +267,20 @@
 
           <div class="form-group">
             <label class="small mb-1">Rendimiento</label>
-            <input
-              class="form-control"
-              type="number"
-              id="upd_item_perf"
-              placeholder="Rendimiento"
-            />
+            <input class="form-control" type="number" id="upd_item_perf" placeholder="Rendimiento por hora" />
           </div>
 
           <div class="form-group">
             <label class="small mb-1">Costo</label>
-            <input
-              class="form-control"
-              type="text"
-              id="upd_item_cost"
-              data-type="currency"
-            />
+            <input class="form-control" type="text" id="upd_item_cost" data-type="currency" />
           </div>
 
           <input type="number" id="upd_item_id" hidden />
         </div>
         <div class="modal-footer">
           <div class="card w-100 mt-2">
-            <button
-              class="btn btn-primary btn-block"
-              type="button"
-              onclick="updItem()"
-            >
-              actualizar material
+            <button class="btn btn-primary btn-block" type="button" onclick="updItem()">
+              Actualizar Maquinaria
             </button>
           </div>
         </div>
@@ -355,4 +290,3 @@
 
   <%- include ("../partials/message-modal"); %>
 </main>
-

@@ -1,4 +1,4 @@
-var uwu
+var uwu;
 
 $(async function () {
   uwu = await initGant();
@@ -23,7 +23,6 @@ async function drawChart() {
   data.addColumn('string', 'Predecesora');
 
   var awa = uwu.activities;
-
   for (var i = 0; i < awa.length; i++) {
     let aux = awa[i];
     var ayu = aux.START_DATE.split("-");
@@ -36,27 +35,8 @@ async function drawChart() {
               0,
               typeof aux.ID_PRE_ACT == "number" ? aux.ID_PRE_ACT + "" : null];
   }
-
+  
   data.addRows(owo);
-
-  /** Definición de columnas a usar en el Gantt
-  var data = new google.visualization.DataTable();
-  data.addColumn('string', 'ID de la Tarea');
-  data.addColumn('string', 'Nombre de la Tarea');
-  data.addColumn('date', 'Fecha de Inicio');
-  data.addColumn('date', 'Fecha de Fin');
-  data.addColumn('number', 'Duración');
-  data.addColumn('number', 'Porcentaje Hecho');
-  data.addColumn('string', 'Predecesora');
-
-  data.addRows([
-    ['Investigar', 'Buscar fuentes', new Date(2021, 2, 21), new Date(2021, 2, 25), null,  100,  null],
-    ['Escribir', 'Escribir ensayo', null, new Date(2021, 2, 29), daysToMilliseconds(3), 100, 'Investigar,Bosquejo'],
-    ['Citar', 'Crear bibliografia', null, new Date(2021, 2, 27), daysToMilliseconds(1), 100, 'Investigar'],
-    ['Completar', 'Ensayo en mano', null, new Date(2021, 2, 30), daysToMilliseconds(1), 0, 'Citar,Escribir'],
-    ['Bosquejo', 'Bosquejo del ensayo', null, new Date(2021, 2, 26), daysToMilliseconds(1), 100, 'Investigar'],
-    ['Matarse', 'Suicidarse', null, new Date(2021, 3, 2), daysToMilliseconds(1), 0, 'Escribir']
-  ]);**/
 
   var options = {
     height: 275
@@ -91,12 +71,10 @@ async function initActtUpd(id) {
 }
 
 async function initActtEdit(json) {
-  console.log(json);
   $("#upd_sch_id").val(json.ID);
   $("#upd_sch_sdate").val(json.START_DATE);
   $("#upd_sch_fdate").val(json.FINISH_DATE);
   $("#upd_sch_duration").val(json.DURATION);
-  console.log();
   if (json.pre_activity != null ) {
     $("#upd_sch_pre").val(json.pre_activity.quote_activity.QUOTE_NUMBER + "-" +
                           json.pre_activity.quote_activity.CUSTOM_NAME);
@@ -141,7 +119,6 @@ function getupdActData() {
 }
 
 function slcPre(id, name, taskid) {
-  console.log(name);
   $("#upd_sch_pre").val(taskid + "-" + name);
   $("#upd_sch_taskid").val(id);
   $("#slcPreModal").modal('hide');
@@ -189,7 +166,8 @@ $("#slcPreModal").on({
 function verifDate() {
   var d1 = new Date($("#upd_sch_pfdate").val());
   var d2 = new Date($("#upd_sch_sdate").val());
-  if (d2.getTime() > d1.getTime()) {
+
+  if (d1 == 'Invalid Date' || d2.getTime() > d1.getTime()) {
     dateOps();
   } else {
     manageModals({ name: "Error", message: "La fecha de inicio no puede ser anterior a la fecha de fin de su predecesora" });

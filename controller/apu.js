@@ -469,7 +469,7 @@ router.patch('/calculate/', async (req, res) => {
             console.log("t4: " + total[3]);
 
             const quo = await models.quotation.findOne({ where: { ID: bid } }, { transaction: t });
-            var totals = [quo.PRC_ADMIN / 100 * total[3], quo.PRC_UNEXPECTED / 100 * total[3], quo.PRC_UTILITY / 100 * total[3], quo.PRC_IVA / 100 * total[3]];
+            var totals = [quo.PRC_ADMIN / 100 * total[3], quo.PRC_UNEXPECTED / 100 * total[3], quo.PRC_UTILITY / 100 * total[3]];
             var tot = parseFloat(totals.reduce((acc, curr) => parseFloat(acc) + parseFloat(curr))) + parseFloat(total[3]);
 
             const aux = await models.quotation.update({
@@ -477,7 +477,7 @@ router.patch('/calculate/', async (req, res) => {
                 ADMIN: totals[0],
                 UNEXPECTED: totals[1],
                 UTILITY: totals[2],
-                IVA: totals[3],
+                IVA: quo.PRC_IVA / 100 * totals[2],
                 TOTAL: tot
             }, {
                 where: {
