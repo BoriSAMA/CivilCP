@@ -4,8 +4,17 @@
       <div class="col-xl-12 mt-4">
         <div class="card mb-4">
           <div class="card-header">
-            <i class="fas fa-table mr-1"></i>
-            Resumen
+            <div class="d-flex justify-content-between">
+              <div class="col-1 pr-0">
+                <a class="btn-sm btn-info" href="/index/budgets">
+                  <i class="fa fa-reply" aria-hidden="true"></i>
+                </a>
+              </div>
+              <div class="col p-0">
+                <i class="fas fa-table mr-1"></i>
+                Resumen
+              </div>
+          </div>
           </div>
           <% if(locals.error) { %>
             <div id="message">
