@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     TOTAL: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     ID_QUO_ACT: {

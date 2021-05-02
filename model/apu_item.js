@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     TOTAL: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     CUSTOM_PERFORMANCE: {
@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     QUANTITY: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.FLOAT,
       allowNull: true
     },
     ID_ITEM: {

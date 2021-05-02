@@ -110,7 +110,6 @@ router.post('/ac', async(req, res) => {
                             ID_QOU_ACT: result.ID,
                             ID_SCHEDULE: uwu.ID,
                             DURATION: 1,
-                            DELAY:0,
                             START_DATE: today,
                             FINISH_DATE: tomorrow,
                         }, { transaction: t });

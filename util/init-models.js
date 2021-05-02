@@ -3,11 +3,11 @@ var _activity_group = require("./activity_group");
 var _apu = require("./apu");
 var _apu_content = require("./apu_content");
 var _apu_item = require("./apu_item");
-var _availavibility = require("./availavibility");
 var _chapter_group = require("./chapter_group");
 var _content = require("./content");
 var _gang_worker = require("./gang_worker");
 var _item_list = require("./item_list");
+var _predecessor_type = require("./predecessor_type");
 var _quotation = require("./quotation");
 var _quote_activity = require("./quote_activity");
 var _quote_chapter = require("./quote_chapter");
@@ -26,11 +26,11 @@ function initModels(sequelize) {
   var apu = _apu(sequelize, DataTypes);
   var apu_content = _apu_content(sequelize, DataTypes);
   var apu_item = _apu_item(sequelize, DataTypes);
-  var availavibility = _availavibility(sequelize, DataTypes);
   var chapter_group = _chapter_group(sequelize, DataTypes);
   var content = _content(sequelize, DataTypes);
   var gang_worker = _gang_worker(sequelize, DataTypes);
   var item_list = _item_list(sequelize, DataTypes);
+  var predecessor_type = _predecessor_type(sequelize, DataTypes);
   var quotation = _quotation(sequelize, DataTypes);
   var quote_activity = _quote_activity(sequelize, DataTypes);
   var quote_chapter = _quote_chapter(sequelize, DataTypes);
@@ -56,10 +56,6 @@ function initModels(sequelize) {
   item_list.hasMany(apu_item, { as: "apu_items", foreignKey: "ID_ITEM"});
   apu_item.belongsTo(apu_content, { foreignKey: "ID_APU_CONTENT"});
   apu_content.hasMany(apu_item, { as: "apu_items", foreignKey: "ID_APU_CONTENT"});
-  availavibility.belongsTo(schedule, { foreignKey: "ID_SCHEDULE"});
-  schedule.hasMany(availavibility, { as: "availavibilities", foreignKey: "ID_SCHEDULE"});
-  availavibility.belongsTo(worker, { foreignKey: "ID_WORKER"});
-  worker.hasMany(availavibility, { as: "availavibilities", foreignKey: "ID_WORKER"});
   gang_worker.belongsTo(rank, { foreignKey: "ID_RANK"});
   rank.hasMany(gang_worker, { as: "gang_workers", foreignKey: "ID_RANK"});
   gang_worker.belongsTo(apu_item, { foreignKey: "ID_GANG"});
@@ -88,7 +84,7 @@ function initModels(sequelize) {
   quotation.hasMany(quote_chp_grp, { as: "quote_chp_grps", foreignKey: "ID_QUOTE"});
   sch_act_gang.belongsTo(schedule_activity, { foreignKey: "ID_SCH_ACT"});
   schedule_activity.hasMany(sch_act_gang, { as: "sch_act_gangs", foreignKey: "ID_SCH_ACT"});
-  sch_act_gang.belongsTo(apu_item, { foreignKey: "ID_GANG"});
+  sch_act_gang.belongsTo(apu_item, { as: "ID_GANG_apu_item", foreignKey: "ID_GANG"});
   apu_item.hasMany(sch_act_gang, { as: "sch_act_gangs", foreignKey: "ID_GANG"});
   schedule.belongsTo(quotation, { foreignKey: "ID_QUOTE"});
   quotation.hasMany(schedule, { as: "schedules", foreignKey: "ID_QUOTE"});
@@ -96,6 +92,8 @@ function initModels(sequelize) {
   quote_activity.hasMany(schedule_activity, { as: "schedule_activities", foreignKey: "ID_QOU_ACT"});
   schedule_activity.belongsTo(schedule_activity, { as: "pre_activity", foreignKey: "ID_PRE_ACT"});
   schedule_activity.hasMany(schedule_activity, { as: "schedule_activities", foreignKey: "ID_PRE_ACT"});
+  schedule_activity.belongsTo(predecessor_type, { foreignKey: "ID_PRE_TYP"});
+  predecessor_type.hasMany(schedule_activity, { as: "schedule_activities", foreignKey: "ID_PRE_TYP"});
   schedule_activity.belongsTo(schedule, { foreignKey: "ID_SCHEDULE"});
   schedule.hasMany(schedule_activity, { as: "schedule_activities", foreignKey: "ID_SCHEDULE"});
   worker.belongsTo(rank, { foreignKey: "ID_RANK"});
@@ -108,11 +106,11 @@ function initModels(sequelize) {
     apu,
     apu_content,
     apu_item,
-    availavibility,
     chapter_group,
     content,
     gang_worker,
     item_list,
+    predecessor_type,
     quotation,
     quote_activity,
     quote_chapter,

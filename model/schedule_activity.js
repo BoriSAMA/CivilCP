@@ -11,19 +11,11 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.INTEGER,
       allowNull: true
     },
-    DELAY: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
     START_DATE: {
       type: DataTypes.DATEONLY,
       allowNull: true
     },
     FINISH_DATE: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    DELAYED_FINISH_DATE: {
       type: DataTypes.DATEONLY,
       allowNull: true
     },
@@ -40,14 +32,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true,
       references: {
         model: 'schedule_activity',
-        key: 'ID'
-      }
-    },
-    ID_PRE_TYP: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'predecessor_type',
         key: 'ID'
       }
     },
@@ -84,13 +68,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "ID_PRE_ACT" },
-        ]
-      },
-      {
-        name: "ID_PRE_TYP",
-        using: "BTREE",
-        fields: [
-          { name: "ID_PRE_TYP" },
         ]
       },
       {

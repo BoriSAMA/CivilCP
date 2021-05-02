@@ -18,6 +18,16 @@ router.post('/content', async (req, res) => {
             }, { transaction: t });
             return item;
         });
+        if (idc == 2) {
+            await sequelize.transaction(async (t) => {
+                const item = await models.apu_content.create({
+                    ID_CONTENT: 5,
+                    ID_APU: ida,
+                    TOTAL: 0
+                }, { transaction: t });
+                return item;
+            });
+        }
 
         res.status(200).json({ name: "Exito", message: "Se ha registrado la seccion en el A.P.U." });
     } catch (err) {
@@ -62,13 +72,8 @@ router.post('/gang', async (req, res) => {
     try {
         var { quan, total, iditem, idapuc, salary, quantity, c_perf, c_desc } = req.body;
 
-        if (!quan || iditem == 0 || idapuc == 0) {
+        if (!quan || c_perf == 0 || iditem == 0 || idapuc == 0) {
             throw { name: "regError", message: "Datos de la cuadrilla incompletos" };
-        }
-        var aux_quan = quantity.reduce((acc, curr) => parseFloat(acc) + parseFloat(curr));
-
-        if (Math.round(aux_quan) != 100) {
-            throw { name: "regError", message: "La suma de las cantidades debe ser 100%" };
         }
 
         let sal = await sequelize.transaction(async (t) => {
@@ -155,6 +160,7 @@ router.get('/', async (req, res) => {
         });
 
         apu = result[0].dataValues;
+        apu.tools = 0;
 
         let apu_c = await sequelize.transaction(async (t) => {
             const item = await models.apu_content.findAll({
@@ -170,48 +176,51 @@ router.get('/', async (req, res) => {
 
         for (let i = 0; i < apu_c.length; i++) {
             apu_c[i] = apu_c[i].dataValues;
+            if (apu_c[i].ID_CONTENT == 5) {
+                apu.tools = apu_c[i].TOTAL;
+            }else{
+                let apu_i = await sequelize.transaction(async (t) => {
+                    const item = await models.apu_item.findAll({
+                        where: {
+                            ID_APU_CONTENT: apu_c[i].ID
+                        }, include: [{
+                            model: models.item_list
+                        }]
+                    }, { transaction: t });
+                    return item;
+                });
 
-            let apu_i = await sequelize.transaction(async (t) => {
-                const item = await models.apu_item.findAll({
-                    where: {
-                        ID_APU_CONTENT: apu_c[i].ID
-                    }, include: [{
-                        model: models.item_list
-                    }]
-                }, { transaction: t });
-                return item;
-            });
-
-            for (let j = 0; j < apu_i.length; j++) {
-                apu_i[j] = apu_i[j].dataValues;
-                apu_i[j].item_list = apu_i[j].item_list.dataValues;
+                for (let j = 0; j < apu_i.length; j++) {
+                    apu_i[j] = apu_i[j].dataValues;
+                    apu_i[j].item_list = apu_i[j].item_list.dataValues;
 
 
-                if (apu_c[i].ID_CONTENT == 2) {
-                    var gang = ['', '', '']
-                    for (let k = 0; k < 3; k++) {
-                        let ga = await sequelize.transaction(async (t) => {
-                            const item = await models.gang_worker.findOne({
-                                where: {
-                                    ID_GANG: apu_i[j].ID,
-                                    ID_RANK: k + 1
-                                }, include: [{
-                                    model: models.salary,
-                                    attributes: ['HOURLY_VALUE']
-                                }]
-                            }, { transaction: t });
-                            return item;
-                        });
+                    if (apu_c[i].ID_CONTENT == 2) {
+                        var gang = ['', '', '']
+                        for (let k = 0; k < 3; k++) {
+                            let ga = await sequelize.transaction(async (t) => {
+                                const item = await models.gang_worker.findOne({
+                                    where: {
+                                        ID_GANG: apu_i[j].ID,
+                                        ID_RANK: k + 1
+                                    }, include: [{
+                                        model: models.salary,
+                                        attributes: ['HOURLY_VALUE']
+                                    }]
+                                }, { transaction: t });
+                                return item;
+                            });
 
-                        if (ga != null) {
-                            gang[k] = ga.dataValues;
-                            gang[k].salary = gang[k].salary.dataValues;
+                            if (ga != null) {
+                                gang[k] = ga.dataValues;
+                                gang[k].salary = gang[k].salary.dataValues;
+                            }
                         }
+                        apu_i[j].gang = { OT: gang[0], O: gang[1], A: gang[2] };
                     }
-                    apu_i[j].gang = { OT: gang[0], O: gang[1], A: gang[2] };
                 }
+                apu_c[i].apu_i = apu_i
             }
-            apu_c[i].apu_i = apu_i
         }
         apu.apu_c = apu_c;
 
@@ -346,6 +355,7 @@ router.get('/gang/:id', async (req, res) => {
 //Delete a section
 router.delete('/content/:id', async (req, res) => {
     try {
+        deleteTools(req.params.id);
         const result = await sequelize.transaction(async (t) => {
             const item = await models.apu_content.destroy({
                 where: {
@@ -409,10 +419,9 @@ router.patch('/calculate/', async (req, res) => {
             if (acid != 0 && typeof acid !== 'undefined') {
                 //sumar todos los items del apu al contenido
                 total[0] = await models.apu_item.sum('TOTAL', { where: { ID_APU_CONTENT: acid } });
-                if (isNaN(total[0])) {
-                    total[0] = 0;
-                }
-                console.log("t1: " + total[0]);
+
+                if (isNaN(total[0])) { total[0] = 0; }
+
                 await models.apu_content.update({
                     TOTAL: total[0]
                 }, {
@@ -421,43 +430,40 @@ router.patch('/calculate/', async (req, res) => {
                     }
                 }, { transaction: t });
 
+                await updateTools(acid);
+
+                //imprimir suma de los items del contenido
+                console.log("sumaItems: " + total[0]);
             }
             if (aid != 0 && typeof aid !== 'undefined') {
+                //sumar todos los contenidos del apu
                 if (apid != 0) {
-                    //sumar todos los contenidos del apu al apu
                     total[1] = await models.apu_content.sum('TOTAL', { where: { ID_APU: apid } });
-                    console.log("t2a: " + total[1]);
-                    await models.apu.update({
-                        TOTAL: total[1]
-                    }, {
-                        where: {
-                            ID: apid
-                        }
-                    }, { transaction: t });
+
+                    await models.apu.update({ TOTAL: total[1] }, { where: { ID: apid } }, { transaction: t });
+
+                    //imprimir suma de los contenidos del apu
+                    console.log("SumaContenidos1: " + total[1]);
                 } else {
-                    let apu_aux = await models.apu.findOne({
-                        where: {
-                            ID_QUO_ACT: aid
-                        }
-                    }, { transaction: t });
-                    total[1] = apu_aux.TOTAL;
-                    console.log("t2b: " + total[1]);
+                    let apu_aux = await models.apu.findOne({ where: { ID_QUO_ACT: aid } }, { transaction: t });
+
+                    total[1] = await models.apu_content.sum('TOTAL', { where: { ID_APU: apu_aux.ID } });
+                    
+                    await models.apu.update({ TOTAL: total[1] }, { where: { ID: apid } }, { transaction: t });
+
+                    //imprimir suma de los contenidos del apu
+                    console.log("SumaContenidos2: " + total[1]);
                 }
 
-                //multiplica el valor del apu por la cantidad fijada en la actividad
+                //calcular de la actividad con el valor del apu por la cantidad
                 await models.quote_activity.findOne({ where: { ID: aid } })
                     .then(qua => {
                         total[2] = qua.dataValues.QUANTITY * total[1];
-                        console.log("t3: " + total[2]);
+                        //imprimir valor de la actividad
+                        console.log("ValorActividad1: " + total[2]);
                     });
 
-                await models.quote_activity.update({
-                    TOTAL: total[2]
-                }, {
-                    where: {
-                        ID: aid
-                    }
-                }, { transaction: t });
+                await models.quote_activity.update({ TOTAL: total[2] }, { where: { ID: aid } }, { transaction: t });
 
             }
 
@@ -466,7 +472,7 @@ router.patch('/calculate/', async (req, res) => {
                 { type: QueryTypes.SELECT });
 
             total[3] = total3[0].sum;
-            console.log("t4: " + total[3]);
+            console.log("SumaActividades: " + total[3]);
 
             const quo = await models.quotation.findOne({ where: { ID: bid } }, { transaction: t });
             var totals = [quo.PRC_ADMIN / 100 * total[3], quo.PRC_UNEXPECTED / 100 * total[3], quo.PRC_UTILITY / 100 * total[3]];
@@ -529,12 +535,8 @@ router.patch('/gang/:id', async (req, res) => {
     try {
         var { total, quan, c_perf, c_desc, salary, quantity} = req.body;
 
-        console.log(req.body);
-        
-        var aux_quan = quantity.reduce((acc, curr) => parseFloat(acc) + parseFloat(curr));
-
-        if (Math.round(aux_quan) != 100) {
-            throw { name: "regError", message: "La suma de las cantidades debe ser 100%" };
+        if (!quan || c_perf == 0) {
+            throw { name: "regError", message: "Datos de la cuadrilla incompletos" };
         }
 
         const result = await sequelize.transaction(async (t) => {
@@ -584,6 +586,58 @@ router.patch('/gang/:id', async (req, res) => {
         }
     }
 });
+
+async function updateTools(idapuc) {
+    let apu_c = await sequelize.transaction(async (t) => {
+        const item = await models.apu_content.findOne({ where: { ID: idapuc } }, { transaction: t });
+
+        if (item.dataValues.ID_CONTENT != 2) {
+            return;
+        }
+
+        const item2 = await models.apu_content.findOne({ where: { ID_APU: item.dataValues.ID_APU, ID_CONTENT: 5 } }, { transaction: t });
+
+        return item2.dataValues;
+    });
+    
+    let gangs_tool = await sequelize.transaction(async (t) => {
+        const item = await models.apu_item.findAll({
+            where: {
+                ID_APU_CONTENT: idapuc
+            }
+        }, { transaction: t });
+        return item;
+    });
+
+    let suma_tools = 0;
+
+    for (let i = 0; i < gangs_tool.length; i++) {
+        gangs_tool[i] = gangs_tool[i].dataValues;
+        suma_tools += gangs_tool[i].TOTAL;
+    }
+
+    const formatter = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,      
+        maximumFractionDigits: 2,
+     });
+
+    await sequelize.transaction(async (t) => {
+        await models.apu_content.update({ TOTAL: formatter.format(suma_tools * 0.05) }, { where: { ID: apu_c.ID }}, { transaction: t });
+    });
+}
+
+async function deleteTools(idapuc) {
+    await sequelize.transaction(async (t) => {
+        const item = await models.apu_content.findOne({ where: { ID: idapuc } }, { transaction: t });
+
+        if (item.dataValues.ID_CONTENT != 2) {
+            return;
+        }
+
+        const item2 = await models.apu_content.findOne({ where: { ID_APU: item.dataValues.ID_APU, ID_CONTENT: 5 } }, { transaction: t });
+        await models.apu_content.destroy({ where: { ID: item2.dataValues.ID }}, { transaction: t });
+    });
+}
 
 //export module
 module.exports = router;

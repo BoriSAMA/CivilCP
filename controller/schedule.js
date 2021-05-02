@@ -29,9 +29,6 @@ router.get('/', async(req, res) => {
                                         where: {
                                             ID_SCHEDULE: result.ID
                                         },
-                                        attributes: { 
-                                            exclude: ['DELAY', 'DELAYED_FINISH_DATE', 'ID_PRE_TYP'] 
-                                        },
                                         include: [
                                             {
                                                 model: models.quote_activity,
@@ -202,15 +199,12 @@ router.patch('/act/:id', async(req, res) => {
 		const result = await sequelize.transaction(async (t) => {
             const item = await models.schedule_activity.update({
                                 DURATION: dur,
-                                DELAY: del,
                                 START_DATE: date_s,
                                 FINISH_DATE: date_f,
-                                DELAYED_DATE: date_d_f,
-                                ID_PRE_ACT: idpa,
-                                ID_PRE_TYP: idpt
+                                ID_PRE_ACT: idpa
                             },{
                                 where: {
-																	ID: req.params.id
+									ID: req.params.id
                                 }
                             },{ transaction: t });
             return item;

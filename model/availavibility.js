@@ -1,51 +1,39 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('quote_activity', {
+  return sequelize.define('availavibility', {
     ID: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    CUSTOM_NAME: {
-      type: DataTypes.STRING(120),
-      allowNull: true
-    },
-    QUOTE_NUMBER: {
-      type: DataTypes.STRING(20),
+    START_DATE: {
+      type: DataTypes.DATEONLY,
       allowNull: false
     },
-    MEASSURE_UNIT: {
-      type: DataTypes.STRING(10),
-      allowNull: true
+    FINISH_DATE: {
+      type: DataTypes.DATEONLY,
+      allowNull: false
     },
-    QUANTITY: {
-      type: DataTypes.FLOAT,
-      allowNull: true
-    },
-    TOTAL: {
-      type: DataTypes.DOUBLE,
-      allowNull: true
-    },
-    ID_QUO_CHP: {
+    ID_SCHEDULE: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'quote_chapter',
+        model: 'schedule',
         key: 'ID'
       }
     },
-    ID_ACT_GRP: {
+    ID_WORKER: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'activity_group',
+        model: 'worker',
         key: 'ID'
       }
     }
   }, {
     sequelize,
-    tableName: 'quote_activity',
+    tableName: 'availavibility',
     timestamps: false,
     indexes: [
       {
@@ -57,17 +45,17 @@ module.exports = function(sequelize, DataTypes) {
         ]
       },
       {
-        name: "IC_QUO_CHP",
+        name: "ID_SCHEDULE",
         using: "BTREE",
         fields: [
-          { name: "ID_QUO_CHP" },
+          { name: "ID_SCHEDULE" },
         ]
       },
       {
-        name: "ID_ACT_GRP",
+        name: "ID_WORKER",
         using: "BTREE",
         fields: [
-          { name: "ID_ACT_GRP" },
+          { name: "ID_WORKER" },
         ]
       },
     ]

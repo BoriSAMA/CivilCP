@@ -47,7 +47,7 @@ async function updItem() {
       name: aux[2],
       unit: aux[3],
       perf: 0,
-      desc: 'Na',
+      desc: '0:0:0',
       cost: aux[4],
       actg: aux[1],
     }),

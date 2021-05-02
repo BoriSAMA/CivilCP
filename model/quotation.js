@@ -20,7 +20,7 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     TOTAL_DIRECT: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     PRC_ADMIN: {
@@ -28,7 +28,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     ADMIN: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     PRC_UNEXPECTED: {
@@ -36,7 +36,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     UNEXPECTED: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     PRC_UTILITY: {
@@ -44,7 +44,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     UTILITY: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     PRC_IVA: {
@@ -52,11 +52,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     IVA: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     TOTAL: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     }
   }, {

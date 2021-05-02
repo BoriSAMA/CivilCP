@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
       primaryKey: true
     },
     VALUE: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: false
     },
     MULTIPLIER: {
@@ -17,15 +17,15 @@ module.exports = function(sequelize, DataTypes) {
       unique: "MULTIPLIER"
     },
     TRANSPORT_SUBSIDY: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     ENDOWMENT: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     SAFETY_EQUIPMENT: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     ANNUAL_CALENDAR_HOURS: {
@@ -41,11 +41,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     DAILY_VALUE: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     HOURLY_VALUE: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.DOUBLE,
       allowNull: true
     }
   }, {

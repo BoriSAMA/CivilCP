@@ -112,14 +112,14 @@
                                             </div>
                                           </td>
                                         </tr>
-                                        <% } -%>
-                                          <% } else { -%>
-                                            <tr>
-                                              <td colspan="7">
-                                                <h5 class="text-center Normal weight text">No se han añadido items</h5>
-                                              </td>
-                                            </tr>
-                                            <% } -%>
+                                      <% } -%>
+                                  <% } else { -%>
+                                    <tr>
+                                      <td colspan="7">
+                                        <h5 class="text-center Normal weight text">No se han añadido items</h5>
+                                      </td>
+                                    </tr>
+                                  <% } -%>
                                 </tbody>
                               </table>
                             </div>
@@ -141,14 +141,12 @@
                                     </th>
                                   </tr>
                                   <tr>
-                                    <th class="align-middle">Nombre</th>
-                                    <th class="align-middle" width="5%"></th>
+                                    <th class="align-middle" colspan="2">Nombre</th>
                                     <th class="align-middle" width="5%">Rend.</th>
                                     <th class="align-middle" width="5%">Cant.</th>
                                     <th class="align-middle" width="7%">Unidad</th>
-                                    <th class="align-middle" width="5%">Porc.</th>
-                                    <th class="align-middle" width="10%">Salario</th>
-                                    <th class="align-middle" width="15%">Total</th>
+                                    <th class="align-middle text-center" width="10%">Salario</th>
+                                    <th class="align-middle text-center" width="15%">Total</th>
                                     <th class="align-middle" width="15%">
                                       <button class="btn btn-success btn-block" data-toggle="modal"
                                         data-target="#addItemModal" onclick="resetModal('2', '<%= apu_c[i].ID %>')">
@@ -178,19 +176,13 @@
                                               <%= apu_i[j].QUANTITY %>
                                             </td>
                                             <td class="align-middle text-center" rowspan="3">
-                                              <%= apu_i[j].item_list.MEASSURE_UNIT %>/h
+                                              <%= apu_i[j].item_list.MEASSURE_UNIT %>
                                             </td>
                                             <% if(apu_i[j].gang.OT != '') { -%>
-                                              <td class="align-middle text-center">
-                                                <%= apu_i[j].gang.OT.QUANTITY %>%
-                                              </td>
-                                              <td class="align-middle curr">
-                                                <%= apu_i[j].gang.OT.salary.HOURLY_VALUE * apu_i[j].gang.OT.QUANTITY/100 %>
+                                              <td class="align-middle text-center curr">
+                                                <%= apu_i[j].gang.OT.QUANTITY %>
                                               </td>
                                             <% } else { -%>
-                                              <td class="align-middle text-center">
-                                                0%
-                                              </td>
                                               <td class="align-middle curr">
                                                 0
                                               </td>
@@ -216,21 +208,14 @@
                                             </td>
                                           </tr>
                                           <tr>
-                                            
                                             <td class="align-middle text-center">
                                               <%= cuadrilla[1] %>
                                             </td>
                                             <% if(apu_i[j].gang.O != '') { -%>
-                                              <td class="align-middle text-center">
-                                                <%= apu_i[j].gang.O.QUANTITY %>%
-                                              </td>
-                                              <td class="align-middle curr">
-                                                <%= apu_i[j].gang.O.salary.HOURLY_VALUE * apu_i[j].gang.O.QUANTITY/100 %>
+                                              <td class="align-middle text-center curr">
+                                                <%= apu_i[j].gang.O.QUANTITY %>
                                               </td>
                                             <% } else { -%>
-                                              <td class="align-middle text-center">
-                                                0%
-                                              </td>
                                               <td class="align-middle curr">
                                                 0
                                               </td>
@@ -241,35 +226,43 @@
                                               <%= cuadrilla[2] %>
                                             </td>
                                             <% if(apu_i[j].gang.A != '') { -%>
-                                              <td class="align-middle text-center">
-                                                <%= apu_i[j].gang.A.QUANTITY %>%
-                                              </td>
-                                              <td class="align-middle curr">
-                                                <%= apu_i[j].gang.A.salary.HOURLY_VALUE * apu_i[j].gang.A.QUANTITY/100 %>
+                                              <td class="align-middle text-center curr">
+                                                <%= apu_i[j].gang.A.QUANTITY %>
                                               </td>
                                             <% } else { -%>
-                                              <td class="align-middle text-center">
-                                                0%
-                                              </td>
                                               <td class="align-middle curr">
                                                 0
                                               </td>
                                             <% } -%>
                                           </tr>
-                                          <% } -%>
-                                          <% } else { -%>
-                                            <tr>
-                                              <td colspan="9">
-                                                <h5 class="text-center Normal weight text">No se han añadido items
-                                                </h5>
-                                              </td>
-                                            </tr>
-                                            <% } -%>
+                                      <% } -%>
+                                  <% } else { -%>
+                                    <tr>
+                                      <td colspan="9">
+                                        <h5 class="text-center Normal weight text">No se han añadido items
+                                        </h5>
+                                      </td>
+                                    </tr>
+                                  <% } -%>
+                                </tbody>
+                                <thead class="table-secondary">
+                                  <tr>
+                                    <th class="align-middle" colspan="6">Nombre</th>
+                                    <th class="align-middle">Rendimiento</th>
+                                    <th class="align-middle">Total</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td class="align-middle" colspan="6">Herramientas menores</td>
+                                    <td class="align-middle">5%</td>
+                                    <td class="align-middle curr"><%= apu.tools %></td>
+                                  </tr>
                                 </tbody>
                               </table>
                             </div>
                           </div>
-                        <% }else if(apu_c[i].ID_CONTENT==3) { -%>
+                        <% } else if (apu_c[i].ID_CONTENT==3) { -%>
                           <div id="equ" class="card ml-2 mb-2 mt-2 mr-2">
                             <div class="table-responsive">
                               <table class="table table-bordered table-hover align-middle" width="100%"
@@ -317,7 +310,7 @@
                                               <%= apu_i[j].QUANTITY %>
                                             </td>
                                             <td class="align-middle" rowspan="3">
-                                              <%= apu_i[j].item_list.MEASSURE_UNIT %>/h
+                                              <%= apu_i[j].item_list.MEASSURE_UNIT %>
                                             </td>
                                             <td class="align-middle curr" rowspan="3">
                                               <%= apu_i[j].item_list.COST %>
@@ -342,20 +335,20 @@
                                               </div>
                                             </td>
                                           </tr>
-                                          <% } -%>
-                                          <% } else { -%>
-                                            <tr>
-                                              <td colspan="7">
-                                                <h5 class="text-center Normal weight text">No se han añadido items
-                                                </h5>
-                                              </td>
-                                            </tr>
-                                            <% } -%>
+                                      <% } -%>
+                                  <% } else { -%>
+                                    <tr>
+                                      <td colspan="7">
+                                        <h5 class="text-center Normal weight text">No se han añadido items
+                                        </h5>
+                                      </td>
+                                    </tr>
+                                  <% } -%>
                                 </tbody>
                               </table>
                             </div>
                           </div>
-                        <% } else { -%>
+                        <% } else if (apu_c[i].ID_CONTENT == 4) { -%>
                           <div id="tra" class="card ml-2 mb-2 mt-2 mr-2">
                             <div class="table-responsive">
                               <table class="table table-bordered table-hover align-middle" width="100%"
@@ -426,14 +419,14 @@
                                           </td>
                                         </tr>
                                         <% } -%>
-                                          <% } else { -%>
-                                            <tr>
-                                              <td colspan="7">
-                                                <h5 class="text-center Normal weight text">No se han añadido items
-                                                </h5>
-                                              </td>
-                                            </tr>
-                                            <% } -%>
+                                  <% } else { -%>
+                                    <tr>
+                                      <td colspan="7">
+                                        <h5 class="text-center Normal weight text">No se han añadido items
+                                        </h5>
+                                      </td>
+                                    </tr>
+                                  <% } -%>
                                 </tbody>
                               </table>
                             </div>
@@ -519,7 +512,7 @@
                     <th scope="col" class="align-middle text-center" colspan="2" width="20%">Division</th>
                     <th scope="col" class="align-middle text-center" width="20%">Mult.</th>
                     <th scope="col" class="align-middle text-center">Valor hora</th>
-                    <th scope="col" class="align-middle text-center" width="20%">Cantidad</th>
+                    <th scope="col" class="align-middle text-center" width="30%">Valor total</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -546,12 +539,7 @@
                       <input class="form-control" type="text" id="apu_ot_salary" disabled>
                     </td>
                     <td>
-                      <div class="input-group">
-                        <input class="form-control" type="number" id="apu_ot_quantity">
-                        <div class="input-group-append">
-                          <span class="input-group-text px-1">%</span>
-                        </div>
-                      </div>
+                      <input class="form-control" type="text" id="apu_ot_quantity" readonly>
                     </td>
                   </tr>
                   <tr>
@@ -577,12 +565,7 @@
                       <input class="form-control" type="text" id="apu_o_salary" disabled>
                     </td>
                     <td>
-                      <div class="input-group">
-                        <input class="form-control" type="number" id="apu_o_quantity">
-                        <div class="input-group-append">
-                          <span class="input-group-text px-1">%</span>
-                        </div>
-                      </div>
+                      <input class="form-control" type="text" id="apu_o_quantity" readonly>
                     </td>
                   </tr>
                   <tr>
@@ -608,21 +591,13 @@
                       <input class="form-control" type="text" id="apu_a_salary" disabled>
                     </td>
                     <td>
-                      <div class="input-group">
-                        <input class="form-control" type="number" id="apu_a_quantity">
-                        <div class="input-group-append">
-                          <span class="input-group-text px-1">%</span>
-                        </div>
-                      </div>
+                      <input class="form-control" type="text" id="apu_a_quantity" readonly> 
                     </td>
                   </tr>
                 </tbody>
               </table>
               <div id="add_item_gang_alert" class="alert alert-warning" role="alert" hidden>
-                La suma del valor de las cantidades debe ser 100.
-              </div>
-              <div id="add_salary_gang_alert" class="alert alert-secondary" role="alert" hidden>
-                Un salario no ha sido asignado, se tomara como 0 si no selecciona uno.
+                El Rendimiento no puede ser 0.
               </div>
             </div>
 
@@ -689,7 +664,7 @@
                     <th scope="col" class="align-middle text-center" colspan="2" width="20%">Division</th>
                     <th scope="col" class="align-middle text-center" width="20%">Mult.</th>
                     <th scope="col" class="align-middle text-center">Valor hora</th>
-                    <th scope="col" class="align-middle text-center" width="20%">Cantidad</th>
+                    <th scope="col" class="align-middle text-center" width="30%">Valor total</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -716,12 +691,7 @@
                       <input class="form-control" type="text" id="upd_apu_ot_salary" disabled>
                     </td>
                     <td>
-                      <div class="input-group">
-                        <input class="form-control" type="number" id="upd_apu_ot_quantity">
-                        <div class="input-group-append">
-                          <span class="input-group-text px-1">%</span>
-                        </div>
-                      </div>
+                      <input class="form-control" type="text" id="upd_apu_ot_quantity" readonly>
                     </td>
                   </tr>
                   <tr>
@@ -747,12 +717,7 @@
                       <input class="form-control" type="text" id="upd_apu_o_salary" disabled>
                     </td>
                     <td>
-                      <div class="input-group">
-                        <input class="form-control" type="number" id="upd_apu_o_quantity">
-                        <div class="input-group-append">
-                          <span class="input-group-text px-1">%</span>
-                        </div>
-                      </div>
+                      <input class="form-control" type="text" id="upd_apu_o_quantity" readonly>
                     </td>
                   </tr>
                   <tr>
@@ -778,21 +743,13 @@
                       <input class="form-control" type="text" id="upd_apu_a_salary" disabled>
                     </td>
                     <td>
-                      <div class="input-group">
-                        <input class="form-control" type="number" id="upd_apu_a_quantity">
-                        <div class="input-group-append">
-                          <span class="input-group-text px-1">%</span>
-                        </div>
-                      </div>
+                      <input class="form-control" type="text" id="upd_apu_a_quantity" readonly>
                     </td>
                   </tr>
                 </tbody>
               </table>
               <div id="upd_item_gang_alert" class="alert alert-warning" role="alert" hidden>
-                La suma del valor de las cantidades debe ser 100.
-              </div>
-              <div id="upd_salary_gang_alert" class="alert alert-secondary" role="alert" hidden>
-                Un salario no ha sido asignado, se tomara como 0 si no selecciona uno.
+                El Rendimiento no puede ser 0
               </div>
             </div>
 

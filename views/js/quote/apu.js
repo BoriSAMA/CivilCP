@@ -1,6 +1,7 @@
 const select_apu_content = ['Materiales y equipo', 'Cuadrilla', 'Maquinaria', 'Transporte'];
 const item_type = ['item_material', 'item_gang', 'item_machinery', 'item_transport'];
 var curr_modal = 0;
+var performance = false;
 
 $(async function() {
     for (var i = 0; i < select_apu_content.length; i++) {
@@ -64,169 +65,110 @@ $("#selectSalaryModal").on({
     }
 });
 
-$('#apu_item_amon').on('keyup', function () {
-    calculateTotalCost();
-})
+$('#apu_item_amon').on({
+    'change': function () {
+        calculateTotalCost();
+}, 'keyup': function () {
+        calculateTotalCost();
+}})
 
-$('#upd_apu_item_amon').on('keyup', function () {
-    calculateTotalUpdCost();
-})
+$('#apu_item_perf').on({
+    'change': function () {
+        calculateTotalCost();
+}, 'keyup': function () {
+        calculateTotalCost();
+}})
 
-$('#apu_item_perf').on('keyup', function () {
-    calculateTotalCost();
-})
+$('#upd_apu_item_amon').on({
+    'change': function () {
+        calculateTotalUpdCost();
+}, 'keyup': function () {
+        calculateTotalUpdCost();
+}})
 
-$('#upd_apu_item_perf').on('keyup', function () {
-    calculateTotalUpdCost();
-})
+$('#upd_apu_item_perf').on({
+    'change': function () {
+        calculateTotalUpdCost();
+}, 'keyup': function () {
+        calculateTotalUpdCost();
+}})
 
 $('#apu_ot_mult_salary').on({
     'change': function () {
-        checkAddition();
+        checkNumber(0);
 }})
 
 $('#apu_o_mult_salary').on({
     'change': function () {
-        checkAddition();
+        checkNumber(1);
 }})
 
 $('#apu_a_mult_salary').on({
     'change': function () {
-        checkAddition();
-}})
-
-$('#apu_ot_quantity').on({
-    'change': function () {
-        checkAddition();
-}})
-
-$('#apu_o_quantity').on({
-    'change': function () {
-        checkAddition();
-}})
-
-$('#apu_a_quantity').on({
-    'change': function () {
-        checkAddition();
+        checkNumber(2);
 }})
 
 $('#apu_item_ot').on({
     'change': function () {
-        if ($('#apu_item_ot').val() == 0 || $('#apu_item_ot').val() == '') {
-            $("#apu_ot_id_salary").val('');
-            $("#apu_ot_quantity").val(0);
-            $("#apu_ot_quantity").prop('disabled', true);
-        }else{
-            $("#apu_ot_quantity").prop('disabled', false);
-        }
-    
-    checkAddition();
+        checkNumber(0);
 }, 'keyup': function () {
-    resetPerf()
+        checkNumber(0);
+        resetPerf();
 }})
 
 $('#apu_item_o').on({
     'change': function () {
-        if ($('#apu_item_o').val() == 0 || $('#apu_item_o').val() == '') {
-            $("#apu_o_id_salary").val('');
-            $("#apu_o_quantity").val(0);
-            $("#apu_o_quantity").prop('disabled', true);
-        }else{
-            $("#apu_o_quantity").prop('disabled', false);
-        }
-
-    checkAddition();
+        checkNumber(1);
 }, 'keyup': function () {
-    resetPerf()
+        checkNumber(1);
+        resetPerf()
 }})
 
 $('#apu_item_a').on({
     'change': function () {
-        if ($('#apu_item_a').val() == 0 || $('#apu_item_a').val() == '') {
-            $("#apu_a_id_salary").val('');
-            $("#apu_a_quantity").val(0);
-            $("#apu_a_quantity").prop('disabled', true);
-        }else{
-            $("#apu_a_quantity").prop('disabled', false);
-        }
-        
-    checkAddition();
+        checkNumber(2);
 }, 'keyup': function () {
-    resetPerf()
+        checkNumber(2);
+        resetPerf()
 }})
 
 $('#upd_apu_ot_mult_salary').on({
     'change': function () {
-        checkUpdAddition();
+        checkUpdNumber(0);
 }})
 
 $('#upd_apu_o_mult_salary').on({
     'change': function () {
-        checkUpdAddition();
+        checkUpdNumber(1);
 }})
 
 $('#upd_apu_a_mult_salary').on({
     'change': function () {
-        checkUpdAddition();
-}})
-
-$('#upd_apu_ot_quantity').on({
-    'change': function () {
-        checkUpdAddition();
-}})
-
-$('#upd_apu_o_quantity').on({
-    'change': function () {
-        checkUpdAddition();
-}})
-
-$('#upd_apu_a_quantity').on({
-    'change': function () {
-        checkUpdAddition();
+        checkUpdNumber(2);
 }})
 
 $('#upd_apu_item_ot').on({
     'change': function () {
-        if ($('#upd_apu_item_ot').val() == 0 || $('#upd_apu_item_ot').val() == '') {
-            $("#upd_apu_ot_id_salary").val('');
-            $("#upd_apu_ot_quantity").val(0);
-            $("#upd_apu_ot_quantity").prop('disabled', true);
-        }else{
-            $("#upd_apu_ot_quantity").prop('disabled', false);
-        }
-    
-    checkUpdAddition();
+        checkUpdNumber(0);
 }, 'keyup': function () {
-    resetPerf()
+        checkUpdNumber(0)
+        resetPerf()
 }})
 
 $('#upd_apu_item_o').on({
     'change': function () {
-        if ($('#upd_apu_item_o').val() == 0 || $('#upd_apu_item_o').val() == '') {
-            $("#upd_apu_o_id_salary").val('');
-            $("#upd_apu_o_quantity").val(0);
-            $("#upd_apu_o_quantity").prop('disabled', true);
-        }else{
-            $("#upd_apu_o_quantity").prop('disabled', false);
-        }
-
-    checkUpdAddition();
+        checkUpdNumber(1);
 }, 'keyup': function () {
-    resetPerf()
+        checkUpdNumber(1)
+        resetPerf()
 }})
 
 $('#upd_apu_item_a').on({
     'change': function () {
-        if ($('#upd_apu_item_a').val() == 0 || $('#upd_apu_item_a').val() == '') {
-            $("#upd_apu_a_id_salary").val('');
-            $("#upd_apu_a_quantity").val(0);
-            $("#upd_apu_a_quantity").prop('disabled', true);
-        }else{
-            $("#upd_apu_a_quantity").prop('disabled', false);
-        }
-    checkUpdAddition();
+        checkUpdNumber(2);
 }, 'keyup': function () {
-    resetPerf()
+        checkUpdNumber(2)
+        resetPerf()
 }})
 
 async function regContent(){
@@ -313,7 +255,6 @@ async function regGang(){
 
 async function updItem(){
     var aux = getUpdItemData();
-    console.log(aux);
     let response = await fetch(host + apu + "/" + aux[0], {
         method: 'PATCH',
         headers: {
@@ -416,7 +357,6 @@ async function initGang(id) {
         }
       });
       var json = await response.json();
-      console.log(json);
       initGangEdit(json);
 }
 
@@ -442,7 +382,6 @@ function initGangEdit(json) {
 
     $('#upd_apu_item_id').val(json.ID);
     $('#upd_apu_item_content').val(json.ID_APU_CONTENT);
-
     $('#upd_apu_item_name').val(json.item_list.NAME);
 
     if (json.gang.OT != '') {
@@ -472,6 +411,7 @@ function initGangEdit(json) {
         translateTxt($('#upd_apu_item_total'), json.TOTAL);
         $('#upd_apu_item_amon').val(json.QUANTITY);
         $('#upd_apu_item_perf').val(json.CUSTOM_PERFORMANCE);
+        $('#upd_item_gang_alert').prop('hidden', true);
 
     $('#updItemModal').modal('show');
 }
@@ -489,7 +429,7 @@ function getAddItemData() {
                 ":" +
                 ($("#apu_item_a").val() == "" ? 0 : $("#apu_item_a").val());
     aux[6] = [$("#apu_ot_id_salary").val(), $("#apu_o_id_salary").val(), $("#apu_a_id_salary").val()]
-    aux[7] = [$("#apu_ot_quantity").val(), $("#apu_o_quantity").val(), $("#apu_a_quantity").val()]
+    aux[7] = [translateNum($("#apu_ot_quantity").val()), translateNum($("#apu_o_quantity").val()), translateNum($("#apu_a_quantity").val())]
     return aux;
 }
 
@@ -517,14 +457,13 @@ function getUpdGangData() {
                 ":" +
                 ($("#upd_apu_item_a").val() == "" ? 0 : $("#upd_apu_item_a").val());
     aux[6] = [$("#upd_apu_ot_id_salary").val(), $("#upd_apu_o_id_salary").val(), $("#upd_apu_a_id_salary").val()]
-    aux[7] = [$("#upd_apu_ot_quantity").val(), $("#upd_apu_o_quantity").val(), $("#upd_apu_a_quantity").val()]
+    aux[7] = [translateNum($("#upd_apu_ot_quantity").val()), translateNum($("#upd_apu_o_quantity").val()), translateNum($("#upd_apu_a_quantity").val())]
     return aux;
 }
 
 async function selectItem(id) {
     const item_fetch = await getItem(id);
     $('#apu_item_id').val(item_fetch.ID);
-    console.log(item_fetch);
     translateTxt($('#apu_item_cost'), item_fetch.COST);
     $('#apu_item_name').val(item_fetch.NAME);
     if (item_fetch.PERFORMANCE != 0) {
@@ -536,19 +475,6 @@ async function selectItem(id) {
         $('#apu_item_o').val(aux[1]).trigger('change');
         $('#apu_item_a').val(aux[2]).trigger('change');
     }
-
-    // $('#apu_item_id').val(id);
-    // translateTxt($('#apu_item_cost'), cost)
-    // $('#apu_item_name').val(name);
-    // if (perf != '') {
-    //     $('#apu_item_perf').val(perf);
-    // }
-    // if (gang != '') {
-    //     var aux = gang.split(':');
-    //     $('#apu_item_ot').val(aux[0]).trigger('change');
-    //     $('#apu_item_o').val(aux[1]).trigger('change');
-    //     $('#apu_item_a').val(aux[2]).trigger('change');
-    // }
 
     $('#selectItemModal').modal('hide');
 }
@@ -593,6 +519,7 @@ function resetModal(cont, id) {
     $('#add_salary_gang_alert').prop('hidden', true);
 
     if (cont == 2 || cont == 3) {
+        performance = true;
         $('#add_item_perf').prop('hidden', false); 
         if(cont == 2){
             $('#add_item_gang').prop('hidden', false);
@@ -602,6 +529,7 @@ function resetModal(cont, id) {
             $('#add_item_gang').prop('hidden', true);
         } 
     }else{
+        performance = false;
         $('#btn_item').prop('hidden', false);
         $('#btn_gang').prop('hidden', true);
         $('#add_item_gang').prop('hidden', true); 
@@ -620,12 +548,13 @@ function updResetModal(cont) {
     $('#upd_apu_item_total').val('');
     $('#upd_apu_item_perf').val('');
     $('#upd_apu_item_perf').prop( "disabled", true );
-    $('#upd_item_gang_alert').prop('hidden', true);
     $('#upd_salary_gang_alert').prop('hidden', true);
 
     if (cont == 3) {
+        performance = true;
         $('#upd_item_perf').prop('hidden', false); 
     }else{
+        performance = false;
         $('#upd_item_perf').prop('hidden', true); 
     }
     
@@ -652,7 +581,6 @@ function updGangResetModal() {
     $("#upd_apu_a_quantity").prop( "disabled", false );
     
     $('#upd_apu_item_perf').prop( "disabled", true );
-    $('#upd_item_gang_alert').prop('hidden', true);
     $('#upd_salary_gang_alert').prop('hidden', true);
 
     $("#upd_apu_ot_mult_salary").val('');
@@ -673,6 +601,8 @@ function updGangResetModal() {
     $('#upd_item_gang').prop('hidden', false);
     $('#upd_btn_item').prop('hidden', true);
     $('#upd_btn_gang').prop('hidden', false);
+
+    performance = true;
 }
 
 function hideContent(num){
@@ -685,10 +615,10 @@ function hideContent(num){
 }
 
 function resetPerf() {
-    $('#apu_item_perf').val('')
-    $('#apu_item_perf').prop('disabled', false)
-    $('#upd_apu_item_perf').val('')
-    $('#upd_apu_item_perf').prop('disabled', false)
+    $('#apu_item_perf').val('').trigger('change');
+    $('#apu_item_perf').prop('disabled', false);
+    $('#upd_apu_item_perf').val('').trigger('change');
+    $('#upd_apu_item_perf').prop('disabled', false);
 }
 
 function setSalaryType(num) {
@@ -707,101 +637,96 @@ function setSalaryType(num) {
 function setSalary(id, mult, sal) {
     let type = $('#salary_type').val();
     if (curr_modal == 0) {
-        $('#apu_'+type+'_mult_salary').val(mult);
-        $('#apu_'+type+'_id_salary').val(id);
         translateTxt($('#apu_'+type+'_salary'), sal);
+        $('#apu_'+type+'_id_salary').val(id);
+        $('#apu_'+type+'_mult_salary').val(mult).trigger('change');
     }else{
-        $('#upd_apu_'+type+'_mult_salary').val(mult);
-        $('#upd_apu_'+type+'_id_salary').val(id);
         translateTxt($('#upd_apu_'+type+'_salary'), sal)
+        $('#upd_apu_'+type+'_id_salary').val(id);
+        $('#upd_apu_'+type+'_mult_salary').val(mult).trigger('change');
     }
        
     $('#selectSalaryModal').modal('hide');
 }
 
-function checkAddition() {
-    var otq = $("#apu_ot_quantity").val() == '' ? 0 : parseFloat($("#apu_ot_quantity").val())
-    var oq = $("#apu_o_quantity").val() == '' ? 0 : parseFloat($("#apu_o_quantity").val())
-    var aq = $("#apu_a_quantity").val() == '' ? 0 : parseFloat($("#apu_a_quantity").val())
-    
-    var aux_q = otq + oq + aq;
-    if (Math.round(aux_q) != 100) {
-        $('#add_item_gang_alert').prop('hidden', false);
-        translateTxt($('#upd_apu_item_cost'), 0);
-        calculateTotalCost();
-    } else {
-        $('#add_item_gang_alert').prop('hidden', true);
-        calculateTotalGang(otq, oq, aq);
+function checkNumber(tipo){
+    let worker_type = ['ot', 'o', 'a'];
+    if ($('#apu_item_'+ worker_type[tipo]).val() == 0 || $('#apu_item_'+ worker_type[tipo]).val() == '') {
+        $("#apu_" + worker_type[tipo] + "_id_salary").val('');
+        $("#apu_" + worker_type[tipo] + "_quantity").val(0);
     }
 
+    var aux1 = $("#apu_item_" + worker_type[tipo]).val() == '' ? 0 : parseFloat($("#apu_item_" + worker_type[tipo]).val());
+    var aux2 = $("#apu_" + worker_type[tipo] + "_salary").val() == '' ? 0 : translateNum($('#apu_' + worker_type[tipo] + '_salary').val());
+    let aux = aux1 * aux2;
+    translateTxt($('#apu_' + worker_type[tipo] + '_quantity'), aux);
+    calculateTotalGang();
 }
 
-function calculateTotalGang(otq, oq, aq) {
-    var ots = translateNum($('#apu_ot_salary').val());
-    var os = translateNum($('#apu_o_salary').val());
-    var as = translateNum($('#apu_a_salary').val());
+function calculateTotalGang() {
+    var otq = parseFloat(translateNum($('#apu_ot_quantity').val()));
+    var oq = parseFloat(translateNum($('#apu_o_quantity').val()));
+    var aq = parseFloat(translateNum($('#apu_a_quantity').val()));
 
-    if ((ots == 0 && otq != 0) || (os == 0 && oq != 0) || (as == 0 && aq != 0) ) {
-        $('#add_salary_gang_alert').prop('hidden', false);
-    }else{
-        $('#add_salary_gang_alert').prop('hidden', true);
-    }
-
-    let aux = (otq/100 * ots) + (oq/100 * os) + (aq/100 * as);
+    let aux = otq +  oq + aq;
     translateTxt($('#apu_item_cost'), aux)
     calculateTotalCost();
 }
 
 function calculateTotalCost() {
-    let perf =  $('#apu_item_perf').val();
+    let perf =  $('#apu_item_perf').val() == ''? 0 : $('#apu_item_perf').val();
     let val = translateNum($('#apu_item_cost').val());
-    if (perf != '') {
-        let aux = ($('#apu_item_amon').val() * val) /perf;
-        translateTxt($('#apu_item_total'), aux)
+    if (performance) {
+        if (perf != 0 && perf != '') {
+            $('#add_item_gang_alert').prop('hidden', true);
+            let aux = ($('#apu_item_amon').val() * val) /perf;
+            translateTxt($('#apu_item_total'), aux)
+        }else{ 
+            $('#add_item_gang_alert').prop('hidden', false);
+            translateTxt($('#apu_item_total'), 0);
+        }
     }else{
         let aux = $('#apu_item_amon').val() * val;
         translateTxt($('#apu_item_total'), aux)
     }
 }
 
-function checkUpdAddition() {
-    var otq = $("#upd_apu_ot_quantity").val() == '' ? 0 : parseFloat($("#upd_apu_ot_quantity").val())
-    var oq = $("#upd_apu_o_quantity").val() == '' ? 0 : parseFloat($("#upd_apu_o_quantity").val())
-    var aq = $("#upd_apu_a_quantity").val() == '' ? 0 : parseFloat($("#upd_apu_a_quantity").val())
-    
-    var aux_q = otq + oq + aq;
-    if (Math.round(aux_q) != 100) {
-        $('#upd_item_gang_alert').prop('hidden', false);
-        translateTxt($('#upd_apu_item_cost'), 0);
-        calculateTotalUpdCost();
-    } else {
-        $('#upd_item_gang_alert').prop('hidden', true);
-        calculateTotalUpdGang(otq, oq, aq);
+function checkUpdNumber(tipo){
+    let worker_type = ['ot', 'o', 'a'];
+    if ($('#upd_apu_item_'+ worker_type[tipo]).val() == 0 || $('#upd_apu_item_'+ worker_type[tipo]).val() == '') {
+        $("#upd_apu_" + worker_type[tipo] + "_id_salary").val('');
+        $("#upd_apu_" + worker_type[tipo] + "_quantity").val(0);
     }
 
+    var aux1 = $("#upd_apu_item_" + worker_type[tipo]).val() == '' ? 0 : parseFloat($("#upd_apu_item_" + worker_type[tipo]).val());
+    var aux2 = $("#upd_apu_" + worker_type[tipo] + "_salary").val() == '' ? 0 : translateNum($('#upd_apu_' + worker_type[tipo] + '_salary').val());
+    let aux = aux1 * aux2;
+    translateTxt($('#upd_apu_' + worker_type[tipo] + '_quantity'), aux);
+    calculateTotalUpdGang();
 }
 
-function calculateTotalUpdGang(otq, oq, aq) {
-    var ots = translateNum($('#upd_apu_ot_salary').val());
-    var os = translateNum($('#upd_apu_o_salary').val());
-    var as = translateNum($('#upd_apu_a_salary').val());
+function calculateTotalUpdGang() {
+    var otq = parseFloat(translateNum($('#upd_apu_ot_quantity').val()));
+    var oq = parseFloat(translateNum($('#upd_apu_o_quantity').val()));
+    var aq = parseFloat(translateNum($('#upd_apu_a_quantity').val()));
 
-    if ((ots == 0 && otq != 0) || (os == 0 && oq != 0) || (as == 0 && aq != 0) ) {
-        $('#upd_salary_gang_alert').prop('hidden', false);
-    }else{
-        $('#upd_salary_gang_alert').prop('hidden', true);
-    }
-    let aux = (otq/100 * ots) + (oq/100 * os) + (aq/100 * as);
+    let aux = otq +  oq + aq;
     translateTxt($('#upd_apu_item_cost'), aux)
     calculateTotalUpdCost();
 }
 
 function calculateTotalUpdCost() {
-    let perf =  $('#upd_apu_item_perf').val();
+    let perf =  $('#upd_apu_item_perf').val() == ''? 0 : $('#upd_apu_item_perf').val();
     let val = translateNum($('#upd_apu_item_cost').val());
-    if (perf != '') {
-        let aux = ($('#upd_apu_item_amon').val() * val) /perf;
-        translateTxt($('#upd_apu_item_total'), aux)
+    if (performance) {
+        if (perf != 0 && perf != '') {
+            $('#upd_item_gang_alert').prop('hidden', true);
+            let aux = ($('#upd_apu_item_amon').val() * val) /perf;
+            translateTxt($('#upd_apu_item_total'), aux)
+        } else {
+            $('#upd_item_gang_alert').prop('hidden', false);
+            translateTxt($('#upd_apu_item_total'), 0)
+        }
     }else{
         let aux = $('#upd_apu_item_amon').val() * val;
         translateTxt($('#upd_apu_item_total'), aux)
