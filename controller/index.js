@@ -80,10 +80,10 @@ router.get('/schedule', function(req, res){
 });
 
 router.get('/shoppinglist', function(req, res){
-	res.status(200).render('index',{
-        selected: 'shoppinglist',
-        user: req.session.user
-    });
+    res.redirect(url.format({
+        pathname: "/shoppinglist",
+        query: req.query
+    }));
 });
 
 //export module

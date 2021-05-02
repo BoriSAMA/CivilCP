@@ -77,6 +77,9 @@ app.use('/worker', workerRoute);
 const scheduleRoute = require('./controller/schedule');
 app.use('/schedule', scheduleRoute);
 
+const shoppingRoute = require('./controller/summary');
+app.use('/shoppinglist', shoppingRoute);
+
 const indexRoute = require('./controller/index');
 app.use('/index', indexRoute);
 //routes finish

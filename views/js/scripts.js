@@ -34,6 +34,7 @@ const budget = "budget";
 const apu = "apu";
 const worker = "worker";
 const schedule = "schedule";
+const shop = "shoppinglist";
 
 const item_unit = ['ML', 'M2', 'M3', 'UND', 'GB', 'PT', 'KG'];
 const item_performance_unit = ['ML/h', 'M2/h', 'M3/h', 'UND/h', 'GB/h', 'PT/h', 'KG/h'];

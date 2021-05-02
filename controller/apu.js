@@ -119,6 +119,11 @@ router.post('/gang', async (req, res) => {
             }
         }
 
+        // let activity = await sequelize.transaction(async (t) => {
+        //     const item = await models.quote_activity.findOne({ where: { MULTIPLIER: 1 } }, { transaction: t });
+        //     return item;
+        // });
+
         res.status(200).json({ name: "Exito", message: "Se ha registrado la cuadrilla en el presupuesto" });
     } catch (err) {
         if (err.name == "regError") {

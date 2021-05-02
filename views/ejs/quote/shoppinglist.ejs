@@ -2,293 +2,340 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-xl-12 mt-4">
-          <div class="card mb-4">
-              <div class="card-header">
-                  <i class="fas fa-table mr-1"></i>
-                  Resumen
-              </div>
+        <div class="card mb-4">
+          <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Resumen
+          </div>
+          <% if(locals.error) { %>
+            <div id="message">
+              <%- include ("../partials/messages"); %>
+            </div>
+            <% } else { %>
+              <input type="number" id="quo_id" value="<%= quote %>" hidden>
+              <% for( let i = 0; i < 5; i++ ) { %>
+                <input type="number" id="section_<%= i %>_total" value="<%= list[i].total %>" hidden>
+              <% } %>
+              
               <div class="form-row">
                 <div class="col-md-7">
                   <div id="mat" class="card ml-2 mb-2 mt-2 mr-2">
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                              <thead class="table-secondary">
-                                  <tr>
-                                      <th colspan="7">Materiales</th>
-                                  </tr>
-                                  <tr>
-                                      <th>Descripción</th>
-                                      <th>Unidad</th>
-                                      <th>Cantidad</th>
-                                      <th>Vr Unidad</th>
-                                      <th>Vr Parcial</th>
-                                      <th>% Incid Parcial</th>
-                                      <th>% Incid Total</th>
-                                  </tr>
-                              </thead>
-                              <tfoot>
-                                <th colspan="4">Subtotal Materiales</th>
-                                <th>100000</th>
-                                <th>#%</th>
-                                <th>#%</th>
-                              </tfoot>
-                              <tbody>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%"
+                        cellspacing="0">
+                        <thead class="table-secondary">
+                          <tr>
+                            <th colspan="7">Materiales y equipos</th>
+                          </tr>
+                          <tr>
+                            <th class="align-middle" width="5%"></th>
+                            <th class="align-middle">Nombre</th>
+                            <th class="align-middle" width="5%">Cant.</th>
+                            <th class="align-middle" width="5%">Uni.</th>
+                            <th class="align-middle">V.U.</th>
+                            <th class="align-middle">V.T.</th>
+                          </tr>
+                        </thead>
+                        <tfoot>
+                          <th colspan="5">Subtotal Materiales</th>
+                          <th class="align-middle curr">
+                            <%= list[0].total %>
+                          </th>
+                        </tfoot>
+                        <tbody>
+                          <% if(list[0].items.length> 0) { -%>
+                            <% let aux_items=list[0].items %>
+                              <% for(var i=0; i < aux_items.length; i++) { -%>
+                                <tr id="<%= aux_items[i].ID %>" quo_act="<%= aux_items[i].apu_content.apu.ID_QUO_ACT %>"
+                                  quo_chp="<%= aux_items[i].apu_content.apu.quote_activity.ID_QUO_CHP %>"
+                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_CHP_GRP %>">
+                                  <td class="align-middle">
+                                    <%= i + 1 %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].NAME %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].QUANTITY %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].item_list.MEASSURE_UNIT %>
+                                  </td>
+                                  <th class="align-middle curr">
+                                    <%= aux_items[i].item_list.COST %>
+                                  </th>
+                                  <th class="align-middle curr">
+                                    <%= aux_items[i].item_list.TOTAL %>
+                                  </th>
+                                </tr>
+                                <% } -%>
+                          <% } else { -%>
+                            <tr>
+                              <td colspan="6">
+                                <h4 class="text-center Normal weight text">No se han añadido materiales</h4>
+                              </td>
+                            </tr>
+                          <% } %>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div id="mob" class="card ml-2 mb-2 mt-2 mr-2">
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                              <thead class="table-secondary">
-                                  <tr>
-                                      <th colspan="7">Mano de Obra</th>
-                                  </tr>
-                                  <tr>
-                                      <th>Descripción</th>
-                                      <th>Unidad</th>
-                                      <th>Cantidad</th>
-                                      <th>Vr Unidad</th>
-                                      <th>Vr Parcial</th>
-                                      <th>% Incid Parcial</th>
-                                      <th>% Incid Total</th>
-                                  </tr>
-                              </thead>
-                              <tfoot>
-                                <th colspan="4">Subtotal Mano de Obra</th>
-                                <th>135000</th>
-                                <th>#%</th>
-                                <th>#%</th>
-                              </tfoot>
-                              <tbody>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%"
+                        cellspacing="0">
+                        <thead class="table-secondary">
+                          <tr>
+                            <th colspan="7">Mano de Obra</th>
+                          </tr>
+                          <tr>
+                            <th class="align-middle" width="5%"></th>
+                            <th class="align-middle" colspan="2">Nombre</th>
+                            <th class="align-middle" width="5%">Rend.</th>
+                            <th class="align-middle" width="5%">Uni.</th>
+                            <th class="align-middle" width="5%">Cant.</th>
+                            <th class="align-middle">V.T.</th>
+                          </tr>
+                        </thead>
+                        <tfoot>
+                          <th colspan="6">Subtotal Mano de Obra</th>
+                          <th class="align-middle curr">
+                            <%= list[1].total + list[4].total  %>
+                          </th>
+                        </tfoot>
+                        <tbody>
+                          <% if(list[1].items.length> 0) { -%>
+                            <% let aux_items=list[1].items %>
+                              <% for(var i=0; i < aux_items.length; i++) { -%>
+                                <tr id="<%= aux_items[i].ID %>" quo_act="<%= aux_items[i].apu_content.apu.ID_QUO_ACT %>"
+                                  quo_chp="<%= aux_items[i].apu_content.apu.quote_activity.ID_QUO_CHP %>"
+                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_CHP_GRP %>">
+                                  
+                                  <td class="align-middle">
+                                    <%= i + 1 %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].item_list.NAME %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].CUSTOM_DESCRIPTION %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].CUSTOM_PERFORMANCE %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].item_list.MEASSURE_UNIT %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].QUANTITY %>
+                                  </td>
+                                  <th class="align-middle curr">
+                                    <%= aux_items[i].TOTAL %>
+                                  </th>
+                                </tr>
+                              <% } -%>
+                              <tr>
+                                <td></td>
+                                <td class="align-middle" colspan="5">
+                                  Herramientas menores
+                                </td>
+                                <th class="align-middle curr">
+                                  <%= list[4].total %>
+                                </th>
+                              </tr>
+                          <% } else { -%>
+                            <tr>
+                              <td colspan="6">
+                                <h4 class="text-center Normal weight text">No se han añadido cuadrilas</h4>
+                              </td>
+                            </tr>
+                          <% } %>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div id="equ" class="card ml-2 mb-2 mt-2 mr-2">
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                              <thead class="table-secondary">
-                                  <tr>
-                                      <th colspan="7">Equipos</th>
-                                  </tr>
-                                  <tr>
-                                      <th>Descripción</th>
-                                      <th>Unidad</th>
-                                      <th>Cantidad</th>
-                                      <th>Vr Unidad</th>
-                                      <th>Vr Parcial</th>
-                                      <th>% Incid Parcial</th>
-                                      <th>% Incid Total</th>
-                                  </tr>
-                              </thead>
-                              <tfoot>
-                                <th colspan="4">Subtotal Equipos</th>
-                                <th>95000</th>
-                                <th>#%</th>
-                                <th>#%</th>
-                              </tfoot>
-                              <tbody>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%"
+                        cellspacing="0">
+                        <thead class="table-secondary">
+                          <tr>
+                            <th colspan="7">Maquinaria</th>
+                          </tr>
+                          <tr>
+                            <th class="align-middle" width="5%"></th>
+                            <th class="align-middle">Nombre</th>
+                            <th class="align-middle" width="5%">Rend.</th>
+                            <th class="align-middle" width="5%">Uni.</th>
+                            <th class="align-middle" width="5%">Cant.</th>
+                            <th class="align-middle">V.U.</th>
+                            <th class="align-middle">V.T.</th>
+                          </tr>
+                        </thead>
+                        <tfoot>
+                          <th colspan="6">Subtotal Maquinarias</th>
+                          <th class="align-middle curr">
+                            <%= list[2].total %>
+                          </th>
+                        </tfoot>
+                        <tbody>
+                          <% if(list[2].items.length > 0) { -%>
+                            <% let aux_items=list[2].items %>
+                              <% for(var i=0; i < aux_items.length; i++) { -%>
+                                <tr id="<%= aux_items[i].ID %>" quo_act="<%= aux_items[i].apu_content.apu.ID_QUO_ACT %>"
+                                  quo_chp="<%= aux_items[i].apu_content.apu.quote_activity.ID_QUO_CHP %>"
+                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_CHP_GRP %>">
+                                  
+                                  <td class="align-middle">
+                                    <%= i + 1 %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].item_list.NAME %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].item_list.PERFORMANCE %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].item_list.MEASSURE_UNIT %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].QUANTITY %>
+                                  </td>
+                                  <th class="align-middle curr">
+                                    <%= aux_items[i].item_list.COST %>
+                                  </th>
+                                  <th class="align-middle curr">
+                                    <%= aux_items[i].TOTAL %>
+                                  </th>
+                                </tr>
+                              <% } -%>
+                          <% } else { -%>
+                            <tr>
+                              <td colspan="6">
+                                <h4 class="text-center Normal weight text">No se han añadido maquinarias</h4>
+                              </td>
+                            </tr>
+                          <% } %>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div id="tra" class="card ml-2 mb-2 mt-2 mr-2">
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                              <thead class="table-secondary">
-                                  <tr>
-                                      <th colspan="7">Transporte</th>
-                                  </tr>
-                                  <tr>
-                                      <th>Descripción</th>
-                                      <th>Unidad</th>
-                                      <th>Cantidad</th>
-                                      <th>Vr Unidad</th>
-                                      <th>Vr Parcial</th>
-                                      <th>% Incid Parcial</th>
-                                      <th>% Incid Total</th>
-                                  </tr>
-                              </thead>
-                              <tfoot>
-                                <th colspan="4">Subtotal Transporte</th>
-                                <th>83000</th>
-                                <th>#%</th>
-                                <th>#%</th>
-                              </tfoot>
-                              <tbody>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Desc</td>
-                                    <td>Und</td>
-                                    <td>#</td>
-                                    <td>#$</td>
-                                    <td>#$</td>
-                                    <td>#%</td>
-                                    <td>#%</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%"
+                        cellspacing="0">
+                        <thead class="table-secondary">
+                          <tr>
+                            <th colspan="6">Transporte</th>
+                          </tr>
+                          <tr>
+                            <th class="align-middle" width="5%"></th>
+                            <th class="align-middle">Nombre</th>
+                            <th class="align-middle" width="5%">Cant.</th>
+                            <th class="align-middle" width="5%">Uni.</th>
+                            <th class="align-middle">V.U.</th>
+                            <th class="align-middle">V.T.</th>
+                          </tr>
+                        </thead>
+                        <tfoot>
+                          <th colspan="5">Subtotal Transporte</th>
+                          <th class="align-middle curr">
+                            <%= list[3].total %>
+                          </th>
+                        </tfoot>
+                        <tbody>
+                          <% if(list[3].items.length> 0) { -%>
+                            <% let aux_items=list[3].items %>
+                              <% for(var i=0; i < aux_items.length; i++) { -%>
+                                <tr id="<%= aux_items[i].ID %>" quo_act="<%= aux_items[i].apu_content.apu.ID_QUO_ACT %>"
+                                  quo_chp="<%= aux_items[i].apu_content.apu.quote_activity.ID_QUO_CHP %>"
+                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_CHP_GRP %>">
+                                  <td class="align-middle">
+                                    <%= i + 1 %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].NAME %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].QUANTITY %>
+                                  </td>
+                                  <td class="align-middle">
+                                    <%= aux_items[i].item_list.MEASSURE_UNIT %>
+                                  </td>
+                                  <th class="align-middle curr">
+                                    <%= aux_items[i].item_list.COST %>
+                                  </th>
+                                  <th class="align-middle curr">
+                                    <%= aux_items[i].item_list.TOTAL %>
+                                  </th>
+                                </tr>
+                              <% } -%>
+                          <% } else { -%>
+                            <tr>
+                              <td colspan="6">
+                                <h4 class="text-center Normal weight text">No se han añadido transportes</h4>
+                              </td>
+                            </tr>
+                          <% } %>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-5">
                   <div id="tra" class="card ml-2 mb-2 mt-2 mr-2">
-                      <div class="table-responsive">
-                          <table class="table table-bordered table-hover align-middle" id="makeEditable" width="100%" height="100%" cellspacing="0">
-                              <thead class="table-secondary">
-                                  <tr>
-                                      <th>Sección</th>
-                                      <th>Vr Parcial</th>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                                  <tr>
-                                      <td>Materiales</td>
-                                      <td>100000</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Mano de Obra</td>
-                                      <td>135000</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Equipos</td>
-                                      <td>95000</td>
-                                  </tr>
-                                  <tr>
-                                      <td>Transporte</td>
-                                      <td>83000</td>
-                                  </tr>
-                              </tbody>
-                          </table>
-                      </div>
+                    <div class="table-responsive">
+                      <table class="table table-bordered table-hover align-middle" width="100%" height="100%"
+                        cellspacing="0">
+                        <thead class="table-secondary">
+                          <tr>
+                            <th>Sección</th>
+                            <th>Valor Parcial</th>
+                          </tr>
+                        </thead>
+                        <tfoot class="table-secondary">
+                          <tr>
+                            <th >Total</th>
+                            <th class="align-middle curr">
+                              <%= list[0].total + list[1].total + list[2].total + list[3].total + list[4].total%>
+                            </th>
+                          </tr>
+                        </tfoot>
+                        <tbody>
+                          <tr>
+                            <td>Materiales y equipos</td>
+                            <th class="align-middle curr">
+                              <%= list[0].total %>
+                            </th>
+                          </tr>
+                          <tr>
+                            <td>Mano de Obra</td>
+                            <th class="align-middle curr">
+                              <%= list[1].total + list[4].total%>
+                            </th>
+                          </tr>
+                          <tr>
+                            <td>Maquinarias</td>
+                            <th class="align-middle curr">
+                              <%= list[2].total %>
+                            </th>
+                          </tr>
+                          <tr>
+                            <td>Transporte</td>
+                            <th class="align-middle curr">
+                              <%= list[3].total %>
+                            </th>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                   <div id="grafico"></div>
                 </div>
               </div>
-          </div>
+              <% } %>
+        </div>
       </div>
     </div>
   </div>
-  <script type="text/javascript">
-// Cargar googlecharts
-google.charts.load('current', {'packages':['corechart']});
-google.charts.setOnLoadCallback(drawChart);
-
-// Crear y asignar los valores del grafico
-function drawChart() {
-  var data = google.visualization.arrayToDataTable([
-  ['Sección', 'Costo'],
-  ['Materiales', 100000],
-  ['Mano de Obra', 135000],
-  ['Equipos', 95000],
-  ['Transporte', 83000],
-]);
-
-  // Cambiar titulo y tamaño del pie
-  var options = {'title':'Costos', 'width':450, 'height':300};
-
-  // Muestra el grafico dentro del div con el id grafico
-  var chart = new google.visualization.PieChart(document.getElementById('grafico'));
-  chart.draw(data, options);
-}
-</script>
 </main>

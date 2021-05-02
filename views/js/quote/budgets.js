@@ -111,6 +111,7 @@ function initQuoteEdit(ids) {
     
     $("#btn_go_budget").attr("href", "index/budget?bid=" + upd_aux.ID);
     $("#btn_go_gantt").attr("href", "index/schedule?sid=" + ids);
+    $("#btn_go_shop").attr("href", "index/shoppinglist?bid=" + upd_aux.ID);
 
     $("#upd_budget_id").val(upd_aux.ID);
     $("#upd_budget_name").val(upd_aux.NAME);
