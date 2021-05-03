@@ -14,16 +14,20 @@
                   Caracterizaciones
                 </span>
               </div>
-              <div class="col-4">
+              <div class="col-3">
                 <select id="char_type" class="custom-select mw-25">
                   <option value="1">Grupo de procesos</option>
                   <option value="2">Grupo de actividades</option>
                 </select>
               </div>
-              <div id="filter-section" class="col-2" hidden>
+              <div id="search-section" class="col-1">
+                <button class="btn btn-dark align-middle w-100" type="button" onclick="showSearch()">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+              <div id="filter-section" class="col-1" hidden>
                 <button class="btn btn-info align-middle w-100" type="button" onclick="showfilters()">
                     <i class="fa fa-filter h-100 align-middle" aria-hidden="true"></i>
-                    Filtros
                 </button>
               </div>
             </div>
@@ -40,10 +44,17 @@
                   </div>
               </div>
             </div>
+            <div class="row searchs mt-1 pt-2" style="background-color: #aeb2b3;" hidden>
+              <div class="col">
+                  <div class="form-group">
+                      <input type="text" class="form-control" id="search_filter_chp_grp" placeholder="Digite su busqueda">
+                  </div>
+              </div>
+            </div>
           </div>
           <div class="card ml-2 mb-2 mt-2 mr-2">
             <div id="char_chp_grp" class="table-responsive">
-                <table class="table table-bordered table-hover align-middle m-0" width="100%" height="100%" cellspacing="0">
+                <table id="chp_grp" class="table table-bordered table-hover align-middle m-0" width="100%" height="100%" cellspacing="0">
                     <thead class="table-secondary">
                         <tr class="h-50">
                           <% if(user.SUPERUSER){ -%>

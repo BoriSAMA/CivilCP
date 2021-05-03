@@ -102,7 +102,7 @@
                               </div>
   
                               <div class="col-md-6">
-                                <label class="py-2" for="vsm1" data-toggle="tooltip" data-placement="right" title="Valor del salario mensual">
+                                <label class="py-2" for="vsm1" data-toggle="tooltip" data-placement="right" title="Salario Base Mínimo Mensual Legal Vigente.">
                                   <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
                                   V.S.M.
                                 </label>
@@ -135,31 +135,37 @@
                         <div class="card-body">
                           <div class="form-row">
                             <div class="col-md-6">
-                              <label class="py-2" for="ca"  data-toggle="tooltip" data-placement="right" title="Cesantias anuales">
+                              <label class="py-2" for="ca"  data-toggle="tooltip" data-placement="right" title="Cesantias Anuales: 10% del salario anual total (3 dias por mes).">
                                 <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
-                                C.A
+                                C.A.
                               </label>
                             </div>
                             <div class="col-md-6">
                               <input class="form-control py-2" id="ca" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
-                              <label class="py-2" for="tsc"  data-toggle="tooltip" data-placement="right" title="Intereses sobre cesantias">
+                              <label class="py-2" for="tsc"  data-toggle="tooltip" data-placement="right" title="Intereses sobre cesantias: 1% mensual sobre el valor de las cesantias.">
                                 <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
-                                I.S.C
+                                I.S.C.
                               </label>
                             </div>
                             <div class="col-md-6">
                               <input class="form-control py-2" id="tsc" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
-                              <label class="py-2" for="pri">Prima</label>
+                              <label class="py-2" for="pri" data-toggle="tooltip" data-placement="right" title="Prima de servicios: Un salario minimo por año laborado.">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                Prima
+                              </label>
                             </div>
                             <div class="col-md-6">
                               <input class="form-control py-2" id="pri" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
-                              <label class="py-2" for="vac">Vacaciones</label>
+                              <label class="py-2" for="vac" data-toggle="tooltip" data-placement="right" title="Vacaciones: 15 días habiles consecutivos remunerados por año de trabajo.">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                Vacaciones
+                              </label>
                             </div>
                             <div class="col-md-6">
                               <input class="form-control py-2" id="vac" type="text" disabled/>
@@ -188,18 +194,18 @@
                               <input class="form-control py-2" id="icbf" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
-                              <label class="py-2" for="ccf" data-toggle="tooltip" data-placement="right" title="Caja de compensacion familiar">
+                              <label class="py-2" for="ccf" data-toggle="tooltip" data-placement="right" title="Caja de Compensacion Camiliar: 4% sobre el salario base mensual.">
                                 <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
-                                C.C.F
+                                C.C.F.
                               </label>
                             </div>
                             <div class="col-md-6">
                               <input class="form-control py-2" id="ccf" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
-                              <label class="py-2" for="fic" data-toggle="tooltip" data-placement="right" title="Fondo de Formación Profesional de la Industria de la Construcción">
+                              <label class="py-2" for="fic" data-toggle="tooltip" data-placement="right" title="Fondo de Formación Profesional de la Industria de la Construcción: 2.5% sobre el salario base mensual.">
                                 <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
-                                F.I.C
+                                F.I.C.
                               </label>
                             </div>
                             <div class="col-md-6">
@@ -219,7 +225,10 @@
                         <div class="card-body">
                           <div class="form-row">
                             <div class="col-md-6">
-                              <label class="py-2" for="pen">Pensión</label>
+                              <label class="py-2" for="pen" data-toggle="tooltip" data-placement="right" title="Pension: 12% mensual por parte del empleador sobre el salario base.">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                Pensión
+                              </label>
                             </div>
                             <div class="col-md-6">
                               <input class="form-control py-2" id="pen" type="text" disabled/>
@@ -231,7 +240,7 @@
                               <input class="form-control py-2" id="salu" type="text" disabled/>
                             </div>
                             <div class="col-md-6">
-                              <label class="py-2" for="arl"data-toggle="tooltip" data-placement="right" title="Administradora de riesgos laborales">
+                              <label class="py-2" for="arl" data-toggle="tooltip" data-placement="right" title="Administradora de Riesgos Laborales: Riesgo tipo 5 corresponde al 6.96% sobre el salario base.">
                                 <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
                                 ARL
                               </label>
@@ -246,18 +255,21 @@
                     <div class="col-md-6">
                       <div class="card mt-2 mr-2">
                         <div class="card-header">
-                          Dotación
+                          Dotación + I.S.
                         </div>
                         <div class="card-body">
                           <div class="form-row">
                             <div class="col-md-6">
-                              <label class="py-2" for="dot">Dotación</label>
+                              <label class="py-2" for="dot" data-toggle="tooltip" data-placement="right" title="Dotacion: No existe un valor estándar, corresponde al gasto económico de la dotación suministrada.">
+                                <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
+                                Dotación
+                              </label>
                             </div>
                             <div class="col-md-6">
                               <input class="form-control py-2" id="dot" type="text" data-type="currency"/>
                             </div>
                             <div class="col-md-6">
-                              <label class="py-2" for="is"data-toggle="tooltip" data-placement="right" title="Implmentaion de seguridad industrial">
+                              <label class="py-2" for="is" data-toggle="tooltip" data-placement="right" title="Implementos de Seguridad Industrial: No existe un valor estándar, corresponde al gasto económico de los implementos de seguridad suministrados.">
                                 <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
                                 I.S
                               </label>
@@ -287,7 +299,7 @@
                       <div class="card-body">
                         <div class="form-row">
                           <div class="col-md-6">
-                            <label class="py-2" for="smcp"data-toggle="tooltip" data-placement="right" title="Salario mensual con subsidio de transporte">
+                            <label class="py-2" for="smcp"data-toggle="tooltip" data-placement="right" title="Salario Mensual con Subsidio de Transporte.">
                               <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
                               Salario Mensual 
                             </label>
@@ -296,7 +308,7 @@
                             <input class="form-control py-2" id="smcp" type="text" disabled/>
                           </div>
                           <div class="col-md-6">
-                            <label class="py-2" for="sacp"data-toggle="tooltip" data-placement="right" title="Salario aual con subsidio de transporte">
+                            <label class="py-2" for="sacp"data-toggle="tooltip" data-placement="right" title="Salario Anual con Subsidio de Transporte.">
                               <i class="fa fa-question-circle mr-1" aria-hidden="true"></i>
                               Salario Anual
                             </label>
@@ -351,30 +363,6 @@
                           </div>
                           <div class="col-md-6">
                             <input class="form-control py-2" id="vhe" type="text" disabled/>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card ml-2 mt-2 mr-2">
-                      <div class="card-body">
-                        <div class="form-row">
-                          <div class="col-md-6">
-                            <label class="py-2" for="pi">Porcentaje de Incremento</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="pi" type="number"/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="vhe2">Valor Hora Efectiva</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="vhe2" type="number"/>
-                          </div>
-                          <div class="col-md-6">
-                            <label class="py-2" for="vhl2">Valor Hora Laboral</label>
-                          </div>
-                          <div class="col-md-6">
-                            <input class="form-control py-2" id="vhl2" type="number"/>
                           </div>
                         </div>
                       </div>
