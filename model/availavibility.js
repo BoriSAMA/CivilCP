@@ -30,6 +30,14 @@ module.exports = function(sequelize, DataTypes) {
         model: 'worker',
         key: 'ID'
       }
+    },
+    ID_GANG_WORKER: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'gang_worker',
+        key: 'ID'
+      }
     }
   }, {
     sequelize,

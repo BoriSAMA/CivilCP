@@ -60,6 +60,8 @@ function initModels(sequelize) {
   schedule.hasMany(availavibility, { as: "availavibilities", foreignKey: "ID_SCHEDULE"});
   availavibility.belongsTo(worker, { foreignKey: "ID_WORKER"});
   worker.hasMany(availavibility, { as: "availavibilities", foreignKey: "ID_WORKER"});
+  availavibility.belongsTo(gang_worker, { foreignKey: "ID_GANG_WORKER"});
+  gang_worker.hasMany(availavibility, { as: "availavibilities", foreignKey: "ID_GANG_WORKER"});
   gang_worker.belongsTo(rank, { foreignKey: "ID_RANK"});
   rank.hasMany(gang_worker, { as: "gang_workers", foreignKey: "ID_RANK"});
   gang_worker.belongsTo(apu_item, { foreignKey: "ID_GANG"});

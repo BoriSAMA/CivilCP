@@ -119,10 +119,23 @@ router.post('/gang', async (req, res) => {
             }
         }
 
-        // let activity = await sequelize.transaction(async (t) => {
-        //     const item = await models.quote_activity.findOne({ where: { MULTIPLIER: 1 } }, { transaction: t });
-        //     return item;
-        // });
+        await sequelize.transaction(async (t) => {
+            let activity = await models.apu_content.findOne({ 
+                    where: { 
+                        ID: idapuc 
+                    }, include: [{ 
+                        model: models.apu, 
+                        include: { 
+                            model: models.quote_activity
+                        } 
+                    }] 
+                }, { transaction: t });
+            activity = activity.toJSON();
+
+            let sche_act = await models.schedule_activity.findOne({ where: { ID_QOU_ACT: activity.apu.quote_activity.ID } }, { transaction: t });
+            sche_act = sche_act.toJSON();
+            await models.sch_act_gang.create({ ID_SCH_ACT: sche_act.ID, ID_GANG: apu_i.dataValues.ID}, { transaction: t })
+        });
 
         res.status(200).json({ name: "Exito", message: "Se ha registrado la cuadrilla en el presupuesto" });
     } catch (err) {
@@ -183,7 +196,7 @@ router.get('/', async (req, res) => {
             apu_c[i] = apu_c[i].dataValues;
             if (apu_c[i].ID_CONTENT == 5) {
                 apu.tools = apu_c[i].TOTAL;
-            }else{
+            } else {
                 let apu_i = await sequelize.transaction(async (t) => {
                     const item = await models.apu_item.findAll({
                         where: {
@@ -417,7 +430,7 @@ router.patch('/calculate/', async (req, res) => {
         var aid = req.body.aid;
         var apid = req.body.apid;
         var acid = req.body.acid;
-        
+
         var total = [0, 0, 0, 0];
 
         await sequelize.transaction(async (t) => {
@@ -453,7 +466,7 @@ router.patch('/calculate/', async (req, res) => {
                     let apu_aux = await models.apu.findOne({ where: { ID_QUO_ACT: aid } }, { transaction: t });
 
                     total[1] = await models.apu_content.sum('TOTAL', { where: { ID_APU: apu_aux.ID } });
-                    
+
                     await models.apu.update({ TOTAL: total[1] }, { where: { ID: apid } }, { transaction: t });
 
                     //imprimir suma de los contenidos del apu
@@ -538,7 +551,7 @@ router.patch('/:id', async (req, res) => {
 //Update a gang
 router.patch('/gang/:id', async (req, res) => {
     try {
-        var { total, quan, c_perf, c_desc, salary, quantity} = req.body;
+        var { total, quan, c_perf, c_desc, salary, quantity } = req.body;
 
         if (!quan || c_perf == 0) {
             throw { name: "regError", message: "Datos de la cuadrilla incompletos" };
@@ -556,10 +569,10 @@ router.patch('/gang/:id', async (req, res) => {
                 }
             }, { transaction: t });
 
-            models.gang_worker.destroy({ where: { ID_GANG: req.params.id }}, { transaction: t });
+            models.gang_worker.destroy({ where: { ID_GANG: req.params.id } }, { transaction: t });
             return sal;
         });
-       
+
         var dist = c_desc.split(':');
         var rank = [1, 2, 3]
         var rank_n = ['OT', 'O', 'A'];
@@ -604,7 +617,7 @@ async function updateTools(idapuc) {
 
         return item2.dataValues;
     });
-    
+
     let gangs_tool = await sequelize.transaction(async (t) => {
         const item = await models.apu_item.findAll({
             where: {
@@ -622,12 +635,12 @@ async function updateTools(idapuc) {
     }
 
     const formatter = new Intl.NumberFormat('en-US', {
-        minimumFractionDigits: 2,      
+        minimumFractionDigits: 2,
         maximumFractionDigits: 2,
-     });
+    });
 
     await sequelize.transaction(async (t) => {
-        await models.apu_content.update({ TOTAL: formatter.format(suma_tools * 0.05) }, { where: { ID: apu_c.ID }}, { transaction: t });
+        await models.apu_content.update({ TOTAL: formatter.format(suma_tools * 0.05) }, { where: { ID: apu_c.ID } }, { transaction: t });
     });
 }
 
@@ -640,7 +653,7 @@ async function deleteTools(idapuc) {
         }
 
         const item2 = await models.apu_content.findOne({ where: { ID_APU: item.dataValues.ID_APU, ID_CONTENT: 5 } }, { transaction: t });
-        await models.apu_content.destroy({ where: { ID: item2.dataValues.ID }}, { transaction: t });
+        await models.apu_content.destroy({ where: { ID: item2.dataValues.ID } }, { transaction: t });
     });
 }
 

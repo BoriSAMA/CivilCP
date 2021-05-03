@@ -1,0 +1,152 @@
+<main>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12 mt-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between">
+                            <div class="col-1 pr-0">
+                                <a class="btn-sm btn-info" href="/index/budgets">
+                                    <i class="fa fa-reply" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="col p-0">
+                                <i class="fas fa-table mr-1"></i>
+                                Asignacion de Trabajadores al Presupuesto
+                            </div>
+                        </div>
+                    </div>
+                    <% if(locals.error) { %>
+                        <div id="message">
+                            <%- include ("../partials/messages"); %>
+                        </div>
+                        <% } else { %>
+                            <input type="number" id="quo_id" value="<%= quote %>" hidden>
+                            <div class="card ml-2 mb-2 mt-2 mr-2">
+                                <div id="activities" class="table-responsive">
+                                    <% if (locals.list) { %>
+                                        <% if (list.length> 0) { %>
+                                            <% for( let i=0; i < list.length; i++ ) { %>
+                                                <table class="table table-bordered table-hover align-middle m-0"
+                                                    width="100%" height="100%" cellspacing="0">
+                                                    <thead class="table-secondary">
+                                                        <tr>
+                                                            <th class="align-middle" colspan="3">
+                                                                <%= list[i].activity.QUOTE_NUMBER %> - <%= list[i].activity.CUSTOM_NAME %>
+                                                            </th>
+                                                            <th class="align-middle">
+                                                                Inicio: <%= list[i].activity.schedule.START_DATE %>
+                                                            </th>
+                                                            <th class="align-middle">
+                                                                Fin: <%= list[i].activity.schedule.FINISH_DATE %>
+                                                            </th>
+                                                        </tr>
+                                                        <tr>
+                                                            <th class="align-middle" width="5%">#</th>
+                                                            <th class="align-middle"> Nombre de la cuadrilla</th>
+                                                            <th class="align-middle" width="5%">ID</th>
+                                                            <th class="align-middle" width="25%"></th>
+                                                            <th class="align-middle" width="20%"></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <% if (list[i].activity.items.length > 0) { %>
+                                                            <% let items = list[i].activity.items %> 
+                                                            <% for( let j = 0; j < items.length; j++ ) { %>
+                                                                <% if (items[j].gangs.length > 0) { %>
+                                                                    <tr>
+                                                                        <td class="align-middle" rowspan="<%= items[j].gangs.length + 1 %>">
+                                                                            <%= j + 1 %>
+                                                                        </td>
+                                                                        <th class="align-middle" rowspan="<%= items[j].gangs.length + 1  %>">
+                                                                            <%= items[j].item_list.NAME %>
+                                                                        </th>
+                                                                    </tr>
+                                                                    <% for( let k = 0; k < items[j].gangs.length; k++ ) { %>
+                                                                        <tr>
+                                                                            <td class="align-middle"><%= items[j].gangs[k].GANG_CHAR %> </td>
+                                                                            <% if (items[j].gangs[k].ID_WORKER === null) { %>
+                                                                                <td class="align-middle">Sin Asignar</td>
+                                                                            <% } else { %>
+                                                                                <td class="align-middle"><%=items[j].gangs[k].worker.NAME%></td>
+                                                                            <% } %>
+                                                                            <td>
+                                                                                <div class="row mw-100 m-0">
+                                                                                    <div class="col">
+                                                                                        <button class="w-100 btn btn-primary" onclick="initWorker('<%=items[j].gangs[k].ID %>', '<%=items[j].gangs[k].ID_RANK %>', '<%= list[i].activity.schedule.START_DATE %>', '<%= list[i].activity.schedule.FINISH_DATE %>', '<%= list[i].activity.schedule.ID_SCHEDULE %>')">
+                                                                                            <i class="fa fa-pen" aria-hidden="true"></i>
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    <div class="col">
+                                                                                        <button class="w-100 btn btn-danger" onclick="delWorker('<%=items[j].gangs[k].ID %>')">
+                                                                                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                                                        </button>
+                                                                                    </div>      
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                    <% } %>
+                                                                <% } %>
+                                                            <% } %>
+                                                        <% } else { %>
+                                                            <tr>No se han añadido cuadrillas a la actividad</tr>
+                                                        <% } %>
+                                                    </tbody>
+                                                </table>
+                                            <% } %>
+                                        <% } else { %>
+                                            <table class="table table-bordered table-hover align-middle m-0"
+                                                width="100%" height="100%" cellspacing="0">
+                                                <tbody>
+                                                    <tr>
+                                                        <th class="align-middle">
+                                                            No se han añadido actividades
+                                                        </th>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        <% } %>
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Modal add-->
+    <div class="modal fade" id="addModal" tabindex="-2" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal2-title" id="exampleModalLongTitle">Asignar trabajador</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="select_worker">Trabajadores por rango:</label>
+                    <select id="select_worker" class="custom-select selectBuscar">
+                    </select>
+                </div>
+                <input type="text" id="id_worker" hidden>
+                <input type="text" id="id_schedule" hidden>
+                <input type="text" id="id_gang_worker" hidden>
+                <input type="date" id="date_start" hidden>
+                <input type="date" id="date_finish" hidden>
+                
+            </div>
+                <div class="modal-footer">
+                <div class="card w-100 mt-2">
+                    <button class="btn btn-primary btn-block" type="button" onclick="updWorker()">
+                        Asignar
+                    </button>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include ("../partials/message-modal"); %>
+</main>

@@ -73,6 +73,25 @@ router.get('/all', async(req, res) => {
 	}
 });
 
+//get all by rank
+router.get('/json/:id', async(req, res) => {
+	try{
+        const result = await sequelize.transaction(async (t) => {
+            const sal = await models.worker.findAll({
+                                        where: {
+                                            ID_USER: req.session.user.ID,
+                                            ID_RANK: req.params.id
+                                        }
+                                    },{ transaction: t });
+            return sal;
+        });
+
+        res.status(200).json(result);
+	}catch(err){
+        res.status(500).json({ name: "Error " + err.name, message: "internal server error" + err.message });
+	}
+});
+
 //get one
 router.get('/:id', async(req, res) => {
 	try{

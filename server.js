@@ -80,6 +80,9 @@ app.use('/schedule', scheduleRoute);
 const shoppingRoute = require('./controller/summary');
 app.use('/shoppinglist', shoppingRoute);
 
+const gangRoute = require('./controller/gang');
+app.use('/gang', gangRoute);
+
 const indexRoute = require('./controller/index');
 app.use('/index', indexRoute);
 //routes finish

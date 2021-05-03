@@ -138,7 +138,6 @@ router.get('/json/:bid', async (req, res) => {
             }
         }
 
-        console.log(aux);
         res.status(200).json(aux);
     } catch (err) {
         res.status(500).json({ name: "Error " + err.name, message: "internal server error" + err.message });

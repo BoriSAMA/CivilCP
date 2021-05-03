@@ -86,5 +86,12 @@ router.get('/shoppinglist', function(req, res){
     }));
 });
 
+router.get('/gang', function(req, res){
+    res.redirect(url.format({
+        pathname: "/gang",
+        query: req.query
+    }));
+});
+
 //export module
 module.exports = router;
