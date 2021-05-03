@@ -525,11 +525,15 @@ function resetModal(cont, id) {
             $('#add_item_gang').prop('hidden', false);
             $('#btn_item').prop('hidden', true);
             $('#btn_gang').prop('hidden', false);
+            $('#div-quantity').prop('hidden', true);
+            $('#apu_item_amon').val('1');
         }else{
             $('#add_item_gang').prop('hidden', true);
+            $('#div-quantity').prop('hidden', false);
         } 
     }else{
         performance = false;
+        $('#div-quantity').prop('hidden', false);
         $('#btn_item').prop('hidden', false);
         $('#btn_gang').prop('hidden', true);
         $('#add_item_gang').prop('hidden', true); 
@@ -544,6 +548,7 @@ function updResetModal(cont) {
     $('#upd_apu_item_content').val('');
     $('#upd_apu_item_cost').val('');
     $('#upd_apu_item_name').val('');
+    $('#upd-div-quantity').prop('hidden', false);
     $('#upd_apu_item_amon').val('');
     $('#upd_apu_item_total').val('');
     $('#upd_apu_item_perf').val('');
@@ -569,7 +574,8 @@ function updGangResetModal() {
     $('#upd_apu_item_content').val('');
     $('#upd_apu_item_cost').val('');
     $('#upd_apu_item_name').val('');
-    $('#upd_apu_item_amon').val('');
+    $('#upd-div-quantity').prop('hidden', true);
+    $('#apu_item_amon').val('1');
     $('#upd_apu_item_total').val('');
     $('#upd_apu_item_perf').val('');
 

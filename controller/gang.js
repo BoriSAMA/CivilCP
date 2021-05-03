@@ -219,6 +219,14 @@ router.patch('/:id', async(req, res) => {
         }
 
         await sequelize.transaction(async (t) => {
+            await models.availavibility.destroy({ 
+                where: {
+                    ID_GANG_WORKER: req.params.id
+                }
+            },{ transaction: t });
+        });
+
+        await sequelize.transaction(async (t) => {
             await models.availavibility.create({ 
                 START_DATE: fstart,
                 FINISH_DATE: ffin,

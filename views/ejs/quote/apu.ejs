@@ -143,7 +143,6 @@
                                   <tr>
                                     <th class="align-middle" colspan="2">Nombre</th>
                                     <th class="align-middle" width="5%">Rend.</th>
-                                    <th class="align-middle" width="5%">Cant.</th>
                                     <th class="align-middle" width="7%">Unidad</th>
                                     <th class="align-middle text-center" width="10%">Salario</th>
                                     <th class="align-middle text-center" width="15%">Total</th>
@@ -171,9 +170,6 @@
                                             </td>
                                             <td class="align-middle text-center" rowspan="3">
                                               <%= apu_i[j].CUSTOM_PERFORMANCE %>
-                                            </td>
-                                            <td class="align-middle text-center" rowspan="3">
-                                              <%= apu_i[j].QUANTITY %>
                                             </td>
                                             <td class="align-middle text-center" rowspan="3">
                                               <%= apu_i[j].item_list.MEASSURE_UNIT %>
@@ -247,14 +243,14 @@
                                 </tbody>
                                 <thead class="table-secondary">
                                   <tr>
-                                    <th class="align-middle" colspan="6">Nombre</th>
+                                    <th class="align-middle" colspan="5">Nombre</th>
                                     <th class="align-middle">Rendimiento</th>
                                     <th class="align-middle">Total</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr>
-                                    <td class="align-middle" colspan="6">Herramientas menores</td>
+                                    <td class="align-middle" colspan="5">Herramientas menores</td>
                                     <td class="align-middle">5%</td>
                                     <td class="align-middle curr"><%= apu.tools %></td>
                                   </tr>
@@ -765,7 +761,7 @@
 
             <div class="form-group">
               <div class="row">
-                <div class="col-3" id="div-quantity">
+                <div class="col-3" id="upd-div-quantity">
                   <label for="apu_item_amon">Cantidad</label>
                   <input type="number" id="upd_apu_item_amon" class="form-control">
                 </div>
