@@ -23,6 +23,7 @@ async function drawChart() {
   data.addColumn('string', 'Predecesora');
 
   var awa = uwu.activities;
+  var h = (awa.length*42)+40;
   for (var i = 0; i < awa.length; i++) {
     let aux = awa[i];
     var ayu = aux.START_DATE.split("-");
@@ -39,7 +40,7 @@ async function drawChart() {
   data.addRows(owo);
 
   var options = {
-    height: 275
+    height: h
   };
 
   var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
@@ -79,9 +80,11 @@ async function initActtEdit(json) {
     $("#upd_sch_pre").val(json.pre_activity.quote_activity.QUOTE_NUMBER + "-" +
                           json.pre_activity.quote_activity.CUSTOM_NAME);
     $("#upd_sch_pfdate").val(json.pre_activity.FINISH_DATE);
+    $("#upd_sch_psdate").val(json.pre_activity.START_DATE);
   }else{
     $("#upd_sch_pre").val('');
     $("#upd_sch_pfdate").val('');
+    $("#upd_sch_psdate").val('');
   }
   $("#upd_sch_taskid").val(json.ID_PRE_ACT);
   applyfilter(json.ID);
@@ -114,7 +117,6 @@ function getupdActData() {
   aux[2] = $("#upd_sch_fdate").val();
   aux[3] = $("#upd_sch_duration").val();
   aux[4] = $("#upd_sch_taskid").val();
-  aux[5] = $("#upd_sch_pfdate").val();
   return aux;
 }
 
@@ -146,12 +148,15 @@ $("#updActModal").on("shown.bs.modal", function () {
   $('#slcSchModal').modal('hide');
 });
 
-
 $("#upd_sch_fdate").on("change", function () {
   verifDate();
 });
 
 $("#upd_sch_sdate").on("change", function () {
+  verifDate();
+});
+
+$("#upd_sch_taskid").on("change", function () {
   verifDate();
 });
 
@@ -164,13 +169,14 @@ $("#slcPreModal").on({
 });
 
 function verifDate() {
-  var d1 = new Date($("#upd_sch_pfdate").val());
+  var d1 = new Date($("#upd_sch_psdate").val());
   var d2 = new Date($("#upd_sch_sdate").val());
 
-  if (d1 == 'Invalid Date' || d2.getTime() > d1.getTime()) {
+  if (d1 == 'Invalid Date' || d2.getTime() >= d1.getTime()) {
     dateOps();
   } else {
-    manageModals({ name: "Error", message: "La fecha de inicio no puede ser anterior a la fecha de fin de su predecesora" });
+    
+    manageModals({ name: "Error", message: "La fecha de inicio no puede ser anterior a la fecha de inicio de su predecesora" });
   }
 }
 

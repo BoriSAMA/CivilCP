@@ -57,7 +57,7 @@
                               <% for(var i=0; i < aux_items.length; i++) { -%>
                                 <tr id="<%= aux_items[i].ID %>" quo_act="<%= aux_items[i].apu_content.apu.ID_QUO_ACT %>"
                                   quo_chp="<%= aux_items[i].apu_content.apu.quote_activity.ID_QUO_CHP %>"
-                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_CHP_GRP %>">
+                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_QUO_CHP_GRP %>">
                                   <td class="align-middle">
                                     <%= i + 1 %>
                                   </td>
@@ -74,7 +74,7 @@
                                     <%= aux_items[i].item_list.COST %>
                                   </th>
                                   <th class="align-middle curr">
-                                    <%= aux_items[i].item_list.TOTAL %>
+                                    <%= aux_items[i].TOTAL %>
                                   </th>
                                 </tr>
                                 <% } -%>
@@ -117,7 +117,7 @@
                               <% for(var i=0; i < aux_items.length; i++) { -%>
                                 <tr id="<%= aux_items[i].ID %>" quo_act="<%= aux_items[i].apu_content.apu.ID_QUO_ACT %>"
                                   quo_chp="<%= aux_items[i].apu_content.apu.quote_activity.ID_QUO_CHP %>"
-                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_CHP_GRP %>">
+                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_QUO_CHP_GRP %>">
                                   
                                   <td class="align-middle">
                                     <%= i + 1 %>
@@ -189,7 +189,7 @@
                               <% for(var i=0; i < aux_items.length; i++) { -%>
                                 <tr id="<%= aux_items[i].ID %>" quo_act="<%= aux_items[i].apu_content.apu.ID_QUO_ACT %>"
                                   quo_chp="<%= aux_items[i].apu_content.apu.quote_activity.ID_QUO_CHP %>"
-                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_CHP_GRP %>">
+                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_QUO_CHP_GRP %>">
                                   
                                   <td class="align-middle">
                                     <%= i + 1 %>
@@ -216,7 +216,7 @@
                               <% } -%>
                           <% } else { -%>
                             <tr>
-                              <td colspan="6">
+                              <td colspan="7">
                                 <h4 class="text-center Normal weight text">No se han añadido maquinarias</h4>
                               </td>
                             </tr>
@@ -254,7 +254,7 @@
                               <% for(var i=0; i < aux_items.length; i++) { -%>
                                 <tr id="<%= aux_items[i].ID %>" quo_act="<%= aux_items[i].apu_content.apu.ID_QUO_ACT %>"
                                   quo_chp="<%= aux_items[i].apu_content.apu.quote_activity.ID_QUO_CHP %>"
-                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_CHP_GRP %>">
+                                  quo_chp_grp="<%= aux_items[i].apu_content.apu.quote_activity.quote_chapter.ID_QUO_CHP_GRP %>">
                                   <td class="align-middle">
                                     <%= i + 1 %>
                                   </td>

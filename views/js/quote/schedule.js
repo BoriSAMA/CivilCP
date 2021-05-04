@@ -1,9 +1,3 @@
-$(async function () {
-    let response = await getActivities();
-    console.log(response);
-});
-
-
 $('#msgModal').on('hidden.bs.modal', function () {
     if ($('#msgModal .modal-title').html() == "Exito") {
         window.location = window.location.href;

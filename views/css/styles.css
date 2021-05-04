@@ -10247,6 +10247,16 @@ body {
   background-color: #e9ecef;
 }
 
+.banner-img{
+  height: 56px;
+}
+
+.logo{
+  max-height: 150px;
+  width: auto;
+  align-self: center;
+}
+
 #chart_div labelStyle: {
   fontName: Sans,
   fontSize: 14,

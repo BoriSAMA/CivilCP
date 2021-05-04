@@ -15,6 +15,9 @@ router.get('/', async (req, res) => {
 
         await sequelize.transaction(async (t) => {
             let activities = await models.quote_activity.findAll({
+                where:{
+                    '$quote_chapter.quote_chp_grp.quotation.ID$': { [Op.eq]: id },
+                },
                 include: [{
                     model: models.quote_chapter,
                     attributes: [],
@@ -23,10 +26,7 @@ router.get('/', async (req, res) => {
                         attributes: [],
                         include: {
                             model: models.quotation,
-                            attributes: ['ID'],
-                            where: {
-                                ID: id
-                            }
+                            attributes: ['ID']
                         }
                     }
                 }],
@@ -42,19 +42,17 @@ router.get('/', async (req, res) => {
                 let fechas = await models.schedule_activity.findOne({ where: { ID_QOU_ACT: aux[j].activity.ID}} ,{ transaction: t })
 
                 let items = await models.apu_item.findAll({
+                    where:{
+                        '$apu_content.ID_CONTENT$': { [Op.eq]: 2 },
+                        '$apu_content.apu.ID_QUO_ACT$': { [Op.eq]: aux[j].activity.ID },
+                    },
                     include: [{
                         model: models.apu_content,
                         attributes: [],
                         include: {
                             model: models.apu,
-                            attributes: [],
-                            where:{
-                                ID_QUO_ACT: aux[j].activity.ID
-                            }
-                        },
-                        where: {
-                            ID_CONTENT: 2
-                        },
+                            attributes: []
+                        }
                     },{
                         model: models.item_list
                     }]
@@ -124,6 +122,9 @@ router.get('/json/:bid', async (req, res) => {
 
         await sequelize.transaction(async (t) => {
             let activities = await models.quote_activity.findAll({
+                where:{
+                    '$quote_chapter.quote_chp_grp.quotation.ID$': { [Op.eq]: id },
+                },
                 include: [{
                     model: models.quote_chapter,
                     attributes: [],
@@ -132,16 +133,13 @@ router.get('/json/:bid', async (req, res) => {
                         attributes: [],
                         include: {
                             model: models.quotation,
-                            attributes: ['ID'],
-                            where: {
-                                ID: id
-                            }
+                            attributes: ['ID']
                         }
-                    },
-                    order: [
-                        ['QUOTE_NUMBER', 'ASC']
-                    ]
-                }]
+                    }
+                }],
+                order: [
+                    ['QUOTE_NUMBER', 'ASC']
+                ]
             }, { transaction: t });
 
             for (let j = 0; j < activities.length; j++) {
@@ -151,19 +149,17 @@ router.get('/json/:bid', async (req, res) => {
                 let fechas = await models.schedule_activity.findOne({ where: { ID_QOU_ACT: aux[j].activity.ID}} ,{ transaction: t })
 
                 let items = await models.apu_item.findAll({
+                    where:{
+                        '$apu_content.ID_CONTENT$': { [Op.eq]: 2 },
+                        '$apu_content.apu.ID_QUO_ACT$': { [Op.eq]: aux[j].activity.ID },
+                    },
                     include: [{
                         model: models.apu_content,
                         attributes: [],
                         include: {
                             model: models.apu,
-                            attributes: [],
-                            where:{
-                                ID_QUO_ACT: aux[j].activity.ID
-                            }
-                        },
-                        where: {
-                            ID_CONTENT: 2
-                        },
+                            attributes: []
+                        }
                     },{
                         model: models.item_list
                     }]

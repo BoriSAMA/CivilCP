@@ -1,11 +1,8 @@
-var results;
 $(function () {
   // Cargar googlecharts
   google.charts.load('current', { 'packages': ['corechart'] });
   google.charts.setOnLoadCallback(drawChart);
 });
-
-
 
 // Crear y asignar los valores del grafico
 function drawChart() {

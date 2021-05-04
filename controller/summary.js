@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var sequelize = require('../connection');
-const { Op, QueryTypes  } = require("sequelize");
+const { Op, QueryTypes } = require("sequelize");
 
 var initModels = require("../model/init-models");
 var models = initModels(sequelize);
@@ -15,13 +15,16 @@ router.get('/', async (req, res) => {
             aux[i] = {};
             aux[i].items = await sequelize.transaction(async (t) => {
                 const item = await models.apu_item.findAll({
+                    where: {
+                        [Op.and]: {
+                            '$apu_content.ID_CONTENT$': { [Op.eq]: i + 1 },
+                            '$apu_content.apu.quote_activity.quote_chapter.quote_chp_grp.ID_QUOTE$': { [Op.eq]: id },
+                        }
+                    },
                     include: [
                         { model: models.item_list },
                         {
                             model: models.apu_content,
-                            where: {
-                                ID_CONTENT: i + 1,
-                            },
                             include: {
                                 model: models.apu,
                                 include: {
@@ -29,13 +32,7 @@ router.get('/', async (req, res) => {
                                     include: {
                                         model: models.quote_chapter,
                                         include: {
-                                            model: models.quote_chp_grp,
-                                            include: {
-                                                model: models.quotation,
-                                                where: {
-                                                    ID: id
-                                                }
-                                            }
+                                            model: models.quote_chp_grp
                                         }
                                     }
                                 }
@@ -48,24 +45,25 @@ router.get('/', async (req, res) => {
                 aux[i].items[j] = aux[i].items[j].toJSON();
             }
         }
+
         for (let i = 0; i < 5; i++) {
-            let result =  await sequelize.query("SELECT sum(`apu_content`.`TOTAL`) AS `sum` FROM `apu_content` AS `apu_content`"+
-                                                        " LEFT OUTER JOIN `apu` AS `apu` ON `apu_content`.`ID_APU` = `apu`.`ID` "+
-                                                        " LEFT OUTER JOIN `quote_activity` AS `apu->quote_activity` ON `apu`.`ID_QUO_ACT` = `apu->quote_activity`.`ID`"+
-                                                        " LEFT OUTER JOIN `quote_chapter` AS `apu->quote_activity->quote_chapter` ON `apu->quote_activity`.`ID_QUO_CHP` = `apu->quote_activity->quote_chapter`.`ID`"+
-                                                        " LEFT OUTER JOIN ( `quote_chp_grp` AS `apu->quote_activity->quote_chapter->quote_chp_grp`"+
-                                                            " INNER JOIN `quotation` AS `apu->quote_activity->quote_chapter->quote_chp_grp->quotation` ON `apu->quote_activity->quote_chapter->quote_chp_grp`.`ID_QUOTE` = `apu->quote_activity->quote_chapter->quote_chp_grp->quotation`.`ID`"+
-                                                            " AND `apu->quote_activity->quote_chapter->quote_chp_grp->quotation`.`ID` = '" + id + "' ) ON `apu->quote_activity->quote_chapter`.`ID_QUO_CHP_GRP` = `apu->quote_activity->quote_chapter->quote_chp_grp`.`ID` WHERE `apu_content`.`ID_CONTENT` ="+ (i+1),
-            { type: QueryTypes.SELECT });
+            let sumQuery = " SELECT sum(`apu_content`.`TOTAL`) AS `sum` FROM `apu_content` AS `apu_content`" + 
+                            " LEFT OUTER JOIN `apu` AS `apu` ON `apu_content`.`ID_APU` = `apu`.`ID`"+ 
+                            " LEFT OUTER JOIN `quote_activity` AS `apu->quote_activity` ON `apu`.`ID_QUO_ACT` = `apu->quote_activity`.`ID`"+
+                            " LEFT OUTER JOIN `quote_chapter` AS `apu->quote_activity->quote_chapter` ON `apu->quote_activity`.`ID_QUO_CHP` = `apu->quote_activity->quote_chapter`.`ID`"+
+                            " LEFT OUTER JOIN `quote_chp_grp` AS `apu->quote_activity->quote_chapter->quote_chp_grp` ON `apu->quote_activity->quote_chapter`.`ID_QUO_CHP_GRP` = `apu->quote_activity->quote_chapter->quote_chp_grp`.`ID`"+
+                            " WHERE (`apu_content`.`ID_CONTENT` = "+ (i+1) + " AND `apu->quote_activity->quote_chapter->quote_chp_grp`.`ID_QUOTE` = '" + id + "');"
+
+            let result =  await sequelize.query(sumQuery, { type: QueryTypes.SELECT });
 
             if (result[0].sum === null) {
                 aux[i].total = 0;
-            }else{
+            } else {
                 aux[i].total = result[0].sum;
             }
         }
 
-        res.status(200).render('index',{
+        res.status(200).render('index', {
             selected: 'shoppinglist',
             user: req.session.user,
             list: aux,
@@ -88,13 +86,16 @@ router.get('/json/:bid', async (req, res) => {
             aux[i] = {};
             aux[i].items = await sequelize.transaction(async (t) => {
                 const item = await models.apu_item.findAll({
+                    where: {
+                        [Op.and]: {
+                            '$apu_content.ID_CONTENT$': { [Op.eq]: i + 1 },
+                            '$apu_content.apu.quote_activity.quote_chapter.quote_chp_grp.ID_QUOTE$': { [Op.eq]: id },
+                        }
+                    },
                     include: [
                         { model: models.item_list },
                         {
                             model: models.apu_content,
-                            where: {
-                                ID_CONTENT: i + 1,
-                            },
                             include: {
                                 model: models.apu,
                                 include: {
@@ -102,13 +103,7 @@ router.get('/json/:bid', async (req, res) => {
                                     include: {
                                         model: models.quote_chapter,
                                         include: {
-                                            model: models.quote_chp_grp,
-                                            include: {
-                                                model: models.quotation,
-                                                where: {
-                                                    ID: id
-                                                }
-                                            }
+                                            model: models.quote_chp_grp
                                         }
                                     }
                                 }
@@ -122,18 +117,18 @@ router.get('/json/:bid', async (req, res) => {
             }
         }
         for (let i = 0; i < 5; i++) {
-            let result =  await sequelize.query("SELECT sum(`apu_content`.`TOTAL`) AS `sum` FROM `apu_content` AS `apu_content`"+
-                                                        " LEFT OUTER JOIN `apu` AS `apu` ON `apu_content`.`ID_APU` = `apu`.`ID` "+
-                                                        " LEFT OUTER JOIN `quote_activity` AS `apu->quote_activity` ON `apu`.`ID_QUO_ACT` = `apu->quote_activity`.`ID`"+
-                                                        " LEFT OUTER JOIN `quote_chapter` AS `apu->quote_activity->quote_chapter` ON `apu->quote_activity`.`ID_QUO_CHP` = `apu->quote_activity->quote_chapter`.`ID`"+
-                                                        " LEFT OUTER JOIN ( `quote_chp_grp` AS `apu->quote_activity->quote_chapter->quote_chp_grp`"+
-                                                            " INNER JOIN `quotation` AS `apu->quote_activity->quote_chapter->quote_chp_grp->quotation` ON `apu->quote_activity->quote_chapter->quote_chp_grp`.`ID_QUOTE` = `apu->quote_activity->quote_chapter->quote_chp_grp->quotation`.`ID`"+
-                                                            " AND `apu->quote_activity->quote_chapter->quote_chp_grp->quotation`.`ID` = '" + id + "' ) ON `apu->quote_activity->quote_chapter`.`ID_QUO_CHP_GRP` = `apu->quote_activity->quote_chapter->quote_chp_grp`.`ID` WHERE `apu_content`.`ID_CONTENT` ="+ (i+1),
-            { type: QueryTypes.SELECT });
-            
+            let sumQuery = " SELECT sum(`apu_content`.`TOTAL`) AS `sum` FROM `apu_content` AS `apu_content`" + 
+                            " LEFT OUTER JOIN `apu` AS `apu` ON `apu_content`.`ID_APU` = `apu`.`ID`"+ 
+                            " LEFT OUTER JOIN `quote_activity` AS `apu->quote_activity` ON `apu`.`ID_QUO_ACT` = `apu->quote_activity`.`ID`"+
+                            " LEFT OUTER JOIN `quote_chapter` AS `apu->quote_activity->quote_chapter` ON `apu->quote_activity`.`ID_QUO_CHP` = `apu->quote_activity->quote_chapter`.`ID`"+
+                            " LEFT OUTER JOIN `quote_chp_grp` AS `apu->quote_activity->quote_chapter->quote_chp_grp` ON `apu->quote_activity->quote_chapter`.`ID_QUO_CHP_GRP` = `apu->quote_activity->quote_chapter->quote_chp_grp`.`ID`"+
+                            " WHERE (`apu_content`.`ID_CONTENT` = "+ (i+1) + " AND `apu->quote_activity->quote_chapter->quote_chp_grp`.`ID_QUOTE` = '" + id + "');"
+
+            let result =  await sequelize.query(sumQuery, { type: QueryTypes.SELECT });
+
             if (result[0].sum === null) {
                 aux[i].total = 0;
-            }else{
+            } else {
                 aux[i].total = result[0].sum;
             }
         }

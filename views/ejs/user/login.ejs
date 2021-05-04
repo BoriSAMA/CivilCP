@@ -5,10 +5,17 @@
             <div id="layoutAuthentication_content">
                 <main>
                     <div class="container">
-                        <div class="row justify-content-center">
+                        <div class="row justify-content-end">
                             <div class="col-lg-5">
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Iniciar Sesión</h3></div>
+                                    <div class="card-header">
+                                        <div class="row justify-content-center">
+                                            <div style="width: fit-content;">
+                                                <img class="logo" src="/login.png" alt="Logo">
+                                            </div>
+                                        </div>
+                                        <h3 class="text-center font-weight-light my-4">Iniciar Sesión</h3>
+                                    </div>
                                     <%- include ("../partials/messages"); %>
                                     <div class="card-body">
                                         <form method="POST" action="/user/login">
