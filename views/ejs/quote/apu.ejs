@@ -43,7 +43,9 @@
                 <% var apu_c=apu.apu_c -%>
                   <% var contents=[] -%>
                     <% for(var i=0; i < apu_c.length; i++) { -%>
-                      <% contents.push(apu_c[i].ID_CONTENT) -%>
+                      <% if(apu_c[i].ID_CONTENT != 4) { -%>
+                        <% contents.push(apu_c[i].ID_CONTENT) -%>
+                      <% } %>
                         <% if(apu_c[i].ID_CONTENT==1) { -%>
                           <div id="mat" class="card ml-2 mb-2 mt-2 mr-2">
                             <div class="table-responsive">
