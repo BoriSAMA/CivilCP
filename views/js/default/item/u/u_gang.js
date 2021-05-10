@@ -38,6 +38,7 @@ $("#updModal").on("hidden.bs.modal", function () {
 async function updItem() {
   var aux = getUdpData();
 
+  console.log(aux);
   let response = await fetch(host + item + "/" + aux[0], {
     method: "PATCH",
     headers: {
@@ -93,11 +94,9 @@ function getUdpData() {
   aux[2] = $("#upd_item_name").val();
   aux[3] = $("#upd_item_unit").val();
   aux[4] =
-    ($("#upd_item_ot").val() == "" ? 0 : $("#item_ot").val()) +
-    ":" +
-    ($("#upd_item_o").val() == "" ? 0 : $("#item_o").val()) +
-    ":" +
-    ($("#upd_item_a").val() == "" ? 0 : $("#item_a").val());
+    ($("#upd_item_ot").val() == "" ? 0 : $("#upd_item_ot").val()) +
+    ":" + ($("#upd_item_o").val() == "" ? 0 : $("#upd_item_o").val()) +
+    ":" + ($("#upd_item_a").val() == "" ? 0 : $("#upd_item_a").val());
   aux[5] = $("#upd_item_perf").val();
   return aux;
 }

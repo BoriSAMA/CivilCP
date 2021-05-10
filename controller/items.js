@@ -18,7 +18,8 @@ router.post('/', async(req, res) => {
         console.log(req.body);
         switch (cont) {
             case '1':
-                if (!name || !mesu || !cost || actg == '0') {
+                perf = 0;
+                if (!name || !mesu || cost === '' || actg == '0') {
                     throw {name : "regError", message : "Datos del material incompletos"};
                 }
                 break;
@@ -28,12 +29,13 @@ router.post('/', async(req, res) => {
                 }
                 break;
             case '3':
-                if (!name || !mesu || !cost || actg == '0') {
+                if (!name || !mesu || cost === '' || actg == '0') {
                     throw {name : "regError", message : "Datos incompletos"};
                 }
                 break;
             case '4':
-                if (!name || !mesu || !cost || actg == '0') {
+                perf = 0;
+                if (!name || !mesu || cost === '' || actg == '0') {
                     throw {name : "regError", message : "Datos incompletos"};
                 }
                 break;
@@ -607,7 +609,7 @@ router.patch('/:id', async(req, res) => {
     try{
         var {name, unit, perf, desc, cost, actg} = req.body;
 
-        if (!name || !unit || !cost || !desc || actg == '0') {
+        if (!name || !unit || !perf || cost === '' || !desc || actg === 0) {
             throw {name : "regError", message : "Datos del material incompletos"};
         }
 
