@@ -12,7 +12,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     CUSTOM_PERFORMANCE: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     CUSTOM_DESCRIPTION: {

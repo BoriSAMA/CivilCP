@@ -25,7 +25,7 @@ router.post('/:item', async(req, res) => {
             result = await sequelize.transaction(async (t) => {
                 const item = await models.apu_item.create({
                                 CUSTOM_DESCRIPTION: req.body.desc,
-                                CUSTOM_PERFORMANCE: req.body.perf,
+                                CUSTOM_PERFORMANCE: parseFloat(req.body.perf),
                                 ID_APU_CONTENT: req.body.idapuc,
                                 QUANTITY: req.body.quan,
                                 TOTAL: req.body.total,

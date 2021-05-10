@@ -44,7 +44,7 @@ router.post('/', async(req, res) => {
             const item = await models.item_list.create({
                             NAME: name,
                             MEASSURE_UNIT: mesu,
-                            PERFORMANCE: parseInt(perf),
+                            PERFORMANCE: parseFloat(perf),
                             DESCRIPTION: desc,
                             COST: cost,
                             ID_ACT_GRP: actg,
@@ -615,7 +615,7 @@ router.patch('/:id', async(req, res) => {
             const item = await models.item_list.update({ 
                                 NAME: name,
                                 MEASSURE_UNIT: unit,
-                                PERFORMANCE: perf,
+                                PERFORMANCE: parseFloat(perf),
                                 DESCRIPTION: desc,
                                 COST: cost,
                                 ID_ACT_GRP: actg

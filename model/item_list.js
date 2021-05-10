@@ -16,7 +16,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     PERFORMANCE: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: true
     },
     DESCRIPTION: {
