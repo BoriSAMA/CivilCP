@@ -41,8 +41,11 @@ router.get('/', async (req, res) => {
                 }, { transaction: t });
                 return item;
             });
+            aux[i].total1 = 0;
             for (let j = 0; j < aux[i].items.length; j++) {
                 aux[i].items[j] = aux[i].items[j].toJSON();
+                aux[i].items[j].total_activity = aux[i].items[j].TOTAL * aux[i].items[j].apu_content.apu.quote_activity.QUANTITY;
+                aux[i].total1 += aux[i].items[j].total_activity;
             }
         }
 

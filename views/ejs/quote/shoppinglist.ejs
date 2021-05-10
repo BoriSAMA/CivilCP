@@ -42,13 +42,14 @@
                             <th class="align-middle" width="5%">Cant.</th>
                             <th class="align-middle" width="5%">Uni.</th>
                             <th class="align-middle">V.U.</th>
+                            <th class="align-middle" width="5%">C.A.</th>
                             <th class="align-middle">V.T.</th>
                           </tr>
                         </thead>
                         <tfoot>
-                          <th colspan="5">Subtotal Materiales</th>
+                          <th colspan="6">Subtotal Materiales</th>
                           <th class="align-middle curr">
-                            <%= list[0].total %>
+                            <%= list[0].total1 %>
                           </th>
                         </tfoot>
                         <tbody>
@@ -73,8 +74,11 @@
                                   <th class="align-middle curr">
                                     <%= aux_items[i].item_list.COST %>
                                   </th>
+                                  <th class="align-middle">
+                                    <%= aux_items[i].apu_content.apu.quote_activity.QUANTITY %>
+                                  </th>
                                   <th class="align-middle curr">
-                                    <%= aux_items[i].TOTAL %>
+                                    <%= aux_items[i].total_activity %>
                                   </th>
                                 </tr>
                                 <% } -%>
@@ -95,20 +99,21 @@
                         cellspacing="0">
                         <thead class="table-secondary">
                           <tr>
-                            <th colspan="6">Mano de Obra</th>
+                            <th colspan="7">Mano de Obra</th>
                           </tr>
                           <tr>
                             <th class="align-middle" width="5%"></th>
                             <th class="align-middle" colspan="2">Nombre</th>
                             <th class="align-middle" width="5%">Rend.</th>
                             <th class="align-middle" width="5%">Uni.</th>
+                            <th class="align-middle" width="5%">C.A.</th>
                             <th class="align-middle">V.T.</th>
                           </tr>
                         </thead>
                         <tfoot>
-                          <th colspan="5">Subtotal Mano de Obra</th>
+                          <th colspan="6">Subtotal Mano de Obra</th>
                           <th class="align-middle curr">
-                            <%= list[1].total + list[4].total  %>
+                            <%= list[1].total1 + list[4].total  %>
                           </th>
                         </tfoot>
                         <tbody>
@@ -134,14 +139,17 @@
                                   <td class="align-middle">
                                     <%= aux_items[i].item_list.MEASSURE_UNIT %>
                                   </td>
+                                  <th class="align-middle">
+                                    <%= aux_items[i].apu_content.apu.quote_activity.QUANTITY %>
+                                  </th>
                                   <th class="align-middle curr">
-                                    <%= aux_items[i].TOTAL %>
+                                    <%= aux_items[i].total_activity %>
                                   </th>
                                 </tr>
                               <% } -%>
                               <tr>
                                 <td></td>
-                                <td class="align-middle" colspan="4">
+                                <td class="align-middle" colspan="5">
                                   Herramientas menores
                                 </td>
                                 <th class="align-middle curr">
@@ -165,7 +173,7 @@
                         cellspacing="0">
                         <thead class="table-secondary">
                           <tr>
-                            <th colspan="7">Maquinaria</th>
+                            <th colspan="8">Maquinaria</th>
                           </tr>
                           <tr>
                             <th class="align-middle" width="5%"></th>
@@ -174,13 +182,14 @@
                             <th class="align-middle" width="5%">Uni.</th>
                             <th class="align-middle" width="5%">Cant.</th>
                             <th class="align-middle">V.U.</th>
+                            <th class="align-middle" width="5%">C.A.</th>
                             <th class="align-middle">V.T.</th>
                           </tr>
                         </thead>
                         <tfoot>
-                          <th colspan="6">Subtotal Maquinarias</th>
+                          <th colspan="7">Subtotal Maquinarias</th>
                           <th class="align-middle curr">
-                            <%= list[2].total %>
+                            <%= list[2].total1 %>
                           </th>
                         </tfoot>
                         <tbody>
@@ -209,14 +218,17 @@
                                   <th class="align-middle curr">
                                     <%= aux_items[i].item_list.COST %>
                                   </th>
+                                  <th class="align-middle">
+                                    <%= aux_items[i].apu_content.apu.quote_activity.QUANTITY %>
+                                  </th>
                                   <th class="align-middle curr">
-                                    <%= aux_items[i].TOTAL %>
+                                    <%= aux_items[i].total_activity %>
                                   </th>
                                 </tr>
                               <% } -%>
                           <% } else { -%>
                             <tr>
-                              <td colspan="7">
+                              <td colspan="8">
                                 <h4 class="text-center Normal weight text">No se han añadido maquinarias</h4>
                               </td>
                             </tr>
@@ -231,7 +243,7 @@
                         cellspacing="0">
                         <thead class="table-secondary">
                           <tr>
-                            <th colspan="6">Transporte</th>
+                            <th colspan="7">Transporte</th>
                           </tr>
                           <tr>
                             <th class="align-middle" width="5%"></th>
@@ -239,13 +251,14 @@
                             <th class="align-middle" width="5%">Cant.</th>
                             <th class="align-middle" width="5%">Uni.</th>
                             <th class="align-middle">V.U.</th>
+                            <th class="align-middle" width="5%">C.A.</th>
                             <th class="align-middle">V.T.</th>
                           </tr>
                         </thead>
                         <tfoot>
-                          <th colspan="5">Subtotal Transporte</th>
+                          <th colspan="6">Subtotal Transporte</th>
                           <th class="align-middle curr">
-                            <%= list[3].total %>
+                            <%= list[3].total1 %>
                           </th>
                         </tfoot>
                         <tbody>
@@ -270,14 +283,17 @@
                                   <th class="align-middle curr">
                                     <%= aux_items[i].item_list.COST %>
                                   </th>
+                                  <th class="align-middle">
+                                    <%= aux_items[i].apu_content.apu.quote_activity.QUANTITY %>
+                                  </th>
                                   <th class="align-middle curr">
-                                    <%= aux_items[i].item_list.TOTAL %>
+                                    <%= aux_items[i].total_activity %>
                                   </th>
                                 </tr>
                               <% } -%>
                           <% } else { -%>
                             <tr>
-                              <td colspan="6">
+                              <td colspan="7">
                                 <h4 class="text-center Normal weight text">No se han añadido transportes</h4>
                               </td>
                             </tr>
@@ -302,7 +318,7 @@
                           <tr>
                             <th >Total</th>
                             <th class="align-middle curr">
-                              <%= list[0].total + list[1].total + list[2].total + list[3].total + list[4].total%>
+                              <%= list[0].total1 + list[1].total1 + list[2].total1 + list[3].total1 + list[4].total%>
                             </th>
                           </tr>
                         </tfoot>
@@ -310,25 +326,25 @@
                           <tr>
                             <td>Materiales y equipos</td>
                             <th class="align-middle curr">
-                              <%= list[0].total %>
+                              <%= list[0].total1 %>
                             </th>
                           </tr>
                           <tr>
                             <td>Mano de Obra</td>
                             <th class="align-middle curr">
-                              <%= list[1].total + list[4].total%>
+                              <%= list[1].total1 + list[4].total%>
                             </th>
                           </tr>
                           <tr>
                             <td>Maquinarias</td>
                             <th class="align-middle curr">
-                              <%= list[2].total %>
+                              <%= list[2].total1 %>
                             </th>
                           </tr>
                           <tr>
                             <td>Transporte</td>
                             <th class="align-middle curr">
-                              <%= list[3].total %>
+                              <%= list[3].total1 %>
                             </th>
                           </tr>
                         </tbody>
