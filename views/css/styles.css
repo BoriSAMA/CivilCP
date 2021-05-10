@@ -10268,6 +10268,12 @@ body {
   align-self: center;
 }
 
+.logo-2{
+  max-height: 100px;
+  width: auto;
+  align-self: center;
+}
+
 #chart_div labelStyle: {
   fontName: Sans,
   fontSize: 14,
