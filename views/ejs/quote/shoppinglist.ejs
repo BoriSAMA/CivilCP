@@ -49,7 +49,7 @@
                         <tfoot>
                           <th colspan="6">Subtotal Materiales</th>
                           <th class="align-middle curr">
-                            <%= list[0].total1 %>
+                            <%= list[0].total %>
                           </th>
                         </tfoot>
                         <tbody>
@@ -113,7 +113,7 @@
                         <tfoot>
                           <th colspan="6">Subtotal Mano de Obra</th>
                           <th class="align-middle curr">
-                            <%= list[1].total1 + list[4].total  %>
+                            <%= list[1].total + list[4].total  %>
                           </th>
                         </tfoot>
                         <tbody>
@@ -189,7 +189,7 @@
                         <tfoot>
                           <th colspan="7">Subtotal Maquinarias</th>
                           <th class="align-middle curr">
-                            <%= list[2].total1 %>
+                            <%= list[2].total %>
                           </th>
                         </tfoot>
                         <tbody>
@@ -258,7 +258,7 @@
                         <tfoot>
                           <th colspan="6">Subtotal Transporte</th>
                           <th class="align-middle curr">
-                            <%= list[3].total1 %>
+                            <%= list[3].total %>
                           </th>
                         </tfoot>
                         <tbody>
@@ -318,7 +318,7 @@
                           <tr>
                             <th >Total</th>
                             <th class="align-middle curr">
-                              <%= list[0].total1 + list[1].total1 + list[2].total1 + list[3].total1 + list[4].total%>
+                              <%= list[0].total + list[1].total + list[2].total + list[3].total + list[4].total%>
                             </th>
                           </tr>
                         </tfoot>
@@ -326,25 +326,25 @@
                           <tr>
                             <td>Materiales y equipos</td>
                             <th class="align-middle curr">
-                              <%= list[0].total1 %>
+                              <%= list[0].total %>
                             </th>
                           </tr>
                           <tr>
                             <td>Mano de Obra</td>
                             <th class="align-middle curr">
-                              <%= list[1].total1 + list[4].total%>
+                              <%= list[1].total + list[4].total%>
                             </th>
                           </tr>
                           <tr>
                             <td>Maquinarias</td>
                             <th class="align-middle curr">
-                              <%= list[2].total1 %>
+                              <%= list[2].total %>
                             </th>
                           </tr>
                           <tr>
                             <td>Transporte</td>
                             <th class="align-middle curr">
-                              <%= list[3].total1 %>
+                              <%= list[3].total %>
                             </th>
                           </tr>
                         </tbody>
