@@ -430,14 +430,14 @@ router.patch('/calculate/', async (req, res) => {
         var aid = req.body.aid;
         var apid = req.body.apid;
         var acid = req.body.acid;
-
         var total = [0, 0, 0, 0];
 
         await sequelize.transaction(async (t) => {
             if (acid != 0 && typeof acid !== 'undefined') {
+                
                 //sumar todos los items del apu al contenido
                 total[0] = await models.apu_item.sum('TOTAL', { where: { ID_APU_CONTENT: acid } });
-
+                
                 if (isNaN(total[0])) { total[0] = 0; }
 
                 await models.apu_content.update({
@@ -447,13 +447,14 @@ router.patch('/calculate/', async (req, res) => {
                         ID: acid
                     }
                 }, { transaction: t });
-
+                console.log(total[0]);
                 await updateTools(acid);
-
+                console.log(acid);
                 //imprimir suma de los items del contenido
                 console.log("sumaItems: " + total[0]);
             }
             if (aid != 0 && typeof aid !== 'undefined') {
+                console.log(aid);
                 //sumar todos los contenidos del apu
                 if (apid != 0) {
                     total[1] = await models.apu_content.sum('TOTAL', { where: { ID_APU: apid } });
@@ -610,13 +611,17 @@ async function updateTools(idapuc) {
         const item = await models.apu_content.findOne({ where: { ID: idapuc } }, { transaction: t });
 
         if (item.dataValues.ID_CONTENT != 2) {
-            return;
+            return false;
         }
 
         const item2 = await models.apu_content.findOne({ where: { ID_APU: item.dataValues.ID_APU, ID_CONTENT: 5 } }, { transaction: t });
 
         return item2.dataValues;
     });
+
+    if (!apu_c) {
+        return;
+    }
 
     let gangs_tool = await sequelize.transaction(async (t) => {
         const item = await models.apu_item.findAll({

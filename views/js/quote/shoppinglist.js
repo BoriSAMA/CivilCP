@@ -4,6 +4,22 @@ $(function () {
   google.charts.setOnLoadCallback(drawChart);
 });
 
+$(async function () {
+  await initGant();
+});
+
+async function initGant() {
+  var id = $("#quo_id").val();
+  let response = await fetch(host + shop + "/json/" + id, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    }
+  });
+  var json = await response.json();
+  console.log(json);
+}
+
 // Crear y asignar los valores del grafico
 function drawChart() {
   var aux = [parseFloat($("#section_0_total").val()), parseFloat($("#section_1_total").val()), parseFloat($("#section_2_total").val()), parseFloat($("#section_3_total").val()), parseFloat($("#section_4_total").val())]
