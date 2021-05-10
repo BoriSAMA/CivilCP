@@ -47,11 +47,10 @@
                                             </th>
                                             <th class="align-middle" width="13%">
                                               <div class="row mw-100 m-0">
-                                                <button type="button" 
-                                                class="btn btn-success" 
-                                                data-toggle="modal" 
-                                                data-target="#addCHModal" 
-                                                onclick="prefijoCh('<%= cg[i].QUOTE_NUMBER %>','<%= cg[i].ch.length + 1 %>','<%= cg[i].ID %>')">
+                                                <% var ch_aux = cg[i].ch.length + 1%>
+                                                <% var ch_aux1 = (ch_aux / 10) < 1 ? '0'+ ch_aux : '0'+ ch_aux%>
+                                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addCHModal" 
+                                                onclick="prefijoCh('<%= cg[i].QUOTE_NUMBER %>','<%= ch_aux1 %>','<%= cg[i].ID %>')">
                                                   <i class="fa fa-plus" aria-hidden="true"></i>
                                                   Capitulo
                                                 </button>
@@ -78,11 +77,10 @@
                                               <th class="align-middle" width="15%">Total</th>
                                               <th class="align-middle">
                                                 <div class="row mw-100 m-0">
-                                                  <button type="button" 
-                                                  class="btn btn-success" 
-                                                  data-toggle="modal" 
-                                                  data-target="#addACModal"
-                                                  onclick="prefijoAc('<%= ch[j].QUOTE_NUMBER %>','<%= ch[j].ac.length + 1 %>',
+                                                  <% var ac_aux = ch[j].ac.length + 1%>
+                                                  <% var ac_aux1 = (ac_aux / 10) < 1 ? '0'+ ac_aux : '0'+ ac_aux%>
+                                                  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addACModal"
+                                                  onclick="prefijoAc('<%= ch[j].QUOTE_NUMBER %>','<%= ac_aux1 %>',
                                                                       '<%= ch[j].ID %>','<%= cg[i].ID_CHP_GRP %>')">
                                                     <i class="fa fa-plus" aria-hidden="true"></i>
                                                     Actividad
@@ -199,7 +197,8 @@
               <label for="cg_pref"> Identificador: </label>
             </div>
             <div class="col-md-8">
-                <input class="form-control" id="cg_pref" type="text" value=" C.<%= cg.length + 1 %>." disabled/>
+                <% var cg_aux = cg.length + 1%>
+                <input class="form-control" id="cg_pref" type="text" value=" C.<%= (cg_aux / 10) < 1? '0'+ cg_aux : cg_aux %>." disabled/>
             </div>
           </div>
         </div>
